@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1916 S Delawanda Ave | Muncie Duplex Deal</title>
+  <style>
+    :root {
+      --charcoal: #0F0F0F;
+      --bronze: #C08A4A;
+      --gold: #D9A86C;
+      --warm-gray: #2A2A2A;
+      --espresso: #5A3E24;
+      --white: #FFFFFF;
+      --cream: #F5EFE8;
+      --muted: #C9BFB3;
+      --line: rgba(217, 168, 108, 0.28);
+      --panel: rgba(31, 31, 31, 0.9);
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--cream);
+      background:
+        radial-gradient(circle at top left, rgba(192, 138, 74, 0.16), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(90, 62, 36, 0.22), transparent 36%),
+        var(--charcoal);
+      line-height: 1.6;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .top-strip {
+      background: #070707;
+      color: var(--gold);
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 10px 16px;
+    }
+
+    .brand {
+      background: linear-gradient(135deg, #111111, var(--warm-gray));
+      border-bottom: 1px solid var(--line);
+      padding: 24px 18px 22px;
+      text-align: center;
+    }
+
+    .brand h1 {
+      margin: 0;
+      color: var(--bronze);
+      font-size: clamp(24px, 4vw, 38px);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .brand p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1px;
+      background: rgba(15, 15, 15, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav a {
+      padding: 14px 18px;
+      color: var(--gold);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .nav a:hover {
+      background: var(--bronze);
+      color: #101010;
+    }
+
+    .download-page {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 50;
+      min-height: 48px;
+      padding: 13px 18px;
+      color: #101010;
+      background: var(--gold);
+      border: 1px solid var(--bronze);
+      border-radius: 4px;
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.38);
+    }
+
+    .download-page:hover {
+      background: var(--bronze);
+    }
+
+    .hero {
+      min-height: 690px;
+      display: grid;
+      align-items: end;
+      background:
+        linear-gradient(to bottom, rgba(15, 15, 15, 0.12), rgba(15, 15, 15, 0.92)),
+        url("https://files.catbox.moe/cspwbi.jpg") center / cover no-repeat;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-inner {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 78px 0;
+      display: grid;
+      grid-template-columns: 1.35fr 0.78fr;
+      gap: 30px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 7px 13px;
+      background: var(--bronze);
+      color: #111111;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .hero h2 {
+      margin: 18px 0 0;
+      max-width: 900px;
+      color: var(--white);
+      font-size: clamp(38px, 6.2vw, 76px);
+      line-height: 1.02;
+      letter-spacing: 0;
+      text-shadow: 0 9px 32px rgba(0, 0, 0, 0.58);
+    }
+
+    .hero-sub {
+      margin: 18px 0 0;
+      color: var(--gold);
+      font-size: clamp(20px, 3vw, 30px);
+      font-weight: 900;
+      text-shadow: 0 6px 22px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-meta {
+      margin-top: 10px;
+      color: var(--cream);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .deal-card {
+      background: rgba(15, 15, 15, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .deal-card h3 {
+      margin: 0;
+      color: var(--bronze);
+      font-size: 28px;
+      line-height: 1.12;
+    }
+
+    .deal-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .mini-stat {
+      padding: 14px;
+      background: rgba(42, 42, 42, 0.78);
+      border: 1px solid rgba(217, 168, 108, 0.18);
+      border-radius: 7px;
+    }
+
+    .mini-stat strong {
+      display: block;
+      color: var(--gold);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .mini-stat span {
+      color: var(--white);
+      font-size: 20px;
+      font-weight: 900;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 13px 19px;
+      color: #101010;
+      background: var(--bronze);
+      border: 1px solid var(--bronze);
+      border-radius: 4px;
+      font-weight: 900;
+      text-align: center;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      box-shadow: 0 0 26px rgba(217, 168, 108, 0.26);
+      transform: translateY(-1px);
+    }
+
+    .btn.secondary {
+      background: rgba(15, 15, 15, 0.5);
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .btn.secondary:hover {
+      background: var(--gold);
+      color: #101010;
+    }
+
+    .section {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 68px 0;
+    }
+
+    .section-header {
+      margin-bottom: 28px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      color: var(--bronze);
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .section-header p {
+      max-width: 760px;
+      margin: 10px 0 0;
+      color: var(--muted);
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel h3 {
+      margin: 0 0 13px;
+      color: var(--gold);
+      font-size: 24px;
+      line-height: 1.18;
+    }
+
+    .panel p {
+      margin: 0;
+      color: var(--cream);
+    }
+
+    .facts {
+      display: grid;
+      gap: 13px;
+    }
+
+    .fact {
+      padding-bottom: 13px;
+      border-bottom: 1px solid rgba(217, 168, 108, 0.18);
+    }
+
+    .fact:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .fact strong {
+      display: block;
+      color: var(--bronze);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .fact span {
+      color: var(--white);
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .numbers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .number-card {
+      min-height: 132px;
+      padding: 20px;
+      background: linear-gradient(145deg, rgba(42, 42, 42, 0.95), rgba(15, 15, 15, 0.95));
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+    }
+
+    .number-card strong {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .number-card span {
+      display: block;
+      margin-top: 8px;
+      color: var(--gold);
+      font-size: 25px;
+      font-weight: 900;
+      line-height: 1.12;
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .photo {
+      position: relative;
+      min-height: 210px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--warm-gray);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+    }
+
+    .photo.large {
+      grid-column: span 2;
+      grid-row: span 2;
+      min-height: 438px;
+    }
+
+    .photo img {
+      height: 100%;
+      min-height: inherit;
+      object-fit: cover;
+      transition: transform 0.25s ease;
+    }
+
+    .photo:hover img {
+      transform: scale(1.035);
+    }
+
+    .photo span {
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      padding: 7px 10px;
+      background: rgba(15, 15, 15, 0.78);
+      border: 1px solid rgba(217, 168, 108, 0.2);
+      border-radius: 4px;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .feature {
+      padding: 22px;
+      background: rgba(42, 42, 42, 0.76);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+
+    .feature h3 {
+      margin: 0 0 8px;
+      color: var(--gold);
+      font-size: 19px;
+      line-height: 1.2;
+    }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+
+    .map-card {
+      min-height: 370px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        linear-gradient(90deg, rgba(217, 168, 108, 0.11) 1px, transparent 1px),
+        linear-gradient(rgba(217, 168, 108, 0.11) 1px, transparent 1px),
+        radial-gradient(circle at 55% 45%, rgba(192, 138, 74, 0.42), transparent 20%),
+        var(--warm-gray);
+      background-size: 44px 44px, 44px 44px, auto, auto;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .pin {
+      width: min(100%, 330px);
+      padding: 24px;
+      background: rgba(15, 15, 15, 0.83);
+      border: 1px solid rgba(217, 168, 108, 0.3);
+      border-radius: 8px;
+    }
+
+    .pin strong {
+      display: block;
+      color: var(--gold);
+      font-size: 25px;
+      line-height: 1.15;
+    }
+
+    .pin span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .list li {
+      padding: 13px 0 13px 22px;
+      border-bottom: 1px solid rgba(217, 168, 108, 0.16);
+      position: relative;
+      color: var(--cream);
+    }
+
+    .list li:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 23px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--bronze);
+      box-shadow: 0 0 12px rgba(217, 168, 108, 0.55);
+    }
+
+    .contact-band {
+      background:
+        linear-gradient(135deg, rgba(90, 62, 36, 0.76), rgba(15, 15, 15, 0.96)),
+        var(--charcoal);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .contact-inner {
+      width: min(1160px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 70px 0;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .contact-inner h2 {
+      margin: 0;
+      color: var(--bronze);
+      font-size: clamp(31px, 4vw, 50px);
+      line-height: 1.08;
+    }
+
+    .contact-inner p {
+      max-width: 650px;
+      margin: 14px 0 0;
+      color: var(--cream);
+      font-size: 18px;
+    }
+
+    .contact-card {
+      background: rgba(15, 15, 15, 0.86);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-line {
+      margin-bottom: 12px;
+      color: var(--cream);
+      font-size: 17px;
+    }
+
+    .contact-line strong {
+      color: var(--gold);
+    }
+
+    .footer {
+      padding: 30px 18px;
+      text-align: center;
+      background: #070707;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-inner,
+      .overview-grid,
+      .split,
+      .contact-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .numbers-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 660px) {
+      .nav {
+        position: static;
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-inner,
+      .section,
+      .contact-inner {
+        width: min(100% - 28px, 1160px);
+      }
+
+      .hero-inner {
+        padding: 54px 0;
+      }
+
+      .deal-card,
+      .panel,
+      .contact-card {
+        padding: 22px;
+      }
+
+      .button-row,
+      .mini-stats,
+      .numbers-grid,
+      .feature-grid,
+      .photo-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .button-row {
+        display: grid;
+      }
+
+      .photo.large {
+        grid-column: span 1;
+        grid-row: span 1;
+        min-height: 240px;
+      }
+
+      .section,
+      .contact-inner {
+        padding: 48px 0;
+      }
+
+      .download-page {
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+        width: calc(100% - 28px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="download-page" type="button" id="downloadHtml">Download HTML</button>
+
+  <div class="top-strip">1916 & 1916 1/2 S Delawanda Ave, Muncie, IN | Duplex Investment Opportunity</div>
+
+  <header class="brand">
+    <h1>1916 S Delawanda Ave Duplex</h1>
+    <p>Renovated Muncie duplex with one long-term tenant in place and strong rent-to-price potential</p>
+  </header>
+
+  <nav class="nav" aria-label="Page navigation">
+    <a href="#overview">Overview</a>
+    <a href="#numbers">Numbers</a>
+    <a href="#photos">Photos</a>
+    <a href="#features">Features</a>
+    <a href="#location">Location</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <span class="eyebrow">Back On Market | Duplex</span>
+          <h2>1916 & 1916 1/2 S Delawanda Ave, Muncie, IN</h2>
+          <div class="hero-sub">Asking $106,000</div>
+          <div class="hero-meta">Duplex | 1,420 Sqft | Built 1952 | 2 Units</div>
+          <div class="button-row">
+            <a class="btn" href="#contact">Request Info</a>
+            <a class="btn secondary" href="#contact">Schedule a Viewing</a>
+          </div>
+        </div>
+
+        <aside class="deal-card">
+          <h3>1.9% Rent-To-Price Potential</h3>
+          <p>Back unit is rented to a long-term tenant at $860/month. Front 2/1 unit is vacant with PropStream average rent around $965/month, creating anticipated total rent of $1,825/month.</p>
+          <div class="mini-stats">
+            <div class="mini-stat">
+              <strong>Price</strong>
+              <span>$106k</span>
+            </div>
+            <div class="mini-stat">
+              <strong>Anticipated Rent</strong>
+              <span>$1,825/mo</span>
+            </div>
+            <div class="mini-stat">
+              <strong>Current Tenant</strong>
+              <span>$860/mo</span>
+            </div>
+            <div class="mini-stat">
+              <strong>Target Close</strong>
+              <span>Cash</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="overview">
+      <div class="section-header">
+        <h2>Property Overview</h2>
+        <p>A renovated Muncie duplex with one occupied unit, one vacant unit ready for rent-up, and very little needed beyond paint and minor cosmetics.</p>
+      </div>
+
+      <div class="overview-grid">
+        <article class="panel">
+          <h3>Renovated Duplex Back On Market</h3>
+          <p>1916 and 1916 1/2 S Delawanda Ave is an adorable renovated 1,420 sqft duplex in Muncie. The front unit is a 2 bed / 1 bath with a family room and a huge eat-in kitchen. The rear unit is a 1 bed / 1 bath and is currently rented to an excellent long-term tenant at $860 per month, including a flat fee for water, sewage, and trash. A shared utility room sits between the units with mechanicals and washer/dryer access. The larger front unit is vacant and should need only fresh paint and minor cosmetic repairs before rent-up.</p>
+        </article>
+
+        <aside class="panel facts">
+          <div class="fact">
+            <strong>Price</strong>
+            <span>$106,000</span>
+          </div>
+          <div class="fact">
+            <strong>Property Type</strong>
+            <span>Duplex | 2 Units</span>
+          </div>
+          <div class="fact">
+            <strong>Unit Mix</strong>
+            <span>Front 2/1 | Back 1/1</span>
+          </div>
+          <div class="fact">
+            <strong>Size</strong>
+            <span>1,420 Sqft</span>
+          </div>
+          <div class="fact">
+            <strong>Year Built</strong>
+            <span>1952</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="numbers">
+      <div class="section-header">
+        <h2>Quick Numbers Recap</h2>
+        <p>Highlights for a fast cash-buyer review.</p>
+      </div>
+
+      <div class="numbers-grid">
+        <div class="number-card">
+          <strong>Asking Price</strong>
+          <span>$106,000</span>
+        </div>
+        <div class="number-card">
+          <strong>Back Unit Rent</strong>
+          <span>$860/mo</span>
+        </div>
+        <div class="number-card">
+          <strong>Front Unit Rent Target</strong>
+          <span>$965/mo</span>
+        </div>
+        <div class="number-card">
+          <strong>Total Anticipated Rent</strong>
+          <span>$1,825/mo</span>
+        </div>
+        <div class="number-card">
+          <strong>Rent-To-Price</strong>
+          <span>1.9%</span>
+        </div>
+        <div class="number-card">
+          <strong>Utility Fee Gain</strong>
+          <span>$206.65/yr</span>
+        </div>
+        <div class="number-card">
+          <strong>Immediate Scope</strong>
+          <span>Paint + Minor Repairs</span>
+        </div>
+        <div class="number-card">
+          <strong>Close Type</strong>
+          <span>Quick Cash</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="photos">
+      <div class="section-header">
+        <h2>Property Photos</h2>
+        <p>Exterior and interior photos for quick review.</p>
+      </div>
+
+      <div class="photo-grid">
+        <div class="photo large">
+          <img src="https://files.catbox.moe/cspwbi.jpg" alt="Exterior of 1916 S Delawanda Ave">
+          <span>Exterior</span>
+        </div>
+        <div class="photo">
+          <img src="https://files.catbox.moe/7lvnz4.jpg" alt="Living room interior">
+          <span>Living Room</span>
+        </div>
+        <div class="photo">
+          <img src="https://files.catbox.moe/3owuki.jpg" alt="Kitchen interior">
+          <span>Kitchen</span>
+        </div>
+        <div class="photo">
+          <img src="https://files.catbox.moe/pjuip3.jpg" alt="Living room interior alternate view">
+          <span>Interior</span>
+        </div>
+        <div class="photo">
+          <img src="https://files.catbox.moe/tuq9hk.jpg" alt="Bathroom interior">
+          <span>Bathroom</span>
+        </div>
+        <div class="photo">
+          <img src="https://files.catbox.moe/yo8czf.jpg" alt="Bathroom interior alternate view">
+          <span>Bathroom</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="section-header">
+        <h2>Features & Upside</h2>
+        <p>This is a straightforward rent-up play with in-place income and a clean path to stronger monthly cash flow.</p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature">
+          <h3>Renovated Duplex</h3>
+          <p>The property is in great shape with no major concerns reported from the fall inspection.</p>
+        </div>
+        <div class="feature">
+          <h3>Long-Term Tenant</h3>
+          <p>The rear 1/1 unit is leased to an excellent long-term tenant paying $860 per month.</p>
+        </div>
+        <div class="feature">
+          <h3>Vacant Front Unit</h3>
+          <p>The larger front 2/1 unit is vacant, allowing the buyer to rent at current market pricing.</p>
+        </div>
+        <div class="feature">
+          <h3>Minimal Immediate Work</h3>
+          <p>Immediate needs appear limited to fresh paint and minor cosmetic repairs after move-out.</p>
+        </div>
+        <div class="feature">
+          <h3>Shared Utility Room</h3>
+          <p>Shared mechanical and laundry area sits between the two units for a practical duplex layout.</p>
+        </div>
+        <div class="feature">
+          <h3>Professionally Managed</h3>
+          <p>The property is currently professionally managed, supporting easier transition for an investor buyer.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="location">
+      <div class="section-header">
+        <h2>Neighborhood & Location</h2>
+        <p>Muncie rental property with affordable basis, tenant demand, and strong rent-to-purchase-price math.</p>
+      </div>
+
+      <div class="split">
+        <div class="map-card">
+          <div class="pin">
+            <strong>1916 S Delawanda Ave</strong>
+            <span>Muncie, IN</span>
+          </div>
+        </div>
+
+        <article class="panel">
+          <h3>Deal Notes</h3>
+          <ul class="list">
+            <li>Back on market because the previous buyer was a no-show at closing.</li>
+            <li>Front unit market rent estimate is $965/month based on PropStream average rent for a 2/1 in the area.</li>
+            <li>Total anticipated rent is $1,825/month after the vacant unit is placed.</li>
+            <li>Flat utility fee structure created a net gain of $206.65 over the past year.</li>
+            <li>Seller is asking for a quick cash close only.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact-band" id="contact">
+      <div class="contact-inner">
+        <div>
+          <h2>Interested In This Duplex?</h2>
+          <p>Request the full details, ask a question, or schedule a viewing for 1916 S Delawanda Ave.</p>
+          <div class="button-row">
+            <a class="btn" href="tel:+13176109834">Request Info</a>
+            <a class="btn secondary" href="mailto:Franklinjinvestments@gmail.com,Info@acquirejdf.app?subject=1916%20S%20Delawanda%20Ave%20Viewing%20Request">Schedule a Viewing</a>
+          </div>
+        </div>
+
+        <aside class="contact-card">
+          <div class="contact-line"><strong>Name:</strong> Jamie Franklin</div>
+          <div class="contact-line"><strong>Phone:</strong> 317-610-9834</div>
+          <div class="contact-line"><strong>Email:</strong> Franklinjinvestments@gmail.com | Info@acquirejdf.app</div>
+          <div class="contact-line"><strong>Business:</strong> Acquire JDF Corp</div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    (c) 2026 Acquire JDF Corp. Property information provided for investment review and should be independently verified by buyer.
+  </footer>
+
+  <script>
+    document.getElementById("downloadHtml").addEventListener("click", function () {
+      var html = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      var blob = new Blob([html], { type: "text/html" });
+      var link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "1916-S-Delawanda-Ave.html";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(function () {
+        URL.revokeObjectURL(link.href);
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
