@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>800 W Lindweth Place — Muncie Duplex Investor Overview</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --charcoal:#0F0F0F;
+  --charcoal2:#171717;
+  --bronze:#C08A4A;
+  --gold:#D9A86C;
+  --warm:#2A2A2A;
+  --espresso:#5A3E24;
+  --white:#FFFFFF;
+  --cream:#F5EFE8;
+  --muted:#C9BFB3;
+  --line:rgba(217,168,108,.28);
+  --shadow:0 24px 70px rgba(0,0,0,.42);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at top left,rgba(192,138,74,.16),transparent 34%),
+    radial-gradient(circle at bottom right,rgba(90,62,36,.22),transparent 38%),
+    var(--charcoal);
+  color:var(--cream);
+  line-height:1.65;
+}
+a{text-decoration:none;color:inherit}
+img{display:block;width:100%}
+.top-strip{
+  background:#070707;color:var(--gold);text-align:center;padding:10px 16px;
+  font-size:14px;font-weight:800;border-bottom:1px solid var(--line);
+}
+.brand{
+  text-align:center;padding:26px 18px 24px;
+  background:linear-gradient(135deg,#111,var(--warm));border-bottom:1px solid var(--line);
+}
+.brand h1{color:var(--bronze);font-size:clamp(24px,4vw,38px);line-height:1.1;margin-bottom:8px}
+.brand p{color:var(--muted);font-size:15px}
+.nav{
+  position:sticky;top:0;z-index:20;background:rgba(15,15,15,.96);
+  border-bottom:1px solid var(--line);display:flex;justify-content:center;flex-wrap:wrap;backdrop-filter:blur(10px);
+}
+.nav a{color:var(--gold);padding:14px 18px;font-size:14px;font-weight:900}
+.nav a:hover{background:var(--bronze);color:#111}
+.hero{min-height:660px;display:grid;grid-template-columns:1.1fr .9fr;background:#111}
+.hero-image{position:relative;min-height:440px;overflow:hidden}
+.hero-image img{height:100%;object-fit:cover}
+.hero-image::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,15,15,.05),rgba(15,15,15,.45))}
+.hero-content{
+  padding:64px 56px;display:flex;flex-direction:column;justify-content:center;gap:24px;
+  background:linear-gradient(135deg,rgba(15,15,15,.96),rgba(42,42,42,.88)),
+  radial-gradient(circle at top right,rgba(192,138,74,.16),transparent 40%);
+}
+.status-pill{
+  width:max-content;background:rgba(192,138,74,.15);color:var(--gold);
+  border:1px solid rgba(217,168,108,.4);padding:7px 14px;font-size:11px;font-weight:900;
+  text-transform:uppercase;letter-spacing:.12em;
+}
+.hero h2{font-size:clamp(34px,5vw,56px);line-height:1.05;color:#fff}
+.hero h2 span{display:block;color:var(--muted);font-size:clamp(18px,2vw,24px);margin-top:12px;font-weight:400}
+.price-row{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.price-label{color:rgba(255,255,255,.45);text-transform:uppercase;font-size:12px;font-weight:900;letter-spacing:.1em}
+.price{color:var(--gold);font-size:46px;font-weight:900;line-height:1}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid rgba(255,255,255,.08);border-radius:6px;overflow:hidden}
+.hero-stat{padding:16px;border-right:1px solid rgba(255,255,255,.08)}
+.hero-stat:last-child{border-right:0}
+.hero-stat small{display:block;color:rgba(255,255,255,.42);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em}
+.hero-stat strong{display:block;color:#fff;font-size:16px;margin-top:4px}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  display:inline-block;padding:15px 28px;border-radius:5px;background:var(--bronze);color:#111;
+  font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;
+}
+.btn:hover{background:var(--gold)}
+.btn.outline{background:transparent;color:var(--gold);border:1px solid rgba(217,168,108,.55)}
+.btn.outline:hover{background:rgba(217,168,108,.1)}
+.ticker{background:var(--bronze);color:#111;padding:14px 36px;display:flex;gap:34px;overflow-x:auto;font-weight:900}
+.ticker span{white-space:nowrap;font-size:14px}
+.ticker b{color:#2b1603;text-transform:uppercase;font-size:11px;margin-right:8px;letter-spacing:.08em}
+.section{max-width:1120px;margin:0 auto;padding:78px 28px}
+.section-label{color:var(--gold);text-transform:uppercase;letter-spacing:.15em;font-size:11px;font-weight:900;margin-bottom:10px}
+.section-title{color:#fff;font-size:clamp(30px,4vw,42px);line-height:1.15;margin-bottom:12px}
+.section-subtitle{color:var(--muted);max-width:760px;margin-bottom:38px}
+.divider{height:1px;background:linear-gradient(to right,var(--gold),transparent);opacity:.45;margin-bottom:38px}
+.grid{display:grid;grid-template-columns:1fr 340px;gap:30px;align-items:start}
+.panel{background:rgba(42,42,42,.82);border:1px solid var(--line);border-radius:10px;padding:34px;box-shadow:var(--shadow)}
+.panel h3{color:var(--gold);font-size:22px;margin-bottom:16px}
+.panel p{margin-bottom:16px;color:#eee}
+.panel ul{padding-left:18px}
+.panel li{margin-bottom:10px;color:#eee}
+.facts{position:sticky;top:76px}
+.fact-row{display:flex;justify-content:space-between;gap:18px;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.fact-row:last-child{border-bottom:0}
+.fact-row span:first-child{color:rgba(255,255,255,.48);font-size:11px;text-transform:uppercase;font-weight:900;letter-spacing:.08em}
+.fact-row span:last-child{color:#fff;font-weight:800;text-align:right}
+.photos-wrap{background:#080808;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.gallery-main{border-radius:10px;overflow:hidden;border:1px solid var(--line);margin-bottom:12px;background:#222}
+.gallery-main img{height:520px;object-fit:cover}
+.thumbs{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.thumbs img{height:88px;object-fit:cover;border-radius:6px;border:1px solid rgba(217,168,108,.25);cursor:pointer;opacity:.82}
+.thumbs img:hover{opacity:1;border-color:var(--gold)}
+.numbers{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(217,168,108,.22);border:1px solid rgba(217,168,108,.24);border-radius:10px;overflow:hidden}
+.number{background:#111;text-align:center;padding:34px 18px}
+.number strong{display:block;color:var(--gold);font-size:34px;line-height:1;margin-bottom:10px}
+.number span{color:rgba(255,255,255,.48);text-transform:uppercase;font-size:11px;font-weight:900;letter-spacing:.1em}
+.analysis-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.analysis-box{background:rgba(42,42,42,.82);border:1px solid var(--line);border-radius:10px;padding:26px}
+.analysis-box h3{color:var(--gold);margin-bottom:14px}
+.big-number{font-size:34px;color:#fff;font-weight:900;line-height:1.1;margin-bottom:8px}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.feature{background:rgba(42,42,42,.82);border:1px solid var(--line);border-radius:10px;padding:26px}
+.feature h3{color:var(--gold);margin-bottom:8px;font-size:18px}
+.feature p{color:#ddd;font-size:15px}
+.location-card{background:rgba(42,42,42,.82);border:1px solid var(--line);border-radius:10px;padding:34px}
+.location-card li{margin-bottom:10px}
+.map-box{margin-top:22px;border:1px solid var(--line);border-radius:10px;overflow:hidden;height:360px;background:#222}
+.map-box iframe{width:100%;height:100%;border:0;display:block}
+.lead-form{display:grid;gap:12px;margin-top:20px}
+.lead-form input,.lead-form textarea{
+  width:100%;padding:14px;border-radius:5px;border:1px solid rgba(217,168,108,.35);
+  background:#111;color:#fff;font-size:14px;
+}
+.lead-form textarea{min-height:110px;resize:vertical}
+.note{font-size:12px;color:rgba(255,255,255,.45);margin-top:10px}
+.contact{background:linear-gradient(135deg,#111,#2A2A2A);border-top:2px solid var(--bronze)}
+.contact-grid{max-width:1120px;margin:auto;padding:78px 28px;display:grid;grid-template-columns:1fr 420px;gap:50px;align-items:center}
+.contact h2{font-size:42px;color:#fff;margin-bottom:14px;line-height:1.15}
+.contact p{color:var(--muted);margin-bottom:28px}
+.footer{background:#070707;color:rgba(255,255,255,.35);text-align:center;padding:24px;font-size:13px}
+@media(max-width:900px){
+  .hero,.grid,.contact-grid,.analysis-grid{grid-template-columns:1fr}
+  .hero-content{padding:40px 24px}
+  .hero-stats,.numbers,.features{grid-template-columns:1fr}
+  .thumbs{grid-template-columns:repeat(3,1fr)}
+  .gallery-main img{height:auto}
+  .facts{position:static}
+}
+@media(max-width:520px){
+  .nav a{padding:12px 10px;font-size:12px}
+  .ticker{padding:12px 18px}
+  .panel{padding:24px}
+}
+</style>
+</head>
+<body>
+
+<div class="top-strip">Call Jamie Franklin: 317-610-9834</div>
+
+<header class="brand">
+  <h1>Acquire JDF Corp — Investor Overview</h1>
+  <p>Premium off-market and investment real estate opportunities</p>
+</header>
+
+<nav class="nav">
+  <a href="#overview">Overview</a>
+  <a href="#photos">Photos</a>
+  <a href="#numbers">Numbers</a>
+  <a href="#rent">Rent Analysis</a>
+  <a href="#features">Features</a>
+  <a href="#location">Location</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-image">
+    <img src="https://files.catbox.moe/mba2oz.jpg" alt="800 W Lindweth Place exterior">
+  </div>
+  <div class="hero-content">
+    <div class="status-pill">Available Now</div>
+    <h2>Cash-Flowing Duplex <span>800 W Lindweth Place, Muncie, IN</span></h2>
+    <div class="price-row">
+      <span class="price-label">Asking Price</span>
+      <span class="price">$130,000</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><small>Property Type</small><strong>Duplex</strong></div>
+      <div class="hero-stat"><small>Square Feet</small><strong>2,181</strong></div>
+      <div class="hero-stat"><small>Current Income</small><strong>$1,575/mo</strong></div>
+    </div>
+    <div class="btn-row">
+      <a class="btn" href="#contact">Request Info</a>
+      <a class="btn outline" href="tel:3176109834">Schedule Viewing</a>
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  <span><b>Price</b>$130,000</span>
+  <span><b>Current Rent</b>$1,575/mo</span>
+  <span><b>Potential Rent</b>$2,372/mo</span>
+  <span><b>Monthly Upside</b>$797/mo</span>
+  <span><b>Annual Upside</b>$9,564/yr</span>
+  <span><b>Type</b>Duplex</span>
+  <span><b>Sq Ft</b>2,181</span>
+  <span><b>Management</b>Professionally Managed</span>
+</div>
+
+<section class="section" id="overview">
+  <div class="section-label">Property Overview</div>
+  <h2 class="section-title">Cash-Flowing Duplex Near Ball State University</h2>
+  <p class="section-subtitle">A professionally managed duplex with current income in place, attached garage, front parking, and clear rent upside.</p>
+  <div class="divider"></div>
+
+  <div class="grid">
+    <div class="panel">
+      <h3>Deal Summary</h3>
+      <p>This 2,181 sq ft duplex has an attached garage and plenty of parking in front. The property is walking distance to the beautiful Minnetrista Museum and Gardens and less than 2 miles from Ball State University.</p>
+      <p>One unit is a 3 bed / 1 bath currently cash-flowing at $800/month with a month-to-month tenant. The other unit is a 2 bed / 1.5 bath cash-flowing at $775/month, with the tenant recently renewed through the end of February 2027.</p>
+      <p>Although total monthly income is currently $1,575, there is potential to increase ROI even more. Per Rentometer, average monthly income in this area for a 3/1 should be $1,236 and for a 2/1.5 should be $1,136, creating an average total monthly potential of $2,372.</p>
+      <p>Taxes for Spring 24/25 and Fall 24/25 were each $778. This property is professionally managed.</p>
+    </div>
+
+    <aside class="panel facts">
+      <h3>Quick Facts</h3>
+      <div class="fact-row"><span>Price</span><span>$130,000</span></div>
+      <div class="fact-row"><span>Address</span><span>800 W Lindweth Place, Muncie, IN</span></div>
+      <div class="fact-row"><span>Type</span><span>Duplex</span></div>
+      <div class="fact-row"><span>Sq Ft</span><span>2,181</span></div>
+      <div class="fact-row"><span>Current Rent</span><span>$1,575/mo</span></div>
+      <div class="fact-row"><span>Potential Rent</span><span>$2,372/mo</span></div>
+      <div class="fact-row"><span>Taxes</span><span>$778 per cycle</span></div>
+      <div class="fact-row"><span>Status</span><span>For Sale</span></div>
+    </aside>
+  </div>
+</section>
+
+<section class="photos-wrap" id="photos">
+  <div class="section">
+    <div class="section-label">Property Photos</div>
+    <h2 class="section-title">Photo Gallery</h2>
+    <p class="section-subtitle">Click thumbnails to preview each photo.</p>
+    <div class="gallery-main">
+      <img id="mainPhoto" src="https://files.catbox.moe/mba2oz.jpg" alt="Property photo preview">
+    </div>
+    <div class="thumbs">
+      <img onclick="swapPhoto(this.src)" src="https://files.catbox.moe/mba2oz.jpg" alt="Exterior">
+      <img onclick="swapPhoto(this.src)" src="https://files.catbox.moe/1s4zw7.jpg" alt="Kitchen 1">
+      <img onclick="swapPhoto(this.src)" src="https://files.catbox.moe/im3mas.jpg" alt="Kitchen 3">
+      <img onclick="swapPhoto(this.src)" src="https://files.catbox.moe/tzeycj.jpg" alt="Family Room 1">
+      <img onclick="swapPhoto(this.src)" src="https://files.catbox.moe/jzbynl.jpg" alt="Family Room 2">
+      <img onclick="swapPhoto(this.src)" src="https://files.catbox.moe/arz8s5.jpg" alt="Bathroom 1">
+      <img onclick="swapPhoto(this.src)" src="https://files.catbox.moe/nfj052.jpg" alt="Bathroom 2">
+    </div>
+  </div>
+</section>
+
+<section class="section" id="numbers">
+  <div class="section-label">Investor Numbers</div>
+  <h2 class="section-title">Income & Upside Snapshot</h2>
+  <div class="divider"></div>
+  <div class="numbers">
+    <div class="number"><strong>$130k</strong><span>Asking Price</span></div>
+    <div class="number"><strong>$1,575</strong><span>Current Monthly Income</span></div>
+    <div class="number"><strong>$2,372</strong><span>Potential Monthly Rent</span></div>
+    <div class="number"><strong>$9,564</strong><span>Potential Annual Upside</span></div>
+  </div>
+</section>
+
+<section class="section" id="rent">
+  <div class="section-label">Rent Analysis</div>
+  <h2 class="section-title">Built-In Rent Upside</h2>
+  <p class="section-subtitle">Current rent already supports cash flow, while market rent alignment creates a stronger long-term return profile.</p>
+  <div class="divider"></div>
+
+  <div class="analysis-grid">
+    <div class="analysis-box">
+      <h3>Current Income</h3>
+      <div class="big-number">$1,575/mo</div>
+      <p>3/1 unit at $800/month and 2/1.5 unit at $775/month.</p>
+    </div>
+    <div class="analysis-box">
+      <h3>Potential Market Income</h3>
+      <div class="big-number">$2,372/mo</div>
+      <p>Rentometer average: $1,236/month for the 3/1 and $1,136/month for the 2/1.5.</p>
+    </div>
+    <div class="analysis-box">
+      <h3>Monthly Upside</h3>
+      <div class="big-number">+$797/mo</div>
+      <p>Potential monthly increase by aligning rents closer to market averages.</p>
+    </div>
+    <div class="analysis-box">
+      <h3>Annual Upside</h3>
+      <div class="big-number">+$9,564/yr</div>
+      <p>Potential gross annual rent increase before expenses, vacancy, taxes, insurance, and management.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="section-label">Highlights</div>
+  <h2 class="section-title">Why This Deal Works</h2>
+  <p class="section-subtitle">Current cash flow, long-term rental demand, and room to raise income through market rent alignment.</p>
+  <div class="divider"></div>
+
+  <div class="features">
+    <div class="feature">
+      <h3>Cash Flow In Place</h3>
+      <p>Both units are occupied and currently producing $1,575/month in total gross rental income.</p>
+    </div>
+    <div class="feature">
+      <h3>Strong Rent Upside</h3>
+      <p>Rentometer averages support potential total monthly income of approximately $2,372/month.</p>
+    </div>
+    <div class="feature">
+      <h3>College Town Demand</h3>
+      <p>Less than 2 miles from Ball State University, supporting consistent rental demand.</p>
+    </div>
+    <div class="feature">
+      <h3>Professionally Managed</h3>
+      <p>Management is already in place, making this easier for local or out-of-area investors.</p>
+    </div>
+    <div class="feature">
+      <h3>Attached Garage</h3>
+      <p>Attached garage and plenty of front parking add convenience and tenant appeal.</p>
+    </div>
+    <div class="feature">
+      <h3>Stable Lease Profile</h3>
+      <p>One tenant is month-to-month, while the other has renewed through February 2027.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="location">
+  <div class="section-label">Neighborhood</div>
+  <h2 class="section-title">Muncie Location With Rental Drivers Nearby</h2>
+  <div class="divider"></div>
+  <div class="location-card">
+    <ul>
+      <li>Walking distance to Minnetrista Museum and Gardens.</li>
+      <li>Less than 2 miles from Ball State University.</li>
+      <li>Duplex setup provides multiple income streams.</li>
+      <li>Attached garage and front parking improve tenant convenience.</li>
+      <li>Professionally managed for smoother investor ownership.</li>
+    </ul>
+    <div class="map-box">
+      <iframe title="Map of 800 W Lindweth Place Muncie IN" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=-85.4108%2C40.1865%2C-85.3768%2C40.2055&layer=mapnik&marker=40.1960%2C-85.3938"></iframe>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="contact-grid">
+    <div>
+      <div class="section-label">Contact</div>
+      <h2>Interested In This Deal?</h2>
+      <p>Reach out for more details, walkthrough information, buyer next steps, or additional property information.</p>
+      <div class="btn-row">
+        <a class="btn" href="tel:3176109834">Call 317-610-9834</a>
+        <a class="btn outline" href="mailto:info@reioffer.net">Email Info</a>
+      </div>
+
+      <form class="lead-form" action="mailto:info@reioffer.net" method="post" enctype="text/plain">
+        <input type="text" name="name" placeholder="Your Name">
+        <input type="email" name="email" placeholder="Your Email">
+        <input type="tel" name="phone" placeholder="Your Phone">
+        <textarea name="message">I'm interested in 800 W Lindweth Place, Muncie, IN.</textarea>
+        <button class="btn" type="submit">Send Request</button>
+      </form>
+      <div class="note">Note: This local HTML form opens your email app. It can be connected to a real web form later if hosted.</div>
+    </div>
+
+    <div class="panel facts">
+      <h3>Your Contact</h3>
+      <div class="fact-row"><span>Name</span><span>Jamie Franklin</span></div>
+      <div class="fact-row"><span>Phone</span><span>317-610-9834</span></div>
+      <div class="fact-row"><span>Email</span><span>info@reioffer.net</span></div>
+      <div class="fact-row"><span>Company</span><span>Acquire JDF Corp</span></div>
+      <div class="fact-row"><span>Website</span><span>reioffer.net</span></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  © 2026 Acquire JDF Corp — Investor Property Overview | reioffer.net
+</footer>
+
+<script>
+function swapPhoto(src){
+  document.getElementById('mainPhoto').src = src;
+}
+</script>
+
+</body>
+</html>
