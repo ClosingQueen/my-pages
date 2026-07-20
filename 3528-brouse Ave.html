@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3528 Brouse Ave — Acquire JDF Corp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #F5E9CA;
+    --gold-dark: #8C6A1E;
+    --ink: #1A1814;
+    --ink-mid: #3D3A32;
+    --ink-soft: #6B6659;
+    --cream: #FAF7F2;
+    --cream-dark: #F0EBE0;
+    --white: #FFFFFF;
+    --border: rgba(0,0,0,0.1);
+    --border-gold: rgba(201,168,76,0.3);
+    --radius: 4px;
+    --radius-lg: 8px;
+    --shadow: 0 2px 20px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 48px rgba(0,0,0,0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(26,24,20,0.96);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 15px;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    margin-top: 64px;
+    background: var(--ink);
+    min-height: 580px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
+
+  .hero-image {
+    background: #2A2720;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 480px;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.2);
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .hero-image-placeholder svg {
+    width: 48px;
+    height: 48px;
+    opacity: 0.3;
+  }
+
+  .hero-content {
+    padding: 64px 56px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.35);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 2px;
+    width: fit-content;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-address {
+    font-family: 'DM Serif Display', serif;
+    font-size: 38px;
+    line-height: 1.15;
+    color: #FFFFFF;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-address span {
+    display: block;
+    font-size: 18px;
+    color: rgba(255,255,255,0.45);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    margin-top: 6px;
+  }
+
+  .hero-price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .price-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    color: rgba(255,255,255,0.4);
+  }
+
+  .price-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 0;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .hero-stat {
+    flex: 1;
+    padding: 14px 18px;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .hero-stat:last-child { border-right: none; }
+
+  .hero-stat-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 4px;
+  }
+
+  .hero-stat-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: #FFFFFF;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 12px;
+  }
+
+  /* BUTTONS */
+  .btn-primary {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover {
+    background: #DFB85A;
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.75);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 14px 28px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* DEAL TICKER */
+  .deal-ticker {
+    background: var(--gold);
+    padding: 14px 48px;
+    display: flex;
+    gap: 48px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .deal-ticker::-webkit-scrollbar { display: none; }
+
+  .ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .ticker-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+  }
+
+  .ticker-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .ticker-sep {
+    width: 1px;
+    height: 20px;
+    background: rgba(0,0,0,0.15);
+  }
+
+  /* SECTIONS */
+  .section {
+    padding: 80px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 34px;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .section-subtitle {
+    font-size: 16px;
+    color: var(--ink-soft);
+    font-weight: 300;
+    margin-bottom: 48px;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    margin-bottom: 48px;
+    opacity: 0.4;
+  }
+
+  /* OVERVIEW GRID */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .overview-panel {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    box-shadow: var(--shadow);
+  }
+
+  .overview-panel h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: var(--ink);
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .overview-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .overview-list li {
+    font-size: 15px;
+    color: var(--ink-mid);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .overview-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+
+  .quick-facts-card {
+    background: var(--ink);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    position: sticky;
+    top: 84px;
+  }
+
+  .quick-facts-card h3 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .fact-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    gap: 16px;
+  }
+
+  .fact-row:last-child { border-bottom: none; }
+
+  .fact-key {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .fact-val {
+    font-size: 14px;
+    font-weight: 500;
+    color: #FFFFFF;
+    text-align: right;
+  }
+
+  .contact-link-card {
+    margin-top: 24px;
+    background: rgba(201,168,76,0.12);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+  }
+
+  .contact-link-card p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+
+  .contact-link-card a {
+    display: block;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .contact-link-card a:hover { background: #DFB85A; }
+
+  /* PHOTOS */
+  .photos-section {
+    background: var(--cream-dark);
+    padding: 80px 0;
+  }
+
+  .photos-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 240px 240px;
+    gap: 8px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .photo-card {
+    background: #D5CEC4;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .photo-card.large {
+    grid-row: 1 / 3;
+    grid-column: 1;
+  }
+
+  .photo-placeholder-label {
+    font-size: 12px;
+    color: rgba(0,0,0,0.3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+  }
+
+  /* FEATURES */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .feature-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .feature-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--gold-light);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+
+  .feature-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--gold-dark);
+  }
+
+  .feature-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* NUMBERS BAR */
+  .numbers-bar {
+    background: var(--ink);
+    padding: 56px 48px;
+  }
+
+  .numbers-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .number-cell {
+    background: var(--ink);
+    padding: 32px 28px;
+    text-align: center;
+  }
+
+  .number-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .number-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* NEIGHBORHOOD */
+  .neighborhood-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .map-embed {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    height: 380px;
+    background: #D5CEC4;
+    position: relative;
+  }
+
+  .map-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  .comps-panel {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow);
+  }
+
+  .comps-panel h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .comps-panel p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+
+  .comp-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold-light);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold-dark);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .comp-link:hover { background: #EDDBAE; }
+
+  .location-highlights {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .location-highlight {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-mid);
+  }
+
+  .location-highlight::before {
+    content: '↗';
+    color: var(--gold);
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* CONTACT BAND */
+  .contact-band {
+    background: linear-gradient(135deg, #1A1814 0%, #2A2318 100%);
+    padding: 80px 48px;
+    border-top: 2px solid var(--gold);
+  }
+
+  .contact-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .contact-inner h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 42px;
+    color: #FFFFFF;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .contact-inner > div > p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    margin-bottom: 32px;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .cta-primary {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 16px 32px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .cta-primary:hover { background: #DFB85A; }
+
+  .cta-secondary {
+    display: inline-block;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.8);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 16px 32px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .cta-secondary:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  .contact-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+  }
+
+  .contact-card-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .contact-info-row {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .contact-info-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 12px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .contact-info-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .ci-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    padding-top: 2px;
+  }
+
+  .ci-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .ci-value a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .ci-value a:hover { text-decoration: underline; }
+
+  /* FOOTER */
+  footer {
+    background: #0F0E0B;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.25);
+  }
+
+  footer a {
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 13px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-content > * {
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero-content > *:nth-child(5) { animation-delay: 0.5s; }
+  .hero-content > *:nth-child(6) { animation-delay: 0.6s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-image { min-height: 260px; }
+    .hero-content { padding: 40px 24px; }
+    .hero-address { font-size: 28px; }
+    .section { padding: 56px 24px; }
+    .overview-grid, .neighborhood-grid, .contact-inner { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .numbers-inner { grid-template-columns: 1fr 1fr; }
+    .photo-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .photo-card.large { grid-row: auto; grid-column: auto; }
+    .deal-ticker { padding: 14px 24px; }
+    .contact-band { padding: 56px 24px; }
+    .photos-inner { padding: 0 24px; }
+    footer { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
+    .numbers-bar { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a class="nav-brand" href="#">Acquire JDF Corp</a>
+  <ul class="nav-links">
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#photos">Photos</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#neighborhood">Location</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-image">
+    <img src="https://i.imgur.com/nZTBjUe.jpeg" alt="3528 Brouse Ave exterior" style="width:100%;height:100%;object-fit:cover;display:block;">
+  </div>
+
+  <div class="hero-content">
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      Available Now
+    </div>
+
+    <div class="hero-address">
+      3528 Brouse Ave
+      <span>Indianapolis, IN 46218</span>
+    </div>
+
+    <div class="hero-price">
+      <span class="price-label">Asking Price</span>
+      <span class="price-value">$115,000</span>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-label">Beds / Baths</div>
+        <div class="hero-stat-value">3 / 1</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">Sq Ft</div>
+        <div class="hero-stat-value">1,845</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">Built</div>
+        <div class="hero-stat-value">1914</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-label">ARV</div>
+        <div class="hero-stat-value">$201k</div>
+      </div>
+    </div>
+
+    <div class="hero-cta">
+      <a class="btn-primary" href="#contact">Get Deal Details</a>
+      <a class="btn-outline" href="tel:3176109834">Call Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- DEAL TICKER -->
+<div class="deal-ticker">
+  <div class="ticker-item">
+    <span class="ticker-label">ARV</span>
+    <span class="ticker-value">$201,000</span>
+  </div>
+  <div class="ticker-sep"></div>
+  <div class="ticker-item">
+    <span class="ticker-label">All-In</span>
+    <span class="ticker-value">$125k – $140k</span>
+  </div>
+  <div class="ticker-sep"></div>
+  <div class="ticker-item">
+    <span class="ticker-label">Equity Upside</span>
+    <span class="ticker-value">$61k – $76k</span>
+  </div>
+  <div class="ticker-sep"></div>
+  <div class="ticker-item">
+    <span class="ticker-label">Market Rent</span>
+    <span class="ticker-value">$1,450 – $1,600+</span>
+  </div>
+  <div class="ticker-sep"></div>
+  <div class="ticker-item">
+    <span class="ticker-label">Section 8 FMR</span>
+    <span class="ticker-value">~$1,590/mo</span>
+  </div>
+  <div class="ticker-sep"></div>
+  <div class="ticker-item">
+    <span class="ticker-label">RBR Potential</span>
+    <span class="ticker-value">$1,800 – $2,500+</span>
+  </div>
+  <div class="ticker-sep"></div>
+  <div class="ticker-item">
+    <span class="ticker-label">Rehab Estimate</span>
+    <span class="ticker-value">$10k – $25k</span>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section class="section" id="overview">
+  <div class="section-label">Property Overview</div>
+  <div class="section-title">The Opportunity at a Glance</div>
+  <div class="section-subtitle">Solid light value-add SFR — immediate equity, multiple rent upside paths, fast decision deal.</div>
+  <div class="divider"></div>
+
+  <div class="overview-grid">
+    <div class="overview-panel">
+      <h3>Deal Summary — 3528 Brouse Ave, Indianapolis IN 46218</h3>
+      <ul class="overview-list">
+        <li><strong>Property:</strong> Single-family residence | 3 bed / 1 bath | 1,845 sqft | 5,445 sqft lot | Built 1914</li>
+        <li><strong>Occupancy:</strong> Occupied month-to-month | Current rent $1,200/mo (well below market)</li>
+        <li><strong>Condition:</strong> Light rehab needed — cosmetic refresh, deep clean &amp; declutter</li>
+        <li><strong>ARV:</strong> $201,000 | Rehab estimate: $10k–$25k (cosmetic only)</li>
+        <li><strong>All-in cost:</strong> $125k–$140k | Equity upside: $61k–$76k at stabilized value</li>
+        <li><strong>Market LTR:</strong> $1,450–$1,600+/mo after light updates</li>
+        <li><strong>RBR potential:</strong> $1,800–$2,500+/mo — 4–5 rooms + attic flex space</li>
+        <li><strong>Short-term rental:</strong> Limited viability ($80–$120/night)</li>
+        <li><strong>Section 8 eligible:</strong> ~$1,590 FMR (3BR) | Corporate/furnished: $1,800–$2,200/mo possible</li>
+        <li><strong>Value-add levers:</strong> Paint, flooring, kitchen/bath refresh, attic finish, in-unit laundry, curb appeal, RBR conversion</li>
+        <li><strong>Location:</strong> Eastside 46218 — near State Fairgrounds, IndyGo transit, Community Hospital East corridor</li>
+        <li><strong>Financing:</strong> DSCR-friendly | Cash-flow positive at stabilized rents</li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="quick-facts-card">
+        <h3>Quick Facts</h3>
+        <div class="fact-row">
+          <span class="fact-key">Price</span>
+          <span class="fact-val">$115,000</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Address</span>
+          <span class="fact-val">3528 Brouse Ave, Indianapolis IN 46218</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Type</span>
+          <span class="fact-val">SFR — 3 Bed / 1 Bath</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Sq Ft</span>
+          <span class="fact-val">1,845 sqft</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Lot</span>
+          <span class="fact-val">5,445 sqft</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Year Built</span>
+          <span class="fact-val">1914</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">ARV</span>
+          <span class="fact-val">$201,000</span>
+        </div>
+        <div class="fact-row">
+          <span class="fact-key">Status</span>
+          <span class="fact-val" style="color: #6FC87A;">Available</span>
+        </div>
+      </div>
+
+      <div class="contact-link-card">
+        <p>Questions about the deal? Numbers? Schedule a walkthrough?</p>
+        <a href="#contact">Contact Jamie Today</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTOS -->
+<div class="photos-section" id="photos">
+  <div class="photos-inner">
+    <div class="section-label" style="margin-bottom: 12px;">Property Photos</div>
+    <div class="section-title" style="margin-bottom: 32px;">See the Property</div>
+
+    <div class="photo-grid">
+      <div class="photo-card large">
+        <img src="https://i.imgur.com/nZTBjUe.jpeg" alt="3528 Brouse Ave exterior" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="photo-card">
+        <img src="https://i.imgur.com/33xkooR.jpeg" alt="3528 Brouse Ave interior" style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="photo-card"><img src="https://files.catbox.moe/7g24hv.jpg" alt="Kitchen" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="photo-card"><img src="https://files.catbox.moe/7np4hm.jpg" alt="Bedroom" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+      <div class="photo-card"><img src="https://files.catbox.moe/bl1f6c.jpg" alt="Bathroom" style="width:100%;height:100%;object-fit:cover;display:block;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- KEY NUMBERS -->
+<div class="numbers-bar">
+  <div class="numbers-inner">
+    <div class="number-cell">
+      <div class="number-val">$76k</div>
+      <div class="number-label">Max Equity Upside</div>
+    </div>
+    <div class="number-cell">
+      <div class="number-val">$2,500</div>
+      <div class="number-label">RBR Monthly Ceiling</div>
+    </div>
+    <div class="number-cell">
+      <div class="number-val">$25k</div>
+      <div class="number-label">Max Rehab Budget</div>
+    </div>
+    <div class="number-cell">
+      <div class="number-val">1,845</div>
+      <div class="number-label">Square Feet</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-label">Features &amp; Value-Adds</div>
+  <div class="section-title">Why This Deal Works</div>
+  <div class="section-subtitle">Multiple income paths, strong equity position, and a fast-decision profile.</div>
+  <div class="divider"></div>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+          <path d="M2 17l10 5 10-5"/>
+          <path d="M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <h3>Immediate Equity</h3>
+      <p>All-in at $125k–$140k against a $201k ARV creates $61k–$76k in built-in equity from day one — before any rent optimization.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="3" width="15" height="13" rx="2"/>
+          <path d="M16 8h6l-3 3h3l-3 3h3"/>
+          <path d="M1 13h15"/>
+        </svg>
+      </div>
+      <h3>Light Rehab Only</h3>
+      <p>Cosmetic refresh — paint, flooring, kitchen and bath touch-up — puts this at $10k–$25k. No structural work, no heavy lifting.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+      </div>
+      <h3>Below-Market Rent</h3>
+      <p>Tenant paying $1,200/mo on M2M. Market is $1,450–$1,600+. Instant upside on lease renewal or turnover — no waiting for value creation.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+      </div>
+      <h3>RBR / Room-by-Room</h3>
+      <p>4–5 rentable rooms plus attic flex space positions this for $1,800–$2,500+/mo — a 50–100% revenue premium over standard LTR.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 12l2 2 4-4"/>
+          <path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
+        </svg>
+      </div>
+      <h3>Section 8 Eligible</h3>
+      <p>~$1,590/mo FMR at the 3BR rate. Corporate and furnished options could push $1,800–$2,200/mo. Multiple income stabilization paths.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="1" x2="12" y2="23"/>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+      </div>
+      <h3>DSCR-Friendly Financing</h3>
+      <p>Cash-flow positive at stabilized rents with no income documentation required. Strong DSCR ratios make this an easy lender story.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NEIGHBORHOOD -->
+<section class="section" id="neighborhood">
+  <div class="section-label">Location &amp; Comps</div>
+  <div class="section-title">Strong Workforce Rental Demand</div>
+  <div class="section-subtitle">Eastside 46218 — one of Indianapolis's most active affordable rental corridors.</div>
+  <div class="divider"></div>
+
+  <div class="neighborhood-grid">
+    <div class="map-embed">
+      <iframe
+        src="https://www.openstreetmap.org/export/embed.html?bbox=-86.0650%2C39.7920%2C-86.0450%2C39.8020&layer=mapnik&marker=39.7970%2C-86.0550"
+        allowfullscreen
+        loading="lazy"
+        title="Map of 3528 Brouse Ave, Indianapolis IN 46218"
+        style="border:none; width:100%; height:100%;"
+      ></iframe>
+    </div>
+
+    <div class="comps-panel">
+      <h3>Comps Package</h3>
+      <p>Full comparable sales analysis supporting the $201k ARV. Includes recent closed sales in the 46218 zip within 0.5 miles.</p>
+      <a class="comp-link" href="https://www.dropbox.com/scl/fo/jdq1f0lpichjyyov4pjri/ACr0BKy7FYvBzRVvE4KO0To?rlkey=4m6o8pao9o0xcniuagfs5pvr0&st=3gnv6lju&dl=0" target="_blank" rel="noopener">
+        ↗ View Full Comps Package
+      </a>
+
+      <div class="location-highlights">
+        <div class="location-highlight">Near Indiana State Fairgrounds — strong seasonal traffic &amp; workforce demand</div>
+        <div class="location-highlight">IndyGo transit access — essential for workforce tenant pool</div>
+        <div class="location-highlight">Community Hospital East corridor — healthcare workforce renters</div>
+        <div class="location-highlight">Affordable rental pocket — sub-$200k buy, strong absorption rate</div>
+        <div class="location-highlight">46218 zip consistently among top Indianapolis rental markets by volume</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-band" id="contact">
+  <div class="contact-inner">
+    <div>
+      <h2>Interested In This Deal?</h2>
+      <p>Reach out for more details, additional photos, numbers, or to schedule a walkthrough. Serious buyers move fast — this one won't sit.</p>
+      <div class="cta-buttons">
+        <a class="cta-primary" href="tel:3176109834">Call 317-610-9834</a>
+        <a class="cta-secondary" href="mailto:Franklinjinvestments@gmail.com">Send an Email</a>
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <div class="contact-card-header">Your Contact</div>
+      <div class="contact-info-row">
+        <div class="contact-info-item">
+          <span class="ci-label">Name</span>
+          <span class="ci-value">Jamie Franklin</span>
+        </div>
+        <div class="contact-info-item">
+          <span class="ci-label">Phone</span>
+          <span class="ci-value"><a href="tel:3176109834">317-610-9834</a></span>
+        </div>
+        <div class="contact-info-item">
+          <span class="ci-label">Email</span>
+          <span class="ci-value"><a href="mailto:Franklinjinvestments@gmail.com">Franklinjinvestments@gmail.com</a></span>
+        </div>
+        <div class="contact-info-item">
+          <span class="ci-label">Company</span>
+          <span class="ci-value">Acquire JDF Corp</span>
+        </div>
+        <div class="contact-info-item">
+          <span class="ci-label">Website</span>
+          <span class="ci-value"><a href="https://reioffer.net" target="_blank" rel="noopener">reioffer.net</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Acquire JDF Corp — Jamie Franklin. All rights reserved.</p>
+  <a href="https://reioffer.net" target="_blank" rel="noopener">reioffer.net</a>
+</footer>
+
+</body>
+</html>
