@@ -26,6 +26,8 @@
     --radius-lg: 8px;
     --shadow: 0 2px 20px rgba(0,0,0,0.08);
     --shadow-lg: 0 8px 48px rgba(0,0,0,0.12);
+    --status-bar-h: 56px;
+    --nav-h: 64px;
   }
 
   html { scroll-behavior: smooth; }
@@ -38,10 +40,38 @@
     line-height: 1.7;
   }
 
+  /* PROPERTY STATUS BANNER — controlled by single class on .property-status */
+  .property-status {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    width: 100%;
+    min-height: var(--status-bar-h);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 16px;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+  }
+
+  .property-status.available       { background: #22C55E; }
+  .property-status.price-reduced   { background: #FACC15; color: #111111; }
+  .property-status.under-contract  { background: #F97316; }
+  .property-status.backup-offers   { background: #2563EB; }
+  .property-status.unavailable     { background: #404040; }
+  .property-status.sold            { background: #DC2626; }
+
   /* NAV */
   nav {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: var(--status-bar-h);
+    left: 0; right: 0;
     z-index: 100;
     background: rgba(26,24,20,0.96);
     backdrop-filter: blur(10px);
@@ -49,7 +79,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 48px;
-    height: 64px;
+    height: var(--nav-h);
     border-bottom: 1px solid rgba(201,168,76,0.2);
   }
 
@@ -82,7 +112,7 @@
 
   /* HERO */
   .hero {
-    margin-top: 64px;
+    margin-top: calc(var(--status-bar-h) + var(--nav-h));
     background: var(--ink);
     min-height: 580px;
     display: grid;
@@ -107,24 +137,6 @@
     display: block;
   }
 
-  .hero-image-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    color: rgba(255,255,255,0.2);
-    font-size: 14px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .hero-image-placeholder svg {
-    width: 48px;
-    height: 48px;
-    opacity: 0.3;
-  }
-
   .hero-content {
     padding: 64px 56px;
     display: flex;
@@ -137,9 +149,9 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(201,168,76,0.15);
-    border: 1px solid rgba(201,168,76,0.35);
-    color: var(--gold);
+    background: rgba(250,204,21,0.15);
+    border: 1px solid rgba(250,204,21,0.4);
+    color: #FACC15;
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.12em;
@@ -153,7 +165,7 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--gold);
+    background: #FACC15;
     animation: pulse 2s infinite;
   }
 
@@ -184,6 +196,7 @@
     display: flex;
     align-items: baseline;
     gap: 10px;
+    flex-wrap: wrap;
   }
 
   .price-label {
@@ -191,7 +204,6 @@
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--ink-soft);
     color: rgba(255,255,255,0.4);
   }
 
@@ -200,6 +212,13 @@
     font-size: 42px;
     color: var(--gold);
     line-height: 1;
+  }
+
+  .price-was {
+    font-size: 16px;
+    color: rgba(255,255,255,0.35);
+    text-decoration: line-through;
+    font-family: 'DM Sans', sans-serif;
   }
 
   .hero-stats {
@@ -410,7 +429,7 @@
     border-radius: var(--radius-lg);
     padding: 32px;
     position: sticky;
-    top: 84px;
+    top: calc(var(--status-bar-h) + var(--nav-h) + 20px);
   }
 
   .quick-facts-card h3 {
@@ -520,16 +539,6 @@
   .photo-card.large {
     grid-row: 1 / 3;
     grid-column: 1;
-  }
-
-  .photo-placeholder-label {
-    font-size: 12px;
-    color: rgba(0,0,0,0.3);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    position: absolute;
-    bottom: 12px;
-    left: 12px;
   }
 
   /* FEATURES */
@@ -644,6 +653,18 @@
     border: none;
     display: block;
   }
+
+  .map-larger-link {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold-dark);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+  }
+
+  .map-larger-link:hover { text-decoration: underline; }
 
   .comps-panel {
     background: var(--white);
@@ -869,8 +890,14 @@
   .hero-content > *:nth-child(5) { animation-delay: 0.5s; }
   .hero-content > *:nth-child(6) { animation-delay: 0.6s; }
 
+  @media (prefers-reduced-motion: reduce) {
+    .hero-content > * { animation: none; opacity: 1; }
+    .status-dot { animation: none; }
+  }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
+    .property-status { font-size: 12px; letter-spacing: 0.08em; padding: 10px 12px; }
     nav { padding: 0 24px; }
     .nav-links { display: none; }
     .hero { grid-template-columns: 1fr; }
@@ -893,6 +920,10 @@
 </head>
 <body>
 
+<!-- PROPERTY STATUS BANNER: swap the class below to change status site-wide for this page
+     Options: available | price-reduced | under-contract | backup-offers | unavailable | sold -->
+<div class="property-status price-reduced">Price Reduced — Now $92,500</div>
+
 <!-- NAVIGATION -->
 <nav>
   <a class="nav-brand" href="#">Acquire JDF Corp</a>
@@ -914,7 +945,7 @@
   <div class="hero-content">
     <div class="status-pill">
       <div class="status-dot"></div>
-      Available Now
+      Price Reduced
     </div>
 
     <div class="hero-address">
@@ -924,7 +955,8 @@
 
     <div class="hero-price">
       <span class="price-label">Asking Price</span>
-      <span class="price-value">$115,000</span>
+      <span class="price-value">$92,500</span>
+      <span class="price-was">$115,000</span>
     </div>
 
     <div class="hero-stats">
@@ -962,12 +994,12 @@
   <div class="ticker-sep"></div>
   <div class="ticker-item">
     <span class="ticker-label">All-In</span>
-    <span class="ticker-value">$125k – $140k</span>
+    <span class="ticker-value">$102.5k – $117.5k</span>
   </div>
   <div class="ticker-sep"></div>
   <div class="ticker-item">
     <span class="ticker-label">Equity Upside</span>
-    <span class="ticker-value">$61k – $76k</span>
+    <span class="ticker-value">$83.5k – $98.5k</span>
   </div>
   <div class="ticker-sep"></div>
   <div class="ticker-item">
@@ -995,7 +1027,7 @@
 <section class="section" id="overview">
   <div class="section-label">Property Overview</div>
   <div class="section-title">The Opportunity at a Glance</div>
-  <div class="section-subtitle">Solid light value-add SFR — immediate equity, multiple rent upside paths, fast decision deal.</div>
+  <div class="section-subtitle">Price-reduced light value-add SFR — immediate equity, multiple rent upside paths, fast decision deal.</div>
   <div class="divider"></div>
 
   <div class="overview-grid">
@@ -1006,7 +1038,7 @@
         <li><strong>Occupancy:</strong> Occupied month-to-month | Current rent $1,200/mo (well below market)</li>
         <li><strong>Condition:</strong> Light rehab needed — cosmetic refresh, deep clean &amp; declutter</li>
         <li><strong>ARV:</strong> $201,000 | Rehab estimate: $10k–$25k (cosmetic only)</li>
-        <li><strong>All-in cost:</strong> $125k–$140k | Equity upside: $61k–$76k at stabilized value</li>
+        <li><strong>All-in cost:</strong> $102.5k–$117.5k | Equity upside: $83.5k–$98.5k at stabilized value</li>
         <li><strong>Market LTR:</strong> $1,450–$1,600+/mo after light updates</li>
         <li><strong>RBR potential:</strong> $1,800–$2,500+/mo — 4–5 rooms + attic flex space</li>
         <li><strong>Short-term rental:</strong> Limited viability ($80–$120/night)</li>
@@ -1022,7 +1054,7 @@
         <h3>Quick Facts</h3>
         <div class="fact-row">
           <span class="fact-key">Price</span>
-          <span class="fact-val">$115,000</span>
+          <span class="fact-val">$92,500</span>
         </div>
         <div class="fact-row">
           <span class="fact-key">Address</span>
@@ -1050,7 +1082,7 @@
         </div>
         <div class="fact-row">
           <span class="fact-key">Status</span>
-          <span class="fact-val" style="color: #6FC87A;">Available</span>
+          <span class="fact-val" style="color: #FACC15;">Price Reduced</span>
         </div>
       </div>
 
@@ -1086,7 +1118,7 @@
 <div class="numbers-bar">
   <div class="numbers-inner">
     <div class="number-cell">
-      <div class="number-val">$76k</div>
+      <div class="number-val">$98.5k</div>
       <div class="number-label">Max Equity Upside</div>
     </div>
     <div class="number-cell">
@@ -1108,7 +1140,7 @@
 <section class="section" id="features">
   <div class="section-label">Features &amp; Value-Adds</div>
   <div class="section-title">Why This Deal Works</div>
-  <div class="section-subtitle">Multiple income paths, strong equity position, and a fast-decision profile.</div>
+  <div class="section-subtitle">Multiple income paths, strong equity position, and a fast-decision profile — now at a reduced price.</div>
   <div class="divider"></div>
 
   <div class="features-grid">
@@ -1121,7 +1153,7 @@
         </svg>
       </div>
       <h3>Immediate Equity</h3>
-      <p>All-in at $125k–$140k against a $201k ARV creates $61k–$76k in built-in equity from day one — before any rent optimization.</p>
+      <p>All-in at $102.5k–$117.5k against a $201k ARV creates $83.5k–$98.5k in built-in equity from day one — before any rent optimization.</p>
     </div>
 
     <div class="feature-card">
@@ -1190,14 +1222,17 @@
   <div class="divider"></div>
 
   <div class="neighborhood-grid">
-    <div class="map-embed">
-      <iframe
-        src="https://www.openstreetmap.org/export/embed.html?bbox=-86.0650%2C39.7920%2C-86.0450%2C39.8020&layer=mapnik&marker=39.7970%2C-86.0550"
-        allowfullscreen
-        loading="lazy"
-        title="Map of 3528 Brouse Ave, Indianapolis IN 46218"
-        style="border:none; width:100%; height:100%;"
-      ></iframe>
+    <div>
+      <div class="map-embed">
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-86.0650%2C39.7920%2C-86.0450%2C39.8020&layer=mapnik&marker=39.7970%2C-86.0550"
+          allowfullscreen
+          loading="lazy"
+          title="Map of 3528 Brouse Ave, Indianapolis IN 46218"
+          style="border:none; width:100%; height:100%;"
+        ></iframe>
+      </div>
+      <a class="map-larger-link" href="https://www.openstreetmap.org/?mlat=39.7970&mlon=-86.0550#map=16/39.7970/-86.0550" target="_blank" rel="noopener">↗ View Larger Map</a>
     </div>
 
     <div class="comps-panel">
@@ -1211,7 +1246,7 @@
         <div class="location-highlight">Near Indiana State Fairgrounds — strong seasonal traffic &amp; workforce demand</div>
         <div class="location-highlight">IndyGo transit access — essential for workforce tenant pool</div>
         <div class="location-highlight">Community Hospital East corridor — healthcare workforce renters</div>
-        <div class="location-highlight">Affordable rental pocket — sub-$200k buy, strong absorption rate</div>
+        <div class="location-highlight">Affordable rental pocket — sub-$100k buy, strong absorption rate</div>
         <div class="location-highlight">46218 zip consistently among top Indianapolis rental markets by volume</div>
       </div>
     </div>
@@ -1223,7 +1258,7 @@
   <div class="contact-inner">
     <div>
       <h2>Interested In This Deal?</h2>
-      <p>Reach out for more details, additional photos, numbers, or to schedule a walkthrough. Serious buyers move fast — this one won't sit.</p>
+      <p>Reach out for more details, additional photos, numbers, or to schedule a walkthrough. Price just dropped — serious buyers move fast on this one.</p>
       <div class="cta-buttons">
         <a class="cta-primary" href="tel:3176109834">Call 317-610-9834</a>
         <a class="cta-secondary" href="mailto:Franklinjinvestments@gmail.com">Send an Email</a>
