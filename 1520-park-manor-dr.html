@@ -1,0 +1,785 @@
+<!-- ACQUIRE JDF CORP | PROPERTY OFFERING PAGE | 1520 Park Manor Dr, Orlando FL 32825 -->
+<!-- Self-contained fragment: paste directly into a WordPress HTML block or WPCode snippet. No <html>/<head>/<body>. -->
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&display=swap");
+
+  #ajdf-1520pmd {
+    --bg: #0F0F0F;
+    --surface: #1A1A1A;
+    --gold: #C9A84C;
+    --gold-soft: #E4C97A;
+    --white: #FFFFFF;
+    --muted: #A8A8A8;
+    --border: rgba(201,168,76,.16);
+    --border-strong: rgba(201,168,76,.32);
+    --shadow: 0 20px 60px rgba(0,0,0,.45);
+    --radius: 8px;
+    --maxw: 82rem;
+
+    position: relative;
+    background: var(--bg);
+    color: var(--white);
+    font-family: "Century Gothic","Avenir Next","Segoe UI",sans-serif;
+    line-height: 1.65;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  #ajdf-1520pmd * { box-sizing: border-box; }
+  #ajdf-1520pmd img { display: block; max-width: 100%; }
+  #ajdf-1520pmd a { color: inherit; text-decoration: none; }
+  #ajdf-1520pmd h1, #ajdf-1520pmd h2, #ajdf-1520pmd h3, #ajdf-1520pmd h4 {
+    font-family: "Cinzel","Libre Baskerville",Georgia,serif;
+    margin: 0;
+    font-weight: 600;
+    color: var(--white);
+  }
+  #ajdf-1520pmd .eyebrow {
+    display: inline-block;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-size: .68rem;
+    letter-spacing: .16em;
+    font-weight: 700;
+  }
+
+  /* ===== STATUS BANNER (single class controls entire page status) ===== */
+  #ajdf-1520pmd .property-status {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 54px;
+    max-height: 64px;
+    padding: 8px 16px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: .12em;
+    font-size: clamp(12px, 1.6vw, 15px);
+    text-align: center;
+    box-shadow: 0 6px 18px rgba(0,0,0,.4);
+  }
+  #ajdf-1520pmd .property-status.available       { background: #22C55E; }
+  #ajdf-1520pmd .property-status.price-reduced    { background: #FACC15; color: #111; }
+  #ajdf-1520pmd .property-status.under-contract   { background: #F97316; }
+  #ajdf-1520pmd .property-status.backup-offers    { background: #2563EB; }
+  #ajdf-1520pmd .property-status.unavailable      { background: #404040; }
+  #ajdf-1520pmd .property-status.sold             { background: #DC2626; }
+
+  /* Hero watermark auto-triggers only for under-contract / sold, via sibling selector off the status class */
+  #ajdf-1520pmd .hero-watermark { display: none; }
+  #ajdf-1520pmd .property-status.under-contract ~ main .hero-watermark,
+  #ajdf-1520pmd .property-status.sold ~ main .hero-watermark {
+    display: flex;
+  }
+
+  /* ===== ANIMATED BACKGROUND (subtle, respects reduced motion) ===== */
+  #ajdf-1520pmd .bg-anim {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: .9;
+  }
+  #ajdf-1520pmd .bg-anim svg { position: absolute; opacity: .05; }
+  #ajdf-1520pmd .bg-layer-1 { width: 140%; left: -20%; top: -5%; animation: ajdf-drift1 24s ease-in-out infinite alternate; }
+  #ajdf-1520pmd .bg-layer-2 { width: 160%; left: -30%; top: 30%; animation: ajdf-drift2 30s ease-in-out infinite alternate; }
+  #ajdf-1520pmd .bg-layer-3 { width: 150%; left: -25%; top: 65%; animation: ajdf-drift1 21s ease-in-out infinite alternate-reverse; }
+  @keyframes ajdf-drift1 { from { transform: translateX(0) translateY(0); } to { transform: translateX(3%) translateY(-1.5%); } }
+  @keyframes ajdf-drift2 { from { transform: translateX(0) translateY(0); } to { transform: translateX(-2.5%) translateY(2%); } }
+  @media (prefers-reduced-motion: reduce) {
+    #ajdf-1520pmd .bg-layer-1, #ajdf-1520pmd .bg-layer-2, #ajdf-1520pmd .bg-layer-3 { animation: none; }
+  }
+
+  #ajdf-1520pmd .wrap { position: relative; z-index: 2; width: min(var(--maxw), calc(100% - 36px)); margin: 0 auto; }
+
+  /* ===== BRAND / NAV ===== */
+  #ajdf-1520pmd .brand {
+    position: relative; z-index: 2;
+    padding: 22px 18px 18px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(201,168,76,.06), transparent);
+  }
+  #ajdf-1520pmd .brand .company { color: var(--gold); font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; }
+  #ajdf-1520pmd .brand h1 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin-top: 8px; }
+  #ajdf-1520pmd .brand p { color: var(--muted); margin: 6px 0 0; font-size: .92rem; }
+
+  #ajdf-1520pmd nav.pagenav {
+    position: sticky;
+    top: 54px;
+    z-index: 55;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px;
+    background: rgba(15,15,15,.96);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+  }
+  #ajdf-1520pmd nav.pagenav a {
+    padding: 12px 14px;
+    font-size: .72rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--gold-soft);
+  }
+  #ajdf-1520pmd nav.pagenav a:hover { background: var(--gold); color: #101010; }
+
+  /* ===== HERO ===== */
+  #ajdf-1520pmd .hero {
+    position: relative;
+    z-index: 2;
+    background:
+      radial-gradient(circle at 25% 20%, rgba(201,168,76,.14), transparent 45%),
+      radial-gradient(circle at 80% 80%, rgba(201,168,76,.08), transparent 40%),
+      linear-gradient(to bottom, rgba(15,15,15,.2), rgba(15,15,15,.96)), #14140f;
+    border-bottom: 1px solid var(--border);
+  }
+  #ajdf-1520pmd .hero-watermark {
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  #ajdf-1520pmd .hero-watermark span {
+    font-family: "Cinzel", Georgia, serif;
+    font-weight: 700;
+    font-size: clamp(48px, 12vw, 160px);
+    color: #fff;
+    opacity: .18;
+    transform: rotate(-18deg);
+    white-space: nowrap;
+    letter-spacing: .1em;
+  }
+  #ajdf-1520pmd .hero-inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.35fr .85fr;
+    gap: clamp(20px, 3vw, 36px);
+    align-items: end;
+    padding: clamp(36px, 6vw, 64px) 0;
+  }
+  #ajdf-1520pmd .hero h2 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.05;
+    margin-top: 14px;
+    text-shadow: 0 8px 30px rgba(0,0,0,.6);
+  }
+  #ajdf-1520pmd .hero-sub {
+    margin-top: 12px;
+    color: var(--gold-soft);
+    font-size: clamp(1.05rem, 2vw, 1.4rem);
+    font-weight: 700;
+  }
+  #ajdf-1520pmd .hero-meta {
+    margin-top: 8px;
+    color: #e7e2d8;
+    font-size: .98rem;
+    font-weight: 600;
+  }
+  #ajdf-1520pmd .cta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+
+  #ajdf-1520pmd .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding: 11px 18px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    font-weight: 800;
+    font-size: .78rem;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  #ajdf-1520pmd .btn-primary { background: linear-gradient(135deg, var(--gold-soft), var(--gold)); color: #14110a; }
+  #ajdf-1520pmd .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(201,168,76,.35); }
+  #ajdf-1520pmd .btn-secondary { background: transparent; border-color: var(--gold); color: var(--gold-soft); }
+  #ajdf-1520pmd .btn-secondary:hover { background: var(--gold); color: #14110a; }
+  #ajdf-1520pmd .btn-ghost { background: transparent; border-color: rgba(255,255,255,.4); color: #fff; }
+  #ajdf-1520pmd .btn-ghost:hover { border-color: #fff; transform: translateY(-2px); }
+
+  /* Glass console card */
+  #ajdf-1520pmd .console {
+    background: rgba(26,26,26,.78);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: clamp(18px, 2.4vw, 26px);
+    backdrop-filter: blur(14px);
+    box-shadow: var(--shadow);
+  }
+  #ajdf-1520pmd .console h3 { color: var(--gold); font-size: 1.15rem; margin-bottom: 4px; }
+  #ajdf-1520pmd .console .strategy { color: var(--muted); font-size: .86rem; margin-bottom: 16px; }
+  #ajdf-1520pmd .console-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  #ajdf-1520pmd .console-item {
+    padding: 12px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  #ajdf-1520pmd .console-item strong { display: block; color: var(--gold-soft); font-size: .62rem; text-transform: uppercase; letter-spacing: .08em; }
+  #ajdf-1520pmd .console-item span { display: block; margin-top: 4px; font-size: 1rem; font-weight: 800; }
+  #ajdf-1520pmd .console-item.full { grid-column: 1 / -1; }
+
+  /* ===== SECTIONS ===== */
+  #ajdf-1520pmd section.block { position: relative; z-index: 2; padding: clamp(44px, 6vw, 76px) 0; }
+  #ajdf-1520pmd section.block.alt { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  #ajdf-1520pmd .block-head { margin-bottom: 28px; max-width: 760px; }
+  #ajdf-1520pmd .block-head h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+  #ajdf-1520pmd .block-head p { color: var(--muted); margin-top: 10px; }
+
+  #ajdf-1520pmd .card {
+    background: rgba(26,26,26,.78);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: clamp(18px, 2.4vw, 28px);
+  }
+
+  #ajdf-1520pmd .two-col { display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: start; }
+
+  #ajdf-1520pmd .facts { display: grid; gap: 12px; }
+  #ajdf-1520pmd .fact { padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  #ajdf-1520pmd .fact:last-child { border-bottom: 0; padding-bottom: 0; }
+  #ajdf-1520pmd .fact strong { display: block; color: var(--gold); font-size: .66rem; text-transform: uppercase; letter-spacing: .08em; }
+  #ajdf-1520pmd .fact span { display: block; margin-top: 3px; font-weight: 700; font-size: 1.02rem; }
+
+  #ajdf-1520pmd .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  #ajdf-1520pmd .stat-card {
+    padding: 18px;
+    background: linear-gradient(150deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  #ajdf-1520pmd .stat-card strong { display: block; color: var(--muted); font-size: .64rem; text-transform: uppercase; letter-spacing: .08em; }
+  #ajdf-1520pmd .stat-card span { display: block; margin-top: 8px; color: var(--gold-soft); font-size: clamp(1rem, 1.6vw, 1.3rem); font-weight: 800; line-height: 1.2; }
+
+  #ajdf-1520pmd ul.list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  #ajdf-1520pmd ul.list li { position: relative; padding-left: 20px; color: #ded9cf; }
+  #ajdf-1520pmd ul.list li::before {
+    content: ""; position: absolute; left: 0; top: 9px;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--gold);
+  }
+
+  #ajdf-1520pmd .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  #ajdf-1520pmd .feature { padding: 20px; background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: var(--radius); }
+  #ajdf-1520pmd .feature h4 { color: var(--gold); font-size: 1rem; margin-bottom: 6px; }
+  #ajdf-1520pmd .feature p { margin: 0; color: var(--muted); font-size: .88rem; }
+
+  #ajdf-1520pmd .flag {
+    border: 1px solid rgba(249,115,22,.4);
+    background: rgba(249,115,22,.08);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  #ajdf-1520pmd .flag strong { color: #F97316; display: block; margin-bottom: 6px; text-transform: uppercase; font-size: .78rem; letter-spacing: .06em; }
+  #ajdf-1520pmd .flag p { margin: 0; color: #f1d9c6; font-size: .9rem; }
+
+  /* Photo grid (placeholder tiles labeled by source filename) */
+  #ajdf-1520pmd .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  #ajdf-1520pmd .photo-tile {
+    position: relative;
+    min-height: 168px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: linear-gradient(160deg, rgba(201,168,76,.10), rgba(255,255,255,.02));
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    text-align: center;
+  }
+  #ajdf-1520pmd .photo-tile svg { width: 34px; height: 34px; opacity: .8; }
+  #ajdf-1520pmd .photo-tile .tile-label { font-weight: 800; font-size: .82rem; }
+  #ajdf-1520pmd .photo-tile .tile-file { color: var(--muted); font-size: .68rem; font-family: monospace; }
+  #ajdf-1520pmd .photo-tile.wide { grid-column: span 2; }
+
+  /* Map */
+  #ajdf-1520pmd .map-shell { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); box-shadow: var(--shadow); }
+  #ajdf-1520pmd .map-shell iframe { width: 100%; height: 380px; border: 0; filter: grayscale(.15) contrast(1.05); }
+  #ajdf-1520pmd .map-pin-card { margin-top: 12px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+  #ajdf-1520pmd .map-pin-card .addr strong { display: block; color: var(--gold); font-size: 1rem; }
+  #ajdf-1520pmd .map-pin-card .addr span { color: var(--muted); font-size: .86rem; }
+
+  /* Comps table */
+  #ajdf-1520pmd table.comps { width: 100%; border-collapse: collapse; }
+  #ajdf-1520pmd table.comps th, #ajdf-1520pmd table.comps td {
+    padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: .88rem;
+  }
+  #ajdf-1520pmd table.comps th { color: var(--gold); text-transform: uppercase; font-size: .68rem; letter-spacing: .06em; }
+  #ajdf-1520pmd table.comps td.price { color: var(--gold-soft); font-weight: 800; }
+
+  /* Contact band */
+  #ajdf-1520pmd .contact-band {
+    position: relative; z-index: 2;
+    background: linear-gradient(135deg, rgba(201,168,76,.14), rgba(15,15,15,.97)), var(--bg);
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  }
+  #ajdf-1520pmd .contact-inner { display: grid; grid-template-columns: 1.1fr .9fr; gap: 28px; align-items: center; padding: clamp(40px, 6vw, 70px) 0; }
+  #ajdf-1520pmd .contact-inner h2 { font-size: clamp(1.9rem, 3.4vw, 2.8rem); }
+  #ajdf-1520pmd .contact-inner p { color: #ded9cf; margin-top: 12px; max-width: 560px; }
+  #ajdf-1520pmd .contact-card .line { margin-bottom: 10px; font-size: .95rem; }
+  #ajdf-1520pmd .contact-card .line strong { color: var(--gold); }
+
+  #ajdf-1520pmd .disclaimer { position: relative; z-index: 2; padding: 30px 0; border-top: 1px solid var(--border); }
+  #ajdf-1520pmd .disclaimer p { color: var(--muted); font-size: .78rem; max-width: 900px; }
+
+  #ajdf-1520pmd footer.sitefoot {
+    position: relative; z-index: 2;
+    padding: 22px 18px; text-align: center; background: #070707; color: var(--muted); font-size: .78rem;
+  }
+  #ajdf-1520pmd footer.sitefoot a { color: var(--gold-soft); font-weight: 700; }
+
+  @media (max-width: 980px) {
+    #ajdf-1520pmd .hero-inner, #ajdf-1520pmd .two-col, #ajdf-1520pmd .contact-inner { grid-template-columns: 1fr; }
+    #ajdf-1520pmd .stat-grid, #ajdf-1520pmd .console-grid { grid-template-columns: repeat(2, 1fr); }
+    #ajdf-1520pmd .feature-grid { grid-template-columns: repeat(2, 1fr); }
+    #ajdf-1520pmd .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    #ajdf-1520pmd nav.pagenav { display: none; }
+    #ajdf-1520pmd .stat-grid, #ajdf-1520pmd .feature-grid, #ajdf-1520pmd .photo-grid, #ajdf-1520pmd .console-grid { grid-template-columns: 1fr; }
+    #ajdf-1520pmd .photo-tile.wide { grid-column: span 1; }
+    #ajdf-1520pmd .cta-row { flex-direction: column; }
+    #ajdf-1520pmd .cta-row .btn { width: 100%; }
+  }
+</style>
+
+<div id="ajdf-1520pmd">
+
+  <div class="bg-anim" aria-hidden="true">
+    <svg class="bg-layer-1" viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 300 L120 220 L240 300 M240 300 L360 240 L480 300 M480 300 L600 210 L720 300 M720 300 L840 230 L960 300 M960 300 L1080 220 L1200 300" stroke="#C9A84C" stroke-width="1.5" fill="none"/>
+      <line x1="0" y1="0" x2="1200" y2="0" stroke="#C9A84C" stroke-width="1"/>
+      <line x1="0" y1="120" x2="1200" y2="120" stroke="#C9A84C" stroke-width="1"/>
+      <line x1="0" y1="240" x2="1200" y2="240" stroke="#C9A84C" stroke-width="1"/>
+      <line x1="150" y1="0" x2="150" y2="400" stroke="#C9A84C" stroke-width="1"/>
+      <line x1="450" y1="0" x2="450" y2="400" stroke="#C9A84C" stroke-width="1"/>
+      <line x1="750" y1="0" x2="750" y2="400" stroke="#C9A84C" stroke-width="1"/>
+      <line x1="1050" y1="0" x2="1050" y2="400" stroke="#C9A84C" stroke-width="1"/>
+    </svg>
+    <svg class="bg-layer-2" viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
+      <rect x="60" y="140" width="90" height="90" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+      <rect x="200" y="180" width="70" height="70" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+      <rect x="330" y="150" width="100" height="100" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+      <rect x="500" y="190" width="60" height="60" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+      <rect x="620" y="150" width="90" height="90" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+      <rect x="780" y="185" width="75" height="75" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+      <rect x="920" y="150" width="95" height="95" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+    </svg>
+    <svg class="bg-layer-3" viewBox="0 0 1200 300" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 200 L60 150 L120 200 Z M140 200 L200 140 L260 200 Z M280 200 L340 155 L400 200 Z M420 200 L480 145 L540 200 Z M560 200 L620 150 L680 200 Z M700 200 L760 140 L820 200 Z M840 200 L900 152 L960 200 Z M980 200 L1040 145 L1100 200 Z" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+    </svg>
+  </div>
+
+  <!-- STATUS BANNER: change ONLY this class to update page-wide status -->
+  <div class="property-status available">Available &mdash; Off-Market Value-Add Opportunity</div>
+
+  <header class="brand">
+    <div class="company">Acquire JDF Corporation</div>
+    <h1>1520 Park Manor Dr, Orlando, FL 32825</h1>
+    <p>Union Park &middot; Concrete-Block SFR &middot; Off-Market Value-Add / Multi-Exit Opportunity</p>
+  </header>
+
+  <nav class="pagenav" aria-label="Page navigation">
+    <a href="#snapshot">Snapshot</a>
+    <a href="#financials">Financials</a>
+    <a href="#cashflow">Cash Flow</a>
+    <a href="#rehab">Rehab Scope</a>
+    <a href="#location">Location</a>
+    <a href="#map">Map</a>
+    <a href="#photos">Photos</a>
+    <a href="#comps">Comps</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-watermark" aria-hidden="true"><span>SOLD</span></div>
+      <div class="wrap hero-inner">
+        <div>
+          <span class="eyebrow">Single-Family Residence &middot; 3/2 &rarr; 4/2 or 5/2 Potential</span>
+          <h2>Concrete-Block Value-Add Home on an Oversized 10,503 Sqft Lot</h2>
+          <div class="hero-sub">4BR conversion upside &middot; possible 5BR garage conversion &middot; pool-ready backyard</div>
+          <div class="hero-meta">3 Bed / 2 Bath &middot; 1,387 Sqft Living &middot; 10,503 Sqft Lot &middot; Built 1959 &middot; 1-Car Attached Garage</div>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="tel:+13176109834">Call Jamie</a>
+            <a class="btn btn-secondary" href="mailto:Info@acquirejdf.app?subject=1520%20Park%20Manor%20Dr%20-%20Orlando%20FL">Email</a>
+            <a class="btn btn-ghost" href="#photos">View Photos</a>
+            <a class="btn btn-ghost" href="https://www.dropbox.com/scl/fo/jhvr9nh334bb5sl3byr70/AF19mwMXVeoExPQv_xfTYQU?rlkey=792x40uc9m4hazhzxbbfra94t&st=s1g5l6jo&dl=0" target="_blank" rel="noopener">Download DD &amp; Comps</a>
+          </div>
+        </div>
+
+        <aside class="console">
+          <h3>Investment Console</h3>
+          <div class="strategy">Value-Add SFR &middot; LTR / Room-by-Room Lease Hold</div>
+          <div class="console-grid">
+            <div class="console-item full">
+              <strong>Price</strong>
+              <span>Contact for Pricing</span>
+            </div>
+            <div class="console-item">
+              <strong>Rehab Range</strong>
+              <span>$20K&ndash;$50K+</span>
+            </div>
+            <div class="console-item">
+              <strong>Rent Potential</strong>
+              <span>$2,250&ndash;$2,850/mo</span>
+            </div>
+            <div class="console-item">
+              <strong>Configuration</strong>
+              <span>3/2 &rarr; 4/2 (5/2)</span>
+            </div>
+            <div class="console-item">
+              <strong>Zoning</strong>
+              <span>Orange Co. R-1</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="block" id="overview">
+      <div class="wrap">
+        <div class="block-head">
+          <span class="eyebrow">Property Overview</span>
+          <h2>A Livable Value-Add Home With Multiple Exit Strategies</h2>
+          <p>This 1959-built concrete-block single-family residence sits on an unusually large 10,503 sqft (&asymp;0.24 acre) lot in Orlando's Union Park corridor. Orange County property records independently confirm the 3-bed/2-bath configuration, 1,387 sqft living area, concrete-block construction and 1959 build date &mdash; this is a functional, move-in-viable home rather than a heavy-rehab project, with a clear path to a permitted 4th (or 5th) bedroom and a large-lot outdoor entertainment build-out.</p>
+        </div>
+
+        <div class="two-col">
+          <div class="card">
+            <h3 style="color:var(--gold); font-size:1.15rem; margin-bottom:10px;">Condition Summary</h3>
+            <p style="color:#ded9cf; margin:0 0 14px;">Photos and county records show a home that is substantially functional: hardwood flooring remains through much of the living and bedroom areas, Spanish-style tile runs through the kitchen and dining spaces, existing cabinetry and kitchen appliances are in place, and both bathrooms, HVAC and laundry equipment are functional. One additional living-area room presents as an unfinished cosmetic space and is a clear candidate for reconfiguration into a permitted bedroom.</p>
+            <p style="color:#ded9cf; margin:0;">Buyer to independently verify occupancy status, permitting requirements for any bedroom or garage conversion, and all condition details prior to close.</p>
+          </div>
+          <aside class="card facts">
+            <div class="fact"><strong>Address</strong><span>1520 Park Manor Dr, Orlando, FL 32825</span></div>
+            <div class="fact"><strong>Property Type</strong><span>Concrete-Block SFR</span></div>
+            <div class="fact"><strong>Zoning</strong><span>Orange County R-1 (Unincorporated)</span></div>
+            <div class="fact"><strong>Configuration</strong><span>3 Bed / 2 Bath (4/2 or 5/2 Potential)</span></div>
+            <div class="fact"><strong>Living Area</strong><span>1,387 Sqft</span></div>
+            <div class="fact"><strong>Lot Size</strong><span>10,503 Sqft (&asymp;0.24 Acre)</span></div>
+            <div class="fact"><strong>Year Built</strong><span>1959</span></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="block alt" id="snapshot">
+      <div class="wrap">
+        <div class="block-head">
+          <span class="eyebrow">Investment Snapshot</span>
+          <h2>Key Numbers at a Glance</h2>
+          <p>Structural and site metrics pulled from the county property record and the property footprint sketch included in the due-diligence folder.</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><strong>Living Sqft</strong><span>1,387 Sqft</span></div>
+          <div class="stat-card"><strong>Gross Building Area</strong><span>1,993 Sqft</span></div>
+          <div class="stat-card"><strong>Lot Size</strong><span>10,503 Sqft</span></div>
+          <div class="stat-card"><strong>Year Built</strong><span>1959</span></div>
+          <div class="stat-card"><strong>Garage</strong><span>1-Car Attached</span></div>
+          <div class="stat-card"><strong>Outbuilding</strong><span>10&prime; &times; 10&prime; Block Structure</span></div>
+          <div class="stat-card"><strong>Fireplaces</strong><span>2 Existing</span></div>
+          <div class="stat-card"><strong>Exterior</strong><span>Concrete / Cinder Block</span></div>
+        </div>
+        <p style="color:var(--muted); font-size:.82rem; margin-top:18px;">The included property footprint sketch (available in the Due Diligence &amp; Comps folder) breaks out the main living area, enclosed porch, utility/storage areas, garage and detached outbuilding &mdash; useful for scoping the 4BR/5BR reconfiguration and permitting conversation with Orange County.</p>
+      </div>
+    </section>
+
+    <section class="block" id="features">
+      <div class="wrap">
+        <div class="block-head">
+          <span class="eyebrow">Existing Features</span>
+          <h2>What's Already Working in This Home</h2>
+        </div>
+        <div class="feature-grid">
+          <div class="feature"><h4>Fenced Backyard</h4><p>Fully fenced rear yard on an oversized quarter-acre-type lot.</p></div>
+          <div class="feature"><h4>Functional Irrigation Well</h4><p>Existing well supports landscaping without added city water cost.</p></div>
+          <div class="feature"><h4>Detached Block Outbuilding</h4><p>10&prime; &times; 10&prime; concrete-block structure usable as storage, workshop, or amenity space.</p></div>
+          <div class="feature"><h4>Two Fireplaces</h4><p>Two existing fireplaces add character and buyer appeal.</p></div>
+          <div class="feature"><h4>Dual Rear Sliders</h4><p>Two rear sliding doors create strong indoor/outdoor living potential.</p></div>
+          <div class="feature"><h4>Walk-In Pantry &amp; Built-Ins</h4><p>Walk-in pantry plus multiple built-in bookcases add storage value.</p></div>
+          <div class="feature"><h4>Hardwood &amp; Tile Flooring</h4><p>Hardwood through living/bedroom areas, Spanish-style tile through kitchen/dining.</p></div>
+          <div class="feature"><h4>Appliances Included</h4><p>Kitchen and laundry appliances included with the sale.</p></div>
+          <div class="feature"><h4>Established Neighborhood</h4><p>Mature landscaping in a stable, established Union Park residential pocket.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block alt" id="financials">
+      <div class="wrap">
+        <div class="block-head">
+          <span class="eyebrow">Financial Summary</span>
+          <h2>Rental Income Potential Across Strategies</h2>
+          <p>Estimated monthly rent ranges by configuration and leasing strategy. All figures are estimates for underwriting purposes only and should be independently verified.</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><strong>3BR Long-Term Rental</strong><span>$2,250&ndash;$2,450/mo</span></div>
+          <div class="stat-card"><strong>4BR Long-Term Rental</strong><span>$2,600&ndash;$2,850/mo</span></div>
+          <div class="stat-card"><strong>5BR Enhanced LTR</strong><span>$2,900&ndash;$3,200+/mo</span></div>
+          <div class="stat-card"><strong>4&ndash;5BR Room-by-Room</strong><span>$3,400&ndash;$4,800+/mo</span></div>
+          <div class="stat-card"><strong>HUD FY2026 3BR FMR</strong><span>$2,476/mo</span></div>
+          <div class="stat-card"><strong>HUD FY2026 4BR FMR</strong><span>$2,924/mo</span></div>
+          <div class="stat-card"><strong>Basic Refresh Budget</strong><span>$20K&ndash;$35K</span></div>
+          <div class="stat-card"><strong>4BR Conversion Budget</strong><span>$30K&ndash;$50K</span></div>
+        </div>
+        <p style="color:var(--muted); font-size:.82rem; margin-top:18px;">Housing Choice Voucher / Section 8, veteran housing, transitional and corporate/medical housing are all worth exploring given the FY2026 Orlando-Kissimmee-Sanford Fair Market Rents above &mdash; program eligibility and local payment standards should be verified directly with the administering agency before underwriting.</p>
+      </div>
+    </section>
+
+    <section class="block" id="cashflow">
+      <div class="wrap">
+        <div class="block-head">
+          <span class="eyebrow">Cash Flow Analysis</span>
+          <h2>Estimated Operating Performance</h2>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <table class="comps">
+              <thead><tr><th>Strategy</th><th>Annual Gross</th><th>Est. NOI (@30% Opex)</th></tr></thead>
+              <tbody>
+                <tr><td>3BR Long-Term Rental</td><td>$27,000&ndash;$29,400</td><td>$18,900&ndash;$20,580</td></tr>
+                <tr><td>4BR Long-Term Rental</td><td>$31,200&ndash;$34,200</td><td>$21,840&ndash;$23,940</td></tr>
+                <tr><td>4&ndash;5BR Room-by-Room</td><td>$40,800&ndash;$57,600+</td><td class="price">Underwrite individually</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="flag">
+            <strong>Pricing-Dependent Metrics</strong>
+            <p>Cap rate, cash-on-cash return and DSCR cannot be responsibly finalized without a confirmed acquisition price. DSCR underwriting in particular should only be applied once the property is stabilized and fully leased &mdash; not against this vacant/pre-rehab condition. Contact Jamie Franklin for current acquisition terms.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block alt" id="rehab">
+      <div class="wrap">
+        <div class="block-head">
+          <span class="eyebrow">Rehab Scope &amp; Value-Add Opportunities</span>
+          <h2>Three Tiers of Upside, From Light Refresh to Full Reposition</h2>
+          <p>Property will be delivered vacant per seller intent; buyer to verify occupancy and final condition prior to close.</p>
+        </div>
+        <div class="two-col">
+          <ul class="list">
+            <li>Convert existing layout to 4BR/2BA &mdash; estimated $8,000&ndash;$15,000 depending on framing, electrical, HVAC and egress requirements.</li>
+            <li>Convert garage into a 5th bedroom / flex suite &mdash; estimated $20,000&ndash;$35,000; requires permitting and confirmation the finished area qualifies as living space.</li>
+            <li>Add a replacement carport &mdash; estimated $8,000&ndash;$15,000.</li>
+            <li>Build a large rear deck / patio entertainment area &mdash; estimated $10,000&ndash;$20,000+.</li>
+            <li>Add an inground pool &mdash; estimated $45,000&ndash;$80,000+, depending on gunite/fiberglass, decking, screen enclosure and equipment.</li>
+            <li>Update secondary living area flooring; modernize bathrooms and kitchen cosmetically without necessarily replacing existing cabinetry.</li>
+            <li>Interior paint refresh, improved curb appeal, backyard landscaping, outdoor lighting and a fire-pit/entertainment area.</li>
+            <li>Capitalize on both existing rear sliding doors for indoor/outdoor living; retain the block outbuilding as storage, workshop or amenity space.</li>
+          </ul>
+          <aside class="card">
+            <h3 style="color:var(--gold); font-size:1.05rem; margin-bottom:14px;">Investment Tiers</h3>
+            <div class="facts">
+              <div class="fact"><strong>Basic Rent-Ready Refresh</strong><span>$20,000 &ndash; $35,000</span></div>
+              <div class="fact"><strong>4BR Conversion + Cosmetic Renovation</strong><span>$30,000 &ndash; $50,000</span></div>
+              <div class="fact"><strong>Major 5BR + Outdoor/Pool Reposition</strong><span>$75,000 &ndash; $125,000+</span></div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="flag" style="margin-top:24px;">
+          <strong>Short-Term Rental / Zoning Note</strong>
+          <p>The parcel is zoned Orange County R-1, and short-term/transient rentals are generally limited to specified commercial, industrial or PD districts rather than R-1. Do not underwrite Airbnb-style short-term rental income against this property until zoning is confirmed or resolved with Orange County. Long-term rental, individually leased rooms, and furnished medium-term housing are the safer underwriting strategies, subject to confirming lease duration and occupancy structure with the county.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="location">
+      <div class="wrap">
+        <div class="block-head">
+          <span class="eyebrow">Location &amp; Demand Drivers</span>
+          <h2>East Orlando Access to Workforce and Attraction-Economy Demand</h2>
+          <p>Positioned off E Colonial Dr / SR-50, near SR-417 and SR-408, giving strong east-west and north-south access without sitting inside the tourist corridor itself.</p>
+        </div>
+        <div class="two-col">
+          <div class="card">
+            <h3 style="color:var(--gold); font-size:1.05rem; margin-bottom:12px;">Approximate Driving Distances</h3>
+            <ul class="list">
+              <li>University of Central Florida &mdash; roughly 6&ndash;8 miles</li>
+              <li>Orlando International Airport &mdash; roughly 11 miles / 15&ndash;20 minutes</li>
+              <li>Downtown Orlando &mdash; roughly 10&ndash;12 miles</li>
+              <li>Universal Orlando Resort &mdash; roughly 15&ndash;16 miles / 20&ndash;25 minutes</li>
+              <li>ICON Park / Orlando Eye &mdash; roughly 17&ndash;19 miles</li>
+              <li>SeaWorld Orlando &mdash; roughly 19&ndash;21 miles</li>
+              <li>Walt Disney World Resort &mdash; roughly 25&ndash;30 miles, depending on destination</li>
+              <li>Orange County Convention Center &mdash; roughly 18&ndash;20 miles</li>
+            </ul>
+            <p style="color:var(--muted); font-size:.78rem; margin-top:10px;">Distances are approximate and can vary by route and traffic.</p>
+          </div>
+          <aside class="card">
+            <h3 style="color:var(--gold); font-size:1.05rem; margin-bottom:12px;">Neighborhood Context</h3>
+            <p style="color:#ded9cf; margin:0 0 12px;">The subject sits within the broader Park Manor / Union Park corridor, an established residential pocket with stable-to-appreciating recent pricing trends and strong long-term rental demand from both local workforce and the greater Orlando employment and attraction economy.</p>
+            <p style="color:#ded9cf; margin:0;">Small-unit and multi-bedroom layouts in this corridor tend to see healthy demand from Section 8, VA and other housing-assistance programs, which can help support lower vacancy risk on the 4BR conversion.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="block alt" id="map">
+      <div class="wrap">
+        <div class="block-head">
+          <span class="eyebrow">Map &amp; Parcel</span>
+          <h2>1520 Park Manor Dr, Orlando, FL 32825</h2>
+        </div>
+        <div class="map-shell">
+          <iframe title="Map of 1520 Park Manor Dr, Orlando, FL" loading="lazy"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-81.231883%2C28.562547%2C-81.219883%2C28.570547&layer=mapnik&marker=28.566547%2C-81.225883">
+          </iframe>
+        </div>
+        <div class="map-pin-card">
+          <div class="addr">
+            <strong>1520 Park Manor Dr</strong>
+            <span>Orlando, FL 32825 &middot; Union Park &middot; Orange County</span>
+          </div>
+          <a class="btn btn-secondary" href="https://www.openstreetmap.org/?mlat=28.566547&amp;mlon=-81.225883#map=17/28.566547/-81.225883" target="_blank" rel="noopener">View Larger Map</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="photos">
+      <div class="wrap">
+        <div class="block-head">
+          <span class="eyebrow">Property Photos</span>
+          <h2>Interior &amp; Exterior Photo Set</h2>
+          <p>Open the master folder for the full-resolution photo set, aerial parcel view and floor footprint sketch.</p>
+        </div>
+        <div class="cta-row" style="margin-bottom:20px;">
+          <a class="btn btn-primary" href="https://www.dropbox.com/scl/fo/5dc8sjk3npsf71x3otnsg/AKPM5y71rVSQIBhWd4mbjdw?rlkey=y9en8ehftydd8jjr18jp3jffm&st=9em9fiqk&dl=0" target="_blank" rel="noopener">Open Master Photo Folder</a>
+          <a class="btn btn-secondary" href="https://www.dropbox.com/scl/fo/jhvr9nh334bb5sl3byr70/AF19mwMXVeoExPQv_xfTYQU?rlkey=792x40uc9m4hazhzxbbfra94t&st=s1g5l6jo&dl=0" target="_blank" rel="noopener">Download DD &amp; Comps</a>
+        </div>
+
+        <div class="photo-grid">
+          <div class="photo-tile wide">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.4"><path d="M3 11L12 3l9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+            <div class="tile-label">Exterior</div>
+            <div class="tile-file">Exterior.jpeg</div>
+          </div>
+          <div class="photo-tile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.4"><rect x="3" y="10" width="18" height="9" rx="1"/><path d="M6 10V6a6 6 0 0112 0v4"/></svg>
+            <div class="tile-label">Kitchen (1)</div>
+            <div class="tile-file">Kitchen (1).jpeg</div>
+          </div>
+          <div class="photo-tile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.4"><rect x="3" y="10" width="18" height="9" rx="1"/><path d="M6 10V6a6 6 0 0112 0v4"/></svg>
+            <div class="tile-label">Kitchen (2)</div>
+            <div class="tile-file">Kitchen (2).jpeg</div>
+          </div>
+          <div class="photo-tile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.4"><circle cx="12" cy="6" r="2"/><path d="M4 21v-6a4 4 0 014-4h8a4 4 0 014 4v6"/><path d="M4 15h16"/></svg>
+            <div class="tile-label">Bathroom (1)</div>
+            <div class="tile-file">bathroom (1).jpeg</div>
+          </div>
+          <div class="photo-tile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.4"><circle cx="12" cy="6" r="2"/><path d="M4 21v-6a4 4 0 014-4h8a4 4 0 014 4v6"/><path d="M4 15h16"/></svg>
+            <div class="tile-label">Bathroom (2)</div>
+            <div class="tile-file">bathroom (2).jpeg</div>
+          </div>
+          <div class="photo-tile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.4"><rect x="3" y="7" width="18" height="12" rx="1"/><path d="M3 12h18"/><path d="M8 7V4h8v3"/></svg>
+            <div class="tile-label">Bedroom (1)</div>
+            <div class="tile-file">Bedroom (1).jpeg</div>
+          </div>
+          <div class="photo-tile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.4"><rect x="3" y="7" width="18" height="12" rx="1"/><path d="M3 12h18"/><path d="M8 7V4h8v3"/></svg>
+            <div class="tile-label">Bedroom (2)</div>
+            <div class="tile-file">Bedroom (2).jpeg</div>
+          </div>
+          <div class="photo-tile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.4"><rect x="3" y="7" width="18" height="12" rx="1"/><path d="M3 12h18"/><path d="M8 7V4h8v3"/></svg>
+            <div class="tile-label">Bedroom (3)</div>
+            <div class="tile-file">Bedroom (3).jpeg</div>
+          </div>
+          <div class="photo-tile wide">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.4"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 15l5-5 4 4 4-6 5 7"/></svg>
+            <div class="tile-label">Aerial &amp; Parcel View</div>
+            <div class="tile-file">Birds Eye View 1520 Park Manor Dr.jpeg</div>
+          </div>
+        </div>
+        <p style="color:var(--muted); font-size:.78rem; margin-top:16px;">Full-resolution photos, the property footprint sketch and the aerial parcel view are all available in the Master Photo Folder and Due Diligence &amp; Comps folder linked above.</p>
+      </div>
+    </section>
+
+    <section class="block alt" id="videos">
+      <div class="wrap">
+        <div class="block-head">
+          <span class="eyebrow">Video Walkthrough</span>
+          <h2>Request a Walkthrough</h2>
+          <p>A video walkthrough for this property can be arranged &mdash; reach out and we'll coordinate access or send available footage.</p>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-secondary" href="mailto:Info@acquirejdf.app?subject=Video%20Walkthrough%20Request%20-%201520%20Park%20Manor%20Dr">Request Video Walkthrough</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="comps">
+      <div class="wrap">
+        <div class="block-head">
+          <span class="eyebrow">Comparable Sales</span>
+          <h2>Nearby Sold Comps</h2>
+          <p>Recent sales in the immediate Park Manor Estates / Union Park corridor. Buyer to independently verify all comparable sale data.</p>
+        </div>
+        <div class="card">
+          <table class="comps">
+            <thead><tr><th>Address</th><th>Configuration</th><th>Sqft</th><th>Sold Price</th></tr></thead>
+            <tbody>
+              <tr><td>737 Hardwick Ct</td><td>4 Bed / 2 Bath</td><td>1,715 Sqft</td><td class="price">$415,000</td></tr>
+              <tr><td>1221 Lake Downey Dr</td><td>3 Bed / 2 Bath</td><td>1,662 Sqft</td><td class="price">$425,000</td></tr>
+              <tr><td>1206 Culver Rd</td><td>3 Bed / 2 Bath</td><td>1,641 Sqft</td><td class="price">$550,000</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="color:var(--muted); font-size:.82rem; margin-top:14px;">Full comp package and supporting MLS data are included in the Due Diligence &amp; Comps folder linked above.</p>
+      </div>
+    </section>
+
+    <section class="contact-band" id="contact">
+      <div class="wrap contact-inner">
+        <div>
+          <h2>Interested in 1520 Park Manor Dr?</h2>
+          <p>Request current pricing, the full due-diligence package, or the photo and comp set for this Orlando value-add opportunity.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="tel:+13176109834">Call Jamie</a>
+            <a class="btn btn-secondary" href="mailto:Info@acquirejdf.app?subject=1520%20Park%20Manor%20Dr%20-%20Orlando%20FL">Email</a>
+            <a class="btn btn-ghost" href="https://reioffer.net/available-deals/" target="_blank" rel="noopener">Available Deals</a>
+            <a class="btn btn-ghost" href="mailto:Info@acquirejdf.app?subject=Join%20VIP%20Buyer%20List">Join VIP Buyer List</a>
+          </div>
+        </div>
+        <aside class="console">
+          <div class="contact-card">
+            <div class="line"><strong>Name:</strong> Jamie Franklin</div>
+            <div class="line"><strong>Phone:</strong> 317-610-9834</div>
+            <div class="line"><strong>Email:</strong> Info@acquirejdf.app</div>
+            <div class="line"><strong>Company:</strong> Acquire JDF Corporation</div>
+            <div class="line"><strong>Web:</strong> <a href="https://reioffer.net/" target="_blank" rel="noopener">reioffer.net</a></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="disclaimer wrap">
+      <p>This information from Acquire JDF Corporation is for general informational purposes only and is not guaranteed; buyer to independently verify all property, zoning, rental-restriction, financing and condition details. Each person, business or entity is responsible for their own due diligence. Acquire JDF Corporation is not liable for any investment decisions, losses, damages, zoning determinations, rental restrictions, financing outcomes or property conditions. This is not an offer to sell securities. Off-market real estate, wholesale, and creative-finance opportunities in Florida, Indiana, Ohio and surrounding markets are available through our cash buyer network &mdash; see Available Deals for current inventory.</p>
+    </div>
+  </main>
+
+  <footer class="sitefoot">
+    &copy; 2026 Acquire JDF Corporation. All property information provided for investment review only. &middot;
+    <a href="https://reioffer.net/" target="_blank" rel="noopener">reioffer.net</a> &middot;
+    <a href="https://reioffer.net/about-us/" target="_blank" rel="noopener">About</a>
+  </footer>
+</div>
