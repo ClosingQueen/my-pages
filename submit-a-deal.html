@@ -395,6 +395,8 @@ html:not(.pub) .pubonly{display:none!important}
 .dfoot{text-align:right;color:var(--mute);font-size:13.5px;padding:12px 24px}
 .dlink{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:0 24px 20px;font-size:13.5px;color:var(--mute)}
 .dlink input{flex:1;min-width:200px;border:1px solid var(--line);border-radius:6px;padding:7px 10px;font-size:13px}
+.tl .ti.off i{background:var(--red)}
+.tl .ti.off b{color:var(--red)}
 /* responsive */
 @media (max-width:1180px){.grid{grid-template-columns:minmax(0,1fr) 440px}}
 @media (max-width:980px){
@@ -1490,17 +1492,6 @@ Cash or hard money only. First come, first served.
 }
 $('#blast').addEventListener('input',e=>e.target.dataset.edited='1');
 function copyBlast(){const t=$('#blast');t.select();try{navigator.clipboard.writeText(t.value).then(()=>toast('Blast copied'),()=>{document.execCommand('copy');toast('Blast copied')})}catch(e){document.execCommand('copy');toast('Blast copied')}}
-function timeline(){
-  const P=S.portal,sub=!!D.submittedAt,st=D.status;
-  const at=sub?new Date(D.submittedAt).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'';
-  const stage=!sub?0:st==='Assigned'||st==='Closed'?3:st==='Marketing'?2:1;
-  const items=[[D.sellMode==='managed'?'Sent to dispo':'Your listing goes live',sub?`Submitted ${at}.`:(D.sellMode==='managed'?`Only the ${P.brand} dispo team sees it.`:`Goes out to the ${P.brand} buyers list.`)],
-    ['Dispo review',`Our dispo team checks the ARV, rehab, comps and contract, and decides within ${P.reviewHrs} hours.`],
-    ['Matched to buyers','It goes out to the buyers who fit it, and offers come back to you.'],
-    ['Assigned & closed','The buyer signs the assignment, title closes, and fees are paid at closing.'],
-    ['Not a fit → you keep selling',"You'll get feedback on price or terms, and the deal stays yours to market."]];
-  return items.map(([t,d],i)=>`<div class="ti ${i<stage?'done':i===stage?'on':''}"><i></i><b>${t}</b><p>${d}</p></div>`).join('');
-}
 
 /* ---------- go live / submit ---------- */
 function dealFields(r){
@@ -1659,7 +1650,7 @@ async function loadRemote(force){
   deskBusy=true;renderDesk();
   try{const j=PUBLIC?await apiGet({action:'mine',token:myToken()}):await apiGet({action:'all',key:adminKey()});REMOTE=j.deals||[];REMOTE_ERR='';remoteAt=Date.now()}
   catch(e){REMOTE_ERR=e.message}
-  deskBusy=false;renderDesk();
+  deskBusy=false;syncFromRemote();renderDesk();
 }
 function deskItems(){
   const out=[],seen=new Set();
@@ -1677,13 +1668,15 @@ function renderDesk(){
   const th=x=>x?`<img class="dthumb" src="${x}" alt="">`:`<span class="dthumb ph"><img src="${LOGO}" alt=""></span>`;
   let head,rows;
   if(PUBLIC||!api()){
-    head=`<tr><th>Property</th><th>Progress</th><th>Status</th><th class="num">Ask price</th><th class="num">Contract price</th><th class="num">Our offer</th><th>Last updated</th><th></th></tr>`;
-    rows=list.map(i=>{const prog=i.draft?`<span class="pill gray">Draft</span><div class="dsub">Finish it and hit Make my deal active</div>`:i.message?`<span class="pill">Message</span><div class="dsub dmsg">${esc(i.message)}</div>`:i.status==='In review'||i.status==='Submitted'?`<span class="pill">In review</span><div class="dsub">${i.decisionBy?'Decision by '+when(i.decisionBy):'We review within '+esc(S.portal.reviewHrs)+' hours'}</div>`:`<span class="pill">${esc(i.status)}</span>`;
+    head=`<tr><th>Property</th><th>Status</th><th class="num">Ask price</th><th class="num">Contract price</th><th class="num">Our offer</th><th>Message from us</th><th>Last updated</th><th></th></tr>`;
+    rows=list.map(i=>{const st=i.draft?'Draft':i.status==='Submitted'?'In review':(i.status||'In review'),inf=i.draft?{cls:'gray',sub:()=>'Finish it and hit Make my deal active'}:stInfo(st);
       const askTag=!isNaN(i.ask)&&!isNaN(i.offer)?(i.ask<=i.offer?'<span class="pill green">Fast yes</span>':''):'';
       const conTag=!isNaN(i.contract)&&!isNaN(i.offer)?(i.contract<=i.offer?'<span class="pill green">Works</span>':'<span class="pill red">Short</span>'):'';
-      return`<tr data-id="${esc(i.id)}"><td><div class="dprop">${th(i.thumb)}<div><b>${esc(i.address)}</b><small>${esc(i.facts)}</small></div></div></td><td>${prog}</td><td>${stPill(i.draft?'Draft':i.status==='Submitted'?'In review':i.status)}</td>
-      <td class="num">${money(i.ask)}<div>${askTag}</div></td><td class="num">${money(i.contract)}<div>${conTag}</div></td><td class="num"><b style="color:var(--gold)">${money(i.offer)}</b></td><td>${ago(i.updated)}</td>
-      <td>${i.local?`<button class="btn btn-sm" onclick="openDeal('${esc(i.id)}')">${i.draft?'Finish':'Open'}</button>`:''}</td></tr>`}).join('');
+      return`<tr data-id="${esc(i.id)}"><td><div class="dprop">${th(i.thumb)}<div><b>${esc(i.address)}</b><small>${esc(i.facts)}</small></div></div></td>
+      <td><span class="pill ${inf.cls}">${esc(st)}</span><div class="dsub">${inf.sub(i)}</div></td>
+      <td class="num">${money(i.ask)}<div>${askTag}</div></td><td class="num">${money(i.contract)}<div>${conTag}</div></td><td class="num"><b style="color:var(--gold)">${money(i.offer)}</b></td>
+      <td><div class="dmsg">${i.message?esc(i.message):'<span style="color:var(--mute2)">—</span>'}</div></td><td>${ago(i.updated)}</td>
+      <td>${i.local?`<button class="btn btn-sm" onclick="openDeal('${esc(i.id)}');go(4)">View</button>`:''}</td></tr>`}).join('');
   }else{
     head=`<tr><th>Property</th><th>Status</th><th class="num">Ask</th><th class="num">Contract</th><th class="num">AB offer / MOA</th><th class="num">BC price</th><th class="num">Spread</th><th class="num">COC</th><th class="num">DSCR</th><th>Submitted</th><th></th></tr>`;
     rows=list.map(i=>{const o=i.remote,pc=v=>v===''||v==null||isNaN(+v)?'—':(+v*100).toFixed(1)+'%';
@@ -1711,18 +1704,61 @@ function openRemote(id){const o=(REMOTE||[]).find(x=>String(x.id)===String(id));
   d=Object.assign(blank(),d,{id:String(o.id),status:o.status});if(!d.address)d.address=o.address;
   deals=deals.filter(x=>x.id!==d.id);deals.unshift(d);LS.set('jdf_deals',deals);openDeal(d.id);toast('Loaded into your Deal Desk')}
 
-/* ---------- step 4 header ---------- */
-function renderBuyer(){
-  loadRemote();
-  const c=$('#buyerCard');c.style.display=(!D||!D.address)?'none':'';
-  if(!D||!D.address){c.innerHTML=`<div class="card-b"><div class="banner green"><b>Find your buyer.</b> Analyze a deal, fill in the details and hit <b>Make my deal active</b>. It'll show up here.</div></div>`;return}
-  const r=calc(D);
-  c.innerHTML=`<div class="card-h"><h2>${esc(D.address)}</h2><span class="pill ${D.submittedAt?'green':'gray'}">${D.submittedAt?'Submitted':'Not submitted yet'}</span></div>
+/* ---------- status-driven timeline + status card ---------- */
+const ST_INFO={
+  'In review':{stage:1,cls:'amber',sub:o=>o.decisionBy?'Decision by '+when(o.decisionBy):'We review within '+esc(S.portal.reviewHrs)+' hours',banner:['green','It\'s in.',b=>`${b} got your deal. Dispo reviews it within ${esc(S.portal.reviewHrs)} hours and reaches out at ${esc(ME.phone||ME.email||'your contact info')}.`]},
+  'Offer sent':{stage:2,cls:'',sub:()=>'Check your email and phone',banner:['green','Our offer is in.',b=>`${b} sent you an offer on this deal. Check your email and phone, then reply to lock it in.`]},
+  'Under contract':{stage:3,cls:'',sub:()=>'We\'re under contract',banner:['green','Under contract.',b=>`${b} is under contract on this deal. We'll keep you posted through closing.`]},
+  'Marketing':{stage:3,cls:'',sub:()=>'Out to our buyers',banner:['green','Out to buyers.',b=>`${b} has this deal in front of our buyers now.`]},
+  'Assigned':{stage:4,cls:'green',sub:()=>'Assigned · heading to closing',banner:['green','Assigned!',b=>`The buyer signed. It's headed to the closing table, and fees are paid at closing.`]},
+  'Closed':{stage:5,cls:'green',sub:()=>'🎉 Fees paid at closing',banner:['green','Closed! 🎉',b=>`This deal closed. Thanks for bringing it to ${b}. Send us the next one.`]},
+  'Not a fit':{stage:-1,cls:'red',sub:()=>'See our message',banner:['red','Not a fit right now.',b=>`${b} is passing on this one for now. The deal stays yours to market.`]},
+  'Submitted':{stage:1,cls:'amber',sub:()=>'We review within '+esc(S.portal.reviewHrs)+' hours',banner:['green','It\'s in.',b=>`${b} got your deal and will reach out at ${esc(ME.phone||ME.email||'your contact info')}.`]}
+};
+function stInfo(s){return ST_INFO[s]||ST_INFO['In review']}
+function timeline(){
+  const P=S.portal,sub=!!D.submittedAt,st=sub?(D.status||'In review'):'';
+  const at=sub?new Date(D.submittedAt).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):'';
+  const info=sub?stInfo(st):null,stage=!sub?0:info.stage;
+  const items=[
+    ['Submitted',sub?`Sent ${at}.`:(D.sellMode==='managed'?`Only the ${P.brand} dispo team sees it.`:`Goes to the ${P.brand} dispo team.`)],
+    ['In review',`We check the ARV, rehab, comps and contract, and decide within ${P.reviewHrs} hours.`],
+    ['Offer sent','You get our offer by email and phone.'],
+    ['Under contract','We lock it up and put it in front of our buyers.'],
+    ['Assigned','The buyer signs the assignment and it heads to closing.'],
+    ['Closed','Title closes and fees are paid at closing.']];
+  if(stage===-1){
+    return items.slice(0,2).map(([t,d])=>`<div class="ti done"><i></i><b>${t}</b><p>${d}</p></div>`).join('')+
+      `<div class="ti off"><i></i><b>Not a fit</b><p>${D.message?esc(D.message):"You'll get feedback on price or terms, and the deal stays yours to market."}</p></div>`;
+  }
+  return items.map(([t,d],i)=>`<div class="ti ${i<stage||(stage===5&&i===5)?'done':i===stage?'on':''}"><i></i><b>${t}</b><p>${d}</p></div>`).join('');
+}
+function renderBuyerCard(){
+  const c=$('#buyerCard');if(!c)return;c.style.display=(!D||!D.address)?'none':'';
+  if(!D||!D.address){c.innerHTML='';return}
+  const r=calc(D),B=esc(S.portal.brand),sub=!!D.submittedAt,st=D.status||'In review',info=stInfo(st);
+  const pill=sub?`<span class="pill ${info.cls}">${esc(st)}</span>`:'<span class="pill gray">Not submitted yet</span>';
+  const bn=sub?info.banner:null;
+  const msg=sub&&D.message?`<div class="banner" style="margin-top:12px;border-color:var(--espresso);background:var(--blue-ll)"><b>Message from ${B}:</b> ${esc(D.message)}</div>`:'';
+  c.innerHTML=`<div class="card-h"><h2>${esc(D.address)}</h2>${pill}</div>
   <div class="card-b"><div class="bgrid">
-    <div>${D.submittedAt?`<div class="banner green"><b>It's in.</b> ${esc(S.portal.brand)} got your deal${D.sellMode==='managed'?' for Managed Dispo':''}. Dispo reviews it within ${esc(S.portal.reviewHrs)} hours and reaches out at ${esc(ME.phone||ME.email||'your contact info')}.</div>`:`<div class="banner red"><b>Not live yet.</b> Finish step 3 and hit Make my deal active.</div>`}
+    <div>${sub?`<div class="banner ${bn[0]}"><b>${bn[1]}</b> ${bn[2](B)}</div>`:`<div class="banner red"><b>Not live yet.</b> Finish step 3 and hit Make my deal active.</div>`}${msg}
       <div class="tl" style="margin-top:18px">${timeline()}</div></div>
     <div>${listingCard(r)}</div></div></div>`;
 }
+function renderBuyer(){loadRemote();renderBuyerCard()}
+/* keep local copies in sync with what you set in the Sheet */
+function syncFromRemote(){
+  if(!REMOTE)return;let changed=false;
+  REMOTE.forEach(o=>{const d=deals.find(x=>String(x.id)===String(o.id));if(!d)return;
+    if(d.status!==o.status||(d.message||'')!==(o.message||'')){d.status=o.status;d.message=o.message||'';changed=true}
+    if(!d.submittedAt&&o.submitted){d.submittedAt=new Date(o.submitted).getTime();changed=true}
+    if(D&&String(D.id)===String(o.id)){D.status=d.status;D.message=d.message;D.submittedAt=d.submittedAt}});
+  if(changed){LS.set('jdf_deals',deals)}
+  if(step===4)renderBuyerCard();
+}
+
+/* ---------- step 4 header ---------- */
 
 
 /* ---------- embed mode (inside a WordPress page iframe) ---------- */
