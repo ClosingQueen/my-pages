@@ -397,6 +397,7 @@ html:not(.pub) .pubonly{display:none!important}
 .dlink input{flex:1;min-width:200px;border:1px solid var(--line);border-radius:6px;padding:7px 10px;font-size:13px}
 .tl .ti.off i{background:var(--red)}
 .tl .ti.off b{color:var(--red)}
+.drestore{padding:0 24px 18px;font-size:13.5px;color:var(--mute)}.drestore summary{cursor:pointer;color:var(--gold);padding:4px 0}
 /* responsive */
 @media (max-width:1180px){.grid{grid-template-columns:minmax(0,1fr) 440px}}
 @media (max-width:980px){
@@ -1688,7 +1689,9 @@ function renderDesk(){
   }
   const cnt=t=>items.filter(t[1]).length;
   const note=!api()?(PUBLIC?'':`<div class="cmpbox" style="margin:0 0 14px">Connect your Google Sheet in <b>⚙ Underwriting settings</b> to see every submission here.</div>`):REMOTE_ERR?`<div class="cmpbox" style="margin:0 0 14px;border-color:var(--red-line)">Couldn't load ${PUBLIC?'your deals':'submissions'}: ${esc(REMOTE_ERR)}</div>`:'';
-  const link=PUBLIC&&api()?`<div class="dlink">🔒 Your private dashboard link (open it on any device): <input readonly value="${esc(location.href.split('?')[0].split('#')[0]+'?me='+myToken())}" onclick="this.select()"><button class="btn btn-sm" onclick="navigator.clipboard&&navigator.clipboard.writeText(this.previousElementSibling.value).then(()=>toast('Link copied'))">Copy</button></div>`:'';
+  const link=PUBLIC&&api()?`<div class="dlink">🔒 Your private dashboard link (open it on any device): <input readonly value="${esc(location.href.split('?')[0].split('#')[0]+'?me='+myToken())}" onclick="this.select()"><button class="btn btn-sm" onclick="navigator.clipboard&&navigator.clipboard.writeText(this.previousElementSibling.value).then(()=>toast('Link copied'))">Copy</button></div>
+    <details class="drestore" ${!deals.some(d=>d.submittedAt)&&!(REMOTE||[]).length?'open':''}><summary>New phone, or just installed the app? Bring your deals over</summary>
+    <div class="dlink" style="padding-left:0"><input id="restoreIn" placeholder="Paste your private dashboard link"><button class="btn btn-sm btn-blue" onclick="restoreLink()">Restore my deals</button></div></details>`:'';
   el.innerHTML=`<div class="dhead"><div><h2 class="dtitle">${PUBLIC||!api()?'Deal Desk':'Submissions'}</h2><div class="dsubt">${PUBLIC?'Every deal you started, from the analysis to the close.':api()?'Every deal sent to '+esc(S.portal.brand)+', with your real numbers. Saved in your Google Sheet.':'Every deal you started, from the analysis to the close.'}</div></div>
     <form class="dsearch" onsubmit="event.preventDefault();startDeal(this.q.value)"><input name="q" placeholder="Enter an address to analyze"><button class="btn btn-blue">Analyze deal</button></form></div>
     ${note}<div class="row2" style="justify-content:space-between;margin-bottom:12px"><div class="seg dtabs">${tabs.map(t=>`<button class="${t[0]===deskTab?'on':''}" onclick="deskTab='${t[0]}';renderDesk()">${t[0]}${cnt(t)?` <i>${cnt(t)}</i>`:''}</button>`).join('')}</div>
@@ -1697,6 +1700,8 @@ function renderDesk(){
     <div class="dfoot">${list.length?`1 to ${list.length} of ${list.length}`:''}</div>${link}`;
   $$('#deskList .dsel').forEach(s=>s.onchange=()=>setRemote(s.dataset.id,{status:s.value}));
 }
+function restoreLink(){const v=($('#restoreIn')||{}).value||'';const m=v.match(/[?&]me=([a-f0-9]{32})/)||v.trim().match(/^([a-f0-9]{32})$/);
+  if(!m){toast('Paste the full private link (it ends with ?me=…)');return}ME.token=m[1];LS.set('jdf_me',ME);REMOTE=null;loadRemote(true);toast('Deals restored')}
 function startDeal(addr){saveDeal();D=blank();D.address=String(addr||'').trim();fillInputs();render();go(1);if(!D.address)$('#address').focus()}
 async function setRemote(id,patch){try{await apiPost(Object.assign({action:'update',key:adminKey(),id},patch));const o=(REMOTE||[]).find(x=>String(x.id)===String(id));if(o){Object.assign(o,patch);o.updated=new Date().toISOString()}toast(patch.status?'Status → '+patch.status:'Message sent');renderDesk()}catch(e){toast("Couldn't update: "+e.message);loadRemote(true)}}
 function msgRemote(id){const o=(REMOTE||[]).find(x=>String(x.id)===String(id));const m=prompt('Message the submitter sees on their dashboard:',o&&o.message||'');if(m!==null)setRemote(id,{message:m})}
