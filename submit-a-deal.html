@@ -1219,6 +1219,7 @@ function placePin(lat,lng,moved){
   D.lat=String(+(+lat).toFixed(6));D.lng=String(+(+lng).toFixed(6));if(moved)D.pinMoved=true;
   if(MAP){if(!PIN){PIN=L.marker([lat,lng],{draggable:true,icon:pinIcon(),autoPan:true}).addTo(MAP);PIN.on('dragend',()=>{const p=PIN.getLatLng();placePin(p.lat,p.lng,true)})}else PIN.setLatLng([lat,lng])}
   autosave();mapInfo();
+  if(step===2&&$('#chk2List')){const ok=setChk('chk2',step2Items());$('#cont2').classList.toggle('btn-dis',!ok)}
 }
 function mapInfo(){
   const el=$('#mapInfo');if(!el)return;
