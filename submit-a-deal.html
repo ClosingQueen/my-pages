@@ -1481,31 +1481,45 @@ function emailFallback(){
 
 /* ---------- branded deal sheet (attached to every submission + downloadable) ---------- */
 function dealSheetHTML(r,o={}){
-  const LG=o.email?'cid:logo':LOGO,PH=o.email?'cid:photo':D.photo;
+  const LG=o.email?'cid:logo':LOGO,PH=o.email?'cid:photo':D.photo,L=!!(o.email||o.light);
+  // Light palette for email/PDF (survives Gmail light AND dark mode); dark palette for the in-browser download
+  const T=L?{bg:'#F4EFE8',card:'#FFFFFF',box:'#FBF7F1',bd:'#E6DCCD',lab:'#6E655C',tx:'#1C1A17',tx2:'#3D3832',h:'#8A5A22',hi:'#9A5F1C',ln:'#EADFD0',ft:'#6E655C',g:'#157A3E',a:'#A16207',rd:'#B42318',lk:'#8A5A22'}
+              :{bg:'#0F0F0F',card:'#0F0F0F',box:'#2A2A2A',bd:'#3A3632',lab:'#A0968B',tx:'#F3ECE3',tx2:'#D8CEC2',h:'#C08A4A',hi:'#D9A86C',ln:'#3A3632',ft:'#6F675F',g:'#5BD38A',a:'#F2B84B',rd:'#F07B6E',lk:'#D9A86C'};
   const P=S.portal,f=dealFields(r);const e=v=>esc(v??'');
-  const box=(l,v,hi)=>`<td style="padding:6px"><div style="background:#2A2A2A;border:1px solid #3A3632;border-radius:8px;padding:12px 14px"><div style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#A0968B">${l}</div><div style="font-size:${hi?24:18}px;font-weight:700;color:${hi?'#D9A86C':'#F3ECE3'};margin-top:4px">${v||'—'}</div></div></td>`;
-  const row=(a,b)=>`<tr><td style="padding:9px 0;border-bottom:1px solid #3A3632;color:#A0968B;width:38%;vertical-align:top">${a}</td><td style="padding:9px 0;border-bottom:1px solid #3A3632;color:#F3ECE3">${b||'—'}</td></tr>`;
-  const sec=t=>`<h2 style="font-family:Cinzel,Georgia,serif;color:#C08A4A;font-size:17px;letter-spacing:.06em;text-transform:uppercase;margin:28px 0 8px;border-bottom:1px solid #5A3E24;padding-bottom:8px">${t}</h2>`;
-  const lnk=u=>/^https?:/i.test(u||'')?`<a href="${e(u)}" style="color:#D9A86C">${e(u)}</a>`:'';
-  const fit=has(D.contract)&&r.dispo>0?(n(D.contract)<=r.moa?'<b style="color:#5BD38A">Strong fit</b>':n(D.contract)<=r.dispo?'<b style="color:#F2B84B">Tight</b>':'<b style="color:#F07B6E">Weak fit</b>'):'';
-  return`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${e(P.brand)} Deal Sheet · ${e(D.address)}</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<style>body{margin:0;background:#0F0F0F;color:#F3ECE3;font-family:Inter,Arial,sans-serif;font-size:15px;line-height:1.5}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head>
-<body><div style="max-width:820px;margin:0 auto;padding:24px 16px 40px">
-<table style="width:100%;border-collapse:collapse;border-bottom:2px solid #C08A4A"><tr><td style="padding:0 0 14px;width:84px"><img src="${LG}" alt="" style="width:72px;display:block"></td>
-<td style="padding:0 0 14px"><div style="font-family:Cinzel,Georgia,serif;font-size:24px;font-weight:700;letter-spacing:.06em;color:#C08A4A;text-transform:uppercase">${e(P.brand)} Corp</div><div style="color:#D9A86C;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600">Deal Submission · ${D.sellMode==='managed'?'Managed Dispo':'Marketplace + Review'}</div></td>
-<td style="padding:0 0 14px;text-align:right;color:#A0968B;font-size:13px">${new Date(D.submittedAt||Date.now()).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})}</td></tr></table>
-<h1 style="font-family:Cinzel,Georgia,serif;color:#D9A86C;font-size:26px;margin:22px 0 4px">${e(D.address)}</h1>
-<div style="color:#D8CEC2">${e(f.Property)}</div>
-${D.photo?`<img src="${PH}" alt="Exterior" style="width:100%;border-radius:10px;margin-top:16px;border:1px solid #3A3632;display:block">`:''}
-<table style="width:100%;border-collapse:collapse;margin:14px -6px 0;table-layout:fixed"><tr>${box('Ask price',money(n(D.dispoAsk)),1)}${box('ARV',money(r.arv))}${box('Rehab',money(r.rehab))}</tr><tr>${box('Contract',money(n(D.contract)))}${box('MOA',money(r.moa),1)}${box('Spread',has(D.dispoAsk)&&has(D.contract)?money(n(D.dispoAsk)-n(D.contract)):'')}</tr></table>
-${sec('Underwriting')}<table style="width:100%;border-collapse:collapse">${row('ARV',e(f.ARV))}${row('Comps',e(f.Comps))}${row('Multiplier',e(f.Multiplier))}${row('Rehab',e(f.Rehab))}${row('Investor price',e(f['Investor price']))}${row('MOA',e(f.MOA))}${row('Assignment',e(f.Assignment))}${row('BC price',`<b style="color:#D9A86C">${e(f['BC price'])}</b>`)}${row('Contract fit',fit)}${row('Rent estimate',e(f['Rent est']))}${row('Investor returns',e(f['Investor returns']))}</table>
-${sec('Contract & terms')}<table style="width:100%;border-collapse:collapse">${row('Contract price',e(f['Contract price']))}${row('Close date',e(f['Close date']))}${row('Contract type',e(f['Contract type']))}${row('Contract link',lnk(D.contractLink)||(FILES[D.id]?e(FILES[D.id].name)+' (attached)':''))}${row('EMD',e(f.EMD))}${row('HOA',e(f.HOA))}</table>
-${sec('Access')}<table style="width:100%;border-collapse:collapse">${row('Occupancy',e(f.Occupancy))}${row('Access',e(f.Access))}${row('Access notes',e(f['Access notes']).replace(/\n/g,'<br>'))}${row('Photos folder',lnk(D.photos))}</table>
-${sec('Description')}<div style="background:#2A2A2A;border:1px solid #3A3632;border-radius:8px;padding:14px 16px">${cleanHTML(D.desc)||'—'}</div>
-${sec('Submitted by')}<table style="width:100%;border-collapse:collapse">${row('Wholesaler',e(f['Submitted by']))}${row('Phone',e(f['Wholesaler phone']))}${row('Email',e(f['Wholesaler email']))}</table>
-<div style="text-align:center;margin-top:34px;color:#6F675F;font-size:12px;letter-spacing:.14em;text-transform:uppercase"><img src="${LG}" alt="" style="width:34px;vertical-align:middle;margin-right:8px">${e(P.brand)} Corp · Premium Real Estate Investments</div>
-</div></body></html>`;
+  const F='font-family:Inter,Helvetica,Arial,sans-serif;';
+  const box=(l,v,hi)=>`<td class="jbox" width="33%" bgcolor="${T.box}" style="${F}background-color:${T.box};border:1px solid ${T.bd};border-radius:8px;padding:12px 14px;vertical-align:top"><div class="jlab" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${T.lab}">${l}</div><div class="${hi?'jhi':'jtx'}" style="font-size:${hi?22:17}px;font-weight:700;color:${hi?T.hi:T.tx};margin-top:4px">${v||'—'}</div></td>`;
+  const row=(a,b)=>`<tr><td class="jlab jln" style="${F}padding:9px 12px 9px 0;border-bottom:1px solid ${T.ln};color:${T.lab};width:38%;vertical-align:top;font-size:14px">${a}</td><td class="jtx jln" style="${F}padding:9px 0;border-bottom:1px solid ${T.ln};color:${T.tx};font-size:14px">${b||'—'}</td></tr>`;
+  const tbl=rows=>`<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">${rows}</table>`;
+  const sec=t=>`<div class="jh" style="font-family:Cinzel,Georgia,serif;color:${T.h};font-size:16px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:28px 0 6px;border-bottom:2px solid ${T.h};padding-bottom:7px">${t}</div>`;
+  const lnk=u=>/^https?:/i.test(u||'')?`<a href="${e(u)}" style="color:${T.lk};text-decoration:underline;word-break:break-all">${e(u)}</a>`:'';
+  const fit=has(D.contract)&&r.dispo>0?(n(D.contract)<=r.moa?`<b style="color:${T.g}">Strong fit</b>`:n(D.contract)<=r.dispo?`<b style="color:${T.a}">Tight</b>`:`<b style="color:${T.rd}">Weak fit</b>`):'';
+  const spread=has(D.dispoAsk)&&has(D.contract)?money(n(D.dispoAsk)-n(D.contract)):'';
+  const darkCss=L?`@media (prefers-color-scheme: dark){.jbg,.jcard{background-color:#121110!important}.jbox{background-color:#2A2A2A!important;border-color:#3A3632!important}.jtx{color:#F3ECE3!important}.jlab{color:#B4AA9F!important}.jhi,.jh{color:#D9A86C!important}.jln{border-color:#3A3632!important}.jdesc{background-color:#2A2A2A!important;color:#F3ECE3!important}}`:'';
+  return`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark"><meta name="supported-color-schemes" content="light dark">
+<title>${e(P.brand)} Deal Sheet · ${e(D.address)}</title>
+<style>body{margin:0;padding:0;background-color:${T.bg};}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}${darkCss}</style></head>
+<body class="jbg" bgcolor="${T.bg}" style="margin:0;padding:0;background-color:${T.bg};">
+<table role="presentation" class="jbg" width="100%" cellpadding="0" cellspacing="0" bgcolor="${T.bg}" style="background-color:${T.bg}"><tr><td align="center" style="padding:20px 10px">
+<table role="presentation" class="jcard" width="100%" cellpadding="0" cellspacing="0" bgcolor="${T.card}" style="max-width:720px;background-color:${T.card};border-radius:12px;overflow:hidden;${L?'border:1px solid '+T.bd:''}">
+<tr><td bgcolor="#0F0F0F" style="background-color:#0F0F0F;padding:16px 22px;border-bottom:3px solid #C08A4A">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+  <td width="70" style="vertical-align:middle"><img src="${LG}" alt="Acquire JDF" width="58" style="width:58px;display:block;border:0"></td>
+  <td style="vertical-align:middle;padding-left:10px"><div style="font-family:Cinzel,Georgia,serif;font-size:21px;font-weight:700;letter-spacing:.06em;color:#C08A4A;text-transform:uppercase">${e(P.brand)} Corp</div><div style="${F}color:#D9A86C;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600">Deal Submission · ${D.sellMode==='managed'?'Managed Dispo':'Marketplace + Review'}</div></td>
+  <td align="right" style="${F}vertical-align:middle;color:#B4AA9F;font-size:12px">${new Date(D.submittedAt||Date.now()).toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})}</td></tr></table>
+</td></tr>
+<tr><td class="jcard" bgcolor="${T.card}" style="background-color:${T.card};padding:6px 22px 30px">
+<div class="jhi" style="font-family:Cinzel,Georgia,serif;color:${T.hi};font-size:24px;font-weight:700;margin:20px 0 4px">${e(D.address)}</div>
+<div class="jtx" style="${F}color:${T.tx2};font-size:14px">${e(f.Property)}</div>
+${D.photo?`<img src="${PH}" alt="Exterior" width="676" style="width:100%;max-width:676px;height:auto;border-radius:10px;margin-top:16px;display:block;border:0">`:''}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="6" style="margin:12px 0 0;table-layout:fixed"><tr>${box('Ask price',money(n(D.dispoAsk)),1)}${box('ARV',money(r.arv))}${box('Rehab',money(r.rehab))}</tr><tr>${box('Contract',money(n(D.contract)))}${box('MOA',money(r.moa),1)}${box('BC price',money(r.bc),1)}</tr></table>
+${sec('Underwriting')}${tbl(row('ARV',e(f.ARV))+row('Comps',e(f.Comps))+row('Multiplier',e(f.Multiplier))+row('Rehab',e(f.Rehab))+row('Investor price',e(f['Investor price']))+row('MOA',`<b class="jhi" style="color:${T.hi}">${e(f.MOA)}</b>`)+row('Assignment',e(f.Assignment))+row('BC price',`<b class="jhi" style="color:${T.hi}">${e(f['BC price'])}</b>`)+row('Contract fit',fit)+row('Spread (ask − contract)',spread)+row('Rent estimate',e(f['Rent est']))+row('Investor returns',e(f['Investor returns'])))}
+${sec('Contract & terms')}${tbl(row('Contract price',e(f['Contract price']))+row('Close date',e(f['Close date']))+row('Contract type',e(f['Contract type']))+row('Contract link',lnk(D.contractLink)||(FILES[D.id]?e(FILES[D.id].name)+' (attached)':''))+row('EMD',e(f.EMD))+row('HOA',e(f.HOA)))}
+${sec('Access')}${tbl(row('Occupancy',e(f.Occupancy))+row('Access',e(f.Access))+row('Access notes',e(f['Access notes']).replace(/\n/g,'<br>'))+row('Photos folder',lnk(D.photos)))}
+${sec('Description')}<div class="jdesc jtx" style="${F}background-color:${T.box};border:1px solid ${T.bd};border-radius:8px;padding:14px 16px;color:${T.tx};font-size:14px;line-height:1.6">${cleanHTML(D.desc)||'—'}</div>
+${sec('Submitted by')}${tbl(row('Wholesaler',e(f['Submitted by']))+row('Phone',e(f['Wholesaler phone']))+row('Email',e(f['Wholesaler email'])))}
+<div class="jlab" style="${F}text-align:center;margin-top:30px;color:${T.ft};font-size:11px;letter-spacing:.14em;text-transform:uppercase">${e(P.brand)} Corp · Premium Real Estate Investments</div>
+</td></tr></table></td></tr></table></body></html>`;
 }
 function sheetFile(r){return new File([dealSheetHTML(r)],`Deal-Sheet-${(D.address||'deal').replace(/[^a-z0-9]+/gi,'-').slice(0,60)}.html`,{type:'text/html'})}
 function downloadSheet(){const r=calc(D);const u=URL.createObjectURL(sheetFile(r));const a=document.createElement('a');a.href=u;a.download=sheetFile(r).name;a.click();setTimeout(()=>URL.revokeObjectURL(u),1500)}
@@ -1539,7 +1553,7 @@ async function submitToSheet(r){
     subject:`New deal: ${D.address} · Ask ${money(n(D.dispoAsk))} · MOA ${money(r.moa)} · BC ${money(r.bc)}`,
     row:rowData(r,q),deal:slim,photo:D.photo||'',thumb:await shrink(D.photo,180),
     contract:cf?{name:cf.name,data:await readData(cf)}:null,
-    sheetHtml:dealSheetHTML(r),emailHtml:dealSheetHTML(r,{email:true}),logo:await shrink(LOGO,120,'image/png')});
+    sheetHtml:dealSheetHTML(r,{light:true}),emailHtml:dealSheetHTML(r,{email:true}),logo:await shrink(LOGO,120,'image/png')});
 }
 
 /* ---------- Deal Desk list (Rebuilt-style) ---------- */
