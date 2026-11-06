@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Apply for Funding · Acquire JDF</title>
+<meta name="description" content="Apply for real estate and business funding with Acquire JDF Corp.">
+<meta name="theme-color" content="#14100C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" id="fav">
+<style>
+:root{color-scheme:dark;
+  --ink:#14100C;--ink2:#1C1712;--bronze:#C08A4A;--gold:#D9A86C;--paper:#EFE6D8;--mute:#9C8F80;--faint:#6E6357;
+  --glass:rgba(24,19,15,.64);--edge:rgba(217,168,108,.22);--edge2:rgba(217,168,108,.42);--field:rgba(10,8,6,.55);
+  --ok:#8FCB9B;--warn:#E9B65A;--err:#E88C7D;--r:14px}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}
+body{font-family:Jost,system-ui,sans-serif;font-weight:400;font-size:16.5px;line-height:1.55;color:var(--paper);background:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block}
+.veil{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(120% 90% at 85% 10%,transparent 0,rgba(20,16,12,.35) 55%,rgba(20,16,12,.85) 100%)}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.shell{position:relative;z-index:1;min-height:100vh;display:grid;grid-template-columns:330px minmax(0,1fr);max-width:1240px;margin:0 auto}
+/* rail */
+.rail{padding:44px 34px;display:flex;flex-direction:column;gap:36px;position:sticky;top:0;height:100vh}
+.mark{display:flex;align-items:center;gap:12px;text-decoration:none}
+.mark img{height:54px;filter:drop-shadow(0 4px 14px rgba(192,138,74,.35))}
+.mark b{display:block;font-family:Cinzel,serif;font-weight:700;letter-spacing:.08em;color:var(--gold);font-size:19px;line-height:1.1}
+.mark span{display:block;color:var(--mute);font-size:13px;letter-spacing:.02em}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;position:relative}
+.steps:before{content:"";position:absolute;left:13px;top:14px;bottom:14px;width:1px;background:linear-gradient(var(--edge2),transparent)}
+.steps li{position:relative;display:flex;align-items:center;gap:14px;padding:9px 0;color:var(--faint);font-size:15px;transition:color .3s}
+.steps li i{flex:none;width:27px;height:27px;border-radius:50%;border:1px solid var(--edge);display:grid;place-items:center;font-style:normal;font-size:12.5px;background:var(--ink);position:relative;z-index:1;transition:all .3s}
+.steps li.done{color:var(--mute);cursor:pointer}.steps li.done i{background:var(--bronze);border-color:var(--bronze);color:var(--ink)}
+.steps li.on{color:var(--paper)}.steps li.on i{border-color:var(--gold);color:var(--gold);box-shadow:0 0 0 4px rgba(217,168,108,.12)}
+.saved{margin-top:auto;font-size:13.5px;color:var(--mute);display:flex;align-items:center;gap:8px;min-height:20px}
+.saved .dot{width:7px;height:7px;border-radius:50%;background:var(--faint)}.saved.ok .dot{background:var(--ok)}.saved.busy .dot{background:var(--gold);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.rail small{color:var(--faint);font-size:12.5px;line-height:1.5}
+/* stage */
+.stage{padding:44px 44px 80px;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.panel{background:var(--glass);border:1px solid var(--edge);border-radius:22px;padding:44px 48px;backdrop-filter:blur(14px) saturate(120%);-webkit-backdrop-filter:blur(14px) saturate(120%);box-shadow:0 40px 80px -30px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.04);max-width:820px;width:100%}
+.mtop{display:none}
+h1{font-family:Cinzel,serif;font-weight:600;font-size:clamp(30px,4.2vw,46px);line-height:1.08;letter-spacing:.01em;margin:0 0 14px;color:var(--paper)}
+h2{font-family:Cinzel,serif;font-weight:600;font-size:clamp(23px,2.6vw,30px);line-height:1.15;margin:0 0 8px}
+.lede{color:#CFC3B3;font-size:17.5px;font-weight:300;max-width:56ch;margin:0 0 28px}
+.sub{color:var(--mute);margin:0 0 28px;max-width:60ch;font-weight:300}
+.group{margin:30px 0 14px;font-family:Cinzel,serif;font-size:15.5px;color:var(--gold);letter-spacing:.03em;display:flex;align-items:center;gap:14px}
+.group:after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--edge),transparent)}
+.group:first-of-type{margin-top:6px}
+/* fields */
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 20px}
+.f{min-width:0}.f.wide{grid-column:1/-1}
+.f label{display:block;font-size:14.5px;color:#D9CDBD;margin-bottom:7px;font-weight:400}
+.f label .req{color:var(--gold);margin-left:3px}
+.f .hint{display:block;font-size:13px;color:var(--mute);margin-top:6px;font-weight:300}
+.f input,.f select,.f textarea{width:100%;background:var(--field);border:1px solid rgba(239,230,216,.14);border-radius:10px;padding:13px 15px;font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s}
+.f input:hover,.f select:hover,.f textarea:hover{border-color:rgba(239,230,216,.26)}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(217,168,108,.13)}
+.f.bad input,.f.bad select{border-color:var(--err)}.f .e{display:none;color:var(--err);font-size:13px;margin-top:6px}.f.bad .e{display:block}
+.f select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23D9A86C' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;padding-right:38px}
+.f select option{background:#1C1712}
+.money{position:relative}.money:before{content:"$";position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--mute)}.money input{padding-left:28px}
+.pct{position:relative}.pct:after{content:"%";position:absolute;right:15px;top:50%;transform:translateY(-50%);color:var(--mute)}
+textarea{min-height:100px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(239,230,216,.16);border-radius:999px;padding:8px 14px;font-size:14.5px;cursor:pointer;margin:0;transition:all .2s;background:var(--field)}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label:has(input:checked){border-color:var(--gold);background:rgba(217,168,108,.14);color:var(--paper)}
+.chips label:has(input:focus-visible){outline:2px solid var(--gold);outline-offset:2px}
+.ltable{width:100%;border-collapse:separate;border-spacing:0 8px}.ltable td{padding:0 6px 0 0}.ltable input,.ltable select{width:100%;background:var(--field);border:1px solid rgba(239,230,216,.14);border-radius:8px;padding:10px 12px}
+/* program choice */
+.progs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pcat{grid-column:1/-1;color:var(--mute);font-size:14px;margin:14px 0 0}.pcat:first-child{margin-top:0}
+.pg{text-align:left;background:rgba(10,8,6,.42);border:1px solid rgba(239,230,216,.12);border-radius:14px;padding:16px 18px;cursor:pointer;display:grid;grid-template-columns:34px 1fr;gap:4px 14px;align-items:start;transition:border-color .25s,background .25s,transform .25s}
+.pg svg{grid-row:span 2;width:30px;height:30px;stroke:var(--gold);fill:none;stroke-width:1.3;margin-top:2px}
+.pg b{font-weight:500;font-size:16px;color:var(--paper)}.pg span{font-size:13.5px;color:var(--mute);font-weight:300;line-height:1.45}
+.pg:hover{border-color:var(--edge2);background:rgba(217,168,108,.06)}
+.pg.on{border-color:var(--gold);background:rgba(217,168,108,.13);box-shadow:inset 0 0 0 1px var(--gold)}
+/* buttons */
+.nav{display:flex;align-items:center;gap:14px;margin-top:38px;padding-top:24px;border-top:1px solid rgba(239,230,216,.08)}
+.sp{flex:1}
+.btn{border:1px solid rgba(239,230,216,.2);background:transparent;border-radius:999px;padding:13px 24px;font-size:15.5px;cursor:pointer;color:var(--paper);transition:all .2s;font-weight:500;letter-spacing:.01em}
+.btn:hover{border-color:var(--gold);color:var(--gold)}
+.btn.gold{background:linear-gradient(180deg,#E3B67D,var(--bronze));border-color:transparent;color:#1A130C;font-weight:600;padding:14px 30px;box-shadow:0 10px 30px -10px rgba(192,138,74,.65)}
+.btn.gold:hover{filter:brightness(1.07);color:#1A130C}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.quiet{background:none;border:0;color:var(--mute);cursor:pointer;font-size:14.5px;padding:8px 4px}.quiet:hover{color:var(--paper)}
+/* docs */
+.doc{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid rgba(239,230,216,.08)}
+.doc .nm{flex:1;min-width:0}.doc .nm b{display:block;font-weight:400}.doc .nm small{color:var(--mute);font-size:13px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.doc .st{font-size:13px;color:var(--ok);white-space:nowrap}
+.up{position:relative;overflow:hidden}.up input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.note{border:1px solid var(--edge);background:rgba(217,168,108,.07);border-radius:12px;padding:14px 16px;font-size:14.5px;color:#D9CDBD;margin:0 0 22px}
+.note.warn{border-color:rgba(233,182,90,.45);background:rgba(233,182,90,.08)}
+/* review */
+.rv{border-top:1px solid rgba(239,230,216,.08);padding:16px 0}.rv h3{display:flex;justify-content:space-between;align-items:center;margin:0 0 8px;font-weight:500;font-size:16px;color:var(--gold)}
+.rv dl{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:6px 18px;margin:0;font-size:14.5px}.rv dt{color:var(--mute)}.rv dd{margin:0}
+.check{display:flex;gap:12px;align-items:flex-start;margin:14px 0;font-size:14.5px;color:#D9CDBD;cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--bronze);flex:none;margin-top:2px}
+/* welcome + done */
+.hero .pts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:6px 0 34px;padding:0;list-style:none}
+.hero .pts li{border-left:1px solid var(--edge2);padding:2px 0 2px 14px;font-size:14.5px;color:#CFC3B3;font-weight:300}
+.hero .pts b{display:block;color:var(--paper);font-weight:500;font-size:15.5px;margin-bottom:2px}
+.fine{font-size:12.5px;color:var(--faint);margin-top:26px;line-height:1.55}
+.seal{width:84px;height:84px;margin:0 0 22px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.swap{animation:in .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (max-width:980px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .rail{display:none}
+  .mtop{display:flex;position:sticky;top:0;z-index:5;align-items:center;gap:12px;padding:12px 16px;background:rgba(20,16,12,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(239,230,216,.08)}
+  .mtop img{height:36px}.mtop b{font-family:Cinzel,serif;color:var(--gold);letter-spacing:.06em;font-size:15px;display:block;line-height:1.1}.mtop span{font-size:12.5px;color:var(--mute)}
+  .mtop .bar{position:absolute;left:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--bronze),var(--gold));transition:width .4s}
+  .mtop .sv{margin-left:auto;font-size:12.5px;color:var(--mute)}
+  .stage{padding:20px 16px 60px;justify-content:flex-start}
+  .panel{padding:28px 22px;border-radius:18px}
+}
+@media (max-width:640px){.grid,.progs{grid-template-columns:minmax(0,1fr)}.hero .pts{grid-template-columns:minmax(0,1fr)}.rv dl{grid-template-columns:minmax(0,1fr)}.rv dt{margin-top:6px}.nav{flex-wrap:wrap}.nav .btn.gold{flex:1}}
+@media (prefers-reduced-motion:reduce){.swap{animation:none}.saved.busy .dot{animation:none}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas><div class="veil"></div>
+<div class="mtop" id="mtop"><img id="mLogo" alt=""><div><b>Acquire JDF</b><span id="mStep">Funding application</span></div><span class="sv" id="mSaved"></span><i class="bar" id="mBar" style="width:0"></i></div>
+<div class="shell">
+  <aside class="rail">
+    <a class="mark" href="#" aria-label="Acquire JDF Corp"><img id="rLogo" alt=""><div><b>Acquire JDF</b><span>Funding application</span></div></a>
+    <ol class="steps" id="steps"></ol>
+    <div class="saved" id="saved"><span class="dot"></span><span id="savedTxt">Your answers save automatically</span></div>
+    <small>Business-purpose financing for investors and business owners. We never ask for your Social Security or bank account numbers here.</small>
+  </aside>
+  <main class="stage"><div class="panel" id="panel"></div></main>
+</div>
+<script>
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbzfvl2PmVRJD0HplixVLKeQqFtNtXIudrK6CivkAwfz3hA89gwYe3PExW0eA9R8qtg-kg/exec';
+const LOGO='data:image/webp;base64,UklGRtpyAABXRUJQVlA4WAoAAAAQAAAAPwEAPAEAQUxQSNUjAAAB/yckSPD/eGtEpO4TEmzbjdsGD/+nrSJ0/wsGOGRYQET/JyDO/0NePQEEji+GZJTwF1QVs5ovPaJYIYE9wEEm53ZEFLy5wxXskg6KU6nh94uksNq8kzlVNqnAuuFYSIAksV81VeUCkJRHMWdvAj5b5lD2YA9/M8Oe1JNCQNjesx3vCyBVq6Jn2qbbEQE2JUDK5SJtNey21AZjZabthh05qU9s227YmU2qXNcUEexmVIL2csJZJ+o34D0oVR5ubL5UOOJGeaOAgog76Vwl47X4NrlRLb9Dz1+n6jtU0b9B5k+qjee5Ei1AWpV0D2pney+G8dnShX//Fo92ZJ/ZHqS9zwBqL2KKCBsqgIhoy1W0GIG4yHDQtpEgxfxh7+zcvp5AREyAp/0eRX5fxn4SjT/THd3Seni8869df1YytqfP3l+g8rHrwln01dTFWfTVRbgUIsqUZXKWsZGpqcw1dWeqg7YXDC7pJVI5L5GzfL1gyFnoM1qjPOlbufjaCKnQrKeU7bFltW32Zg/tV3CrnIv1p9HPL972VddLW1zQ8sHWutFypdr45dDQz+pZa8N10cOVtn5YOVDQ5ynIUd5EZc5LT9i2LW+bbdu2X5LtcMrc5mFmfobMMGN+ntEzY2ZmZmYoMzND+G7YNTNKlmXhdV37QDJI56kkzywiJsAbtm2L22bbtu3nSJZkZie24xiTpmHmtmkvaHOXMVfpYma4mZmZmZmZmZm5eEEZciVNHNua2X9YNGNr3J8RMQHkVqGrXrvnd/64uYnM9VUJLPu2Dx7sfuq//+dPP8u6niKRUPPmz9zfA3zzj/3TJzu5bhJkCJNzc+MvD9y9I0Im82d8MtdLhd111bED+yb6yst0UDPR3Ph1E7Tl7Ft2TxZpdm4RXxcRE19ydgIwIKN6t9woXQ+R9PkHwCCa/ZRvtK9TyA2RPzHtHNHKyy+g6xHCEmAMJIxPOBF7aWXPjCb5qwxCNlFMzcQWs+dl9nzmaZIgvWogkQBDd51+8t+Xl2cW11MSZc+s9oL3zwDoVQHJBo2fPDJ/fDS5kiTr8zPPP1zh9o/RQ2tj7JPu/Or96FWAAAzsPXzVjh39JBI164//9tzPtOS9QxS+/Wn/4Sa04ROFQzee2j0cwAJcQz4998WI3h5ysvQ2wkZPnP6x09OAQTRogemxHSfL796whTrB277tITCI3RqlJAWK79mWbMikhLrm9j1GhDp7I2ajLWHD1t0jK38LcufJgAhTLh/qQkAC2NdIIQG2HLvu+EyZ/zpGxN69rBnCkTkLZAMk+bWQTGFi9+kzO7oB4p04nNuCCNST1wHIfMrtW62JLbTxkcPNd+ye6weDdfGZEB+9JZgwRdehLgvoOPsjR6oa/acn2cCGEAKIrnd/YBIwWrW8I+l877S1RmDPVgsY3rzlKMDyH/4Z2pgoiJohufM7NgGi7kNv+dyzYs0Oz0NI2H6ojDu08dfdbEQDsTn2VfeceKkFc1UsGkw3ikfC6ZsHEWanSohOqzndhTYawTGVk19/3yZH//G8Cwt2YJ2szJSAwdkhTIPFSoWNoqRVipl7zUkBHE7r3jmEadwoDFlT/U7Yvq+Thm2PjWPlvxAABEr23z19CbCTBVO4t4qaCDeM9tmFHQslmpSivgrOewGgd7gDlJx5O2AkmBnhs+bxejE6BUO7RrGaAFOeCM51Ekxd/xW/9hc/vBVKb8FIdC4V+dJF1svBORib6abFQyNC+S3AwW/5l6eXbb8PLXRbonYZvhCH9aE4U2BqS0Tr+3rJ6xLFdz1q20mSfDFcs4Sp+8nrtxxhXRQdC2P9u4axWtc5XclpwRw42IeNgO94/8xhHGpZL/xK+dY4kJ39q0O7B0m3UCzmM/ccOTMEEmD9wdfetESjXnQnikLz7QuzJdI1ycDmHBaYPzOGRd1H/243qIF1NCsnEWmLwlgnKGeZ67tpePFCD+u30gJDEa8FuW1JhZPTSWPruclmZUuwMibZkhHgwbPUtaeDnDk4KDIdBMg0LikEtQcerxTInRrozZCAvgOfsemFp0r6xHx7fakFTWprEOhKdUz5g66tZZQNBTjzLb9z9RawWN7Kq8t1VP2ur/yar3jL6ydQ/JT039dn5Q+iQgfOhD35zmnAIJpdWvzH9ziJH7sOkEdNMjSO0pM2XXNbFYPAwh0GASr1n3ln0dGD7f25BFEYLWOlFPG2W14AB1pr6+4vdxI7c3XFyiNg6MCpKLDtBrBEiyVt+kRiL9NDju2cCk4hwKlfu2ICaVa3ogc4zzDYB2qRAiNf+kRC2kkaPcNKrsEKtDbAsV9btlNrh4FPWnkGDfe2QoHOD/y/neQBowTnGbomS6iZEHtq3zgWOVDuORZZuYYQ0azinvv2lsmJYnCanCtc7MMN+dibLwXafgAsRFDeAcLkKKonvfO0sdpcsKkZh6XFHEToDFg1QrznRmzauwLsPhiGe/73HzuSjpU8ZFzGNeDIsqX2Jpi+/9x8oaBLn/j+j3xkEuUfoGdrqGHmsWjrovNtf7e3A7B4+KvfNkFO7u8CreqhzctjX1gFAzKI/GxhEtq/kocjjKhtlJtwdzchaXshKewnicjnnbOVZ6Ok3SVsM6Kd2+GIjuJHn6a9y1N3D77c1oywQ8Ek3/mlFybam96/JTFt3CJFOBTEbT/x1C7UvgILC5g2bq3+94/+/BMlHAqEXbR1ccey1c649MK//t63HfuRcQK22llg/DhtzKTTExACXPcXdjCDPfDQZdp588oUQaDA1XXpKkyUfgaHNmWxtbjOthHNlTq+6grsfIT27dEPG+wwsLpW5CrsHVfa1/w7HyLvAJEcavtqS3yrHdpU4/gEMjs27VMrUq4SpZ8zbVmUy4hdm+pSZuepwOx/tCfnVJF3BwnLq+Trm25gAFvND8tQpaUhOVF0rsIDaXh4kV0KXIuQfPq/Fu0cFUP3nbZWhtE2AQMGAhiZiKdDp5Sb0jQ4lxdb/SVKEyVMVxGzOurzy9SvMlS+6FyjUM/MTQZmbT31Tyu4f0y2Nt5i2xBz+LWFuLO0adL/9tevbJ4qPPIHL43u6eGl/0nkHNN4ZSUweOuF33+bfk4Wp0jcRaoOvn13Qt3FlUqRS/98fvp3P/cwV4bK5FbRM4fqZe2wnCw9wNb9FblPxMZcCUzXxEfedQXAYCQwAnbNHtxWPnWm5LwSeOgfbyLUcJIeb8kB4YcLid7+kD51PvfeMtuK4gNnwKKuQRgw6t755d+5QF5V8hU/dvm/qB049AQh69ptSeHZG39XzoKVXT7TpLtgeP8opsXWlSudHXlF8A2fufTYUi0x8Ichee61mOXfezYbVGfnSNxFCVPbekGtyrfi2G+9t0MvvYgApG8PR1RuHEgYmS0hUrfYHF9Hpntp13SBdK28Ehj4xT98XZmXHk/QKr45pB0HE8a39ZBB0R4738Z0CsaPjGOls56vtYISfOCxOysBFwdKCFH6xWDM6HGYGY9weqZx8RIyXRPmdnTTvj2T4XBE5fOe/pZ+BKp8WVEShR8Pp3L24PDCEBYZ3Li0SmK6V3ZOBbctkywNEa5C5Wsue5MAzIV3Egi8uS6HwYEvuH2+hwxanp9sYLY9fPUwqD0ZSbMvojyYwH2fdkxdP3oNUeDEBqHe/IXHTSZbU6MkprtKzU7atElg/tQTKCdUxbuPxI7qyLNfPB8H1riVnmtPPAOmtnzP/QxmC1/6h6861YUIVsmWz1xOaFC+9ttmqowdCsgifal6mdoKIuG6oQEFl77jDVNAIOQ7qrgRFN30Jd1M7A8og/bB+4aoKTmxxAt4IDUuP/MAoCDWrpKekzg0hH3nW3mlETNx863UTijP9hjclqw3f+wUhMCaDt4tmhXdt09V02hZlFYLdBWlu370l75/3nS1qce+o1VkrQe2X2kK6No6UogWzVNPzbHt6PHX3rv31sNwqS3Byl/9STWsNXEAh+b89L+u95FRpmpn32ngDvFCVx+JVwwrDOj6//wiYW2JnlGaN/GLfzveLwaR6fLoOgU6Te+nLyIpfgW68GAie3SSaI3NzrcAYpJ2vyCql1eyYrEwGZMYkNm6vRMJ1qc4eIwBbSUOrPHJ0RaIi4tjd/SJn/q5b/ry7/jfJCM0Z2cJrJbZMlkEBM06B24OzcJhAPHwJrymUAsg6Zq/qS+sF7/gi7/mI1/0qDNSm1hCrkFlbgTXuucLWLsQWD428zkoFIp9BdbfrTtfnusL/APvhf/9REw2q2ObmNoD893UlHzkM8iXUECm9V+vHSvboRgKWJHZ3Pcvl/vB+sS5v2K6S2TQYnUpo6vMxFSZRgUiXCO9f5Enzy9LgQCVCdbbKI6L/fFHD71y9VTkLCibnyJxh8zUROSGQjYk+O0nKZjNlnEojAzJwZxfbInKrObqHfz9r1zVRzZL/7cIpmt5bgS0LhhB9cJTYyhFVGZahKvOIgrkqedbYZlXy7gPLi31kkkt/NHvsf3wfDfrokE0Jt58vwTKAbNezsKhcNshFMbawm7sJPZ/LDD0jkErvWyabHUtpabM3FyZ9dAIll595e2LIFG3ObURDp1DBay1UJnanf3iW4m45RqyaKUnFWpTJF4lMzIe0dJsr4xaBfnsc/e/W4cg6pvGZhEFIqhMkKwBMWHtbPHffuUHH4oUkoFbylZ6GTStGsjULGwZwGrJVKNk1VO9bKF6d4vy8rlnXz3VJsE0LrYW2g4DCPuORQRlLXCyhHdgnnzzQARgj08G1r4onV/BdIrhqTKtfvXkSVpZP13+vNaUjz/24AogQCGEBiw2bh4KhmhksBOUMTh+mp0/dRcKAGJmfM3ZWencEl1lBha6aXUy/9Mf3DkQACuUugt12kut29ySqYeen6u1Wlt1uqseYt+X1dtyICbad7hI1pP1fy/L28nx707UAp3cjMJSoTKe0lUJE/2BllvvFieHI6Pg8bMneuvsfXWuMdKuN0tz5XTo6z9w+zyqh/P8sQ9yQhV9R3/4WpQt89x5diovfyW1QjJxLHJIclqExB2mY8dmWS3DMnW3bKuSaVcv/svrUD2gNVlOQ8HGP1SQsqWVZ1raAYn/8wBhFbB7BwFbow8sgAESbts2hEjTklRl9Mi1XZfIoDusjsT2n4+hnRSojW2Ggpz8w06iTBE8dUuHG4Dm6DzukDp+2gFx8MIVuorq2Of32KQde/7m40v0vZx4557GMLW1ZigQlh69iDOFefhwY0qmSuog8PblISsIi9o+ki5KwoFzV0TKIXb/G16zAhj1F5K6pmjSYm45GAgdXWQ7eN9bItSAqZ1vqtbO//0UwNsoQ2Tz0+AOJZs/e3PVaSkZv+3keTASfS86pnBjWKy3UCiEsRGUJax7t5jGZ94nACL64R8EtE2WWxMLYLrqA6Qv33b/ZTCBQEXzojbfxIFQqKyQ6eCJ0wXUkD/2kQSIrwa2JhtHE9PR2xMyszm+zrYhPj5DEtJK5r4Sm8Ca7cZNYZbXRKgmBislNQLsmqJhq3oWiYjw05grPzl6JIFN7zlbyoZYG6+ybW7uwRHpdsHBGRNYs6Y/oKaAtLIVCqBenJIVGmJzGTUAbL5dIcCtjwNTb7UBul0giyZbnEDehqRnitT7YLrC2l5OcCvYmmyGw/AWUCpdy0ahjhy29eFGxPNvhwPf/l/LQF5Uomr3F7w2ygTp5AIy3S1KUXorUBFaU8WAWmGyWjMcOos4lQdOv356FRJygCQfPliyGgCe+P7FN+0BBFjVgX4yaVeXyuyyuozTESP7GCLwRLQ4YXYZhYK7K6l8IysXX3ziUgsSGxJOHaJxs0zJCDDEB6Y7nQkVK1vsNolJ20dGSEKrZrg1hlI1x4HQOVNBrbMgmzj55otXQDIu3zFgNbLaYnVnvHTjXYEMWkxtjLDrqIhSUisl+Cai1WJtOiVQUSqL1gsjaF16+fWTs6DIB07RpBGAWLhlrNtksj31bg3vKkSkvtmkEFpOD81G3YFgHEqt6zQIypffeOn0iuNwqL+JBrfeBdloTM6RsPt4BadVSXFovU5nNwJBsGlTKoBBsHrulQNF91zfi1pSLOGQha2xDfAeJDEpG0E7blSX0kCA4mARpwIYRPbQh9547w/fFGitJdK2WF9qYoJN4maxvGQHYlTGSgcwihbu/OLvvq2jRSJ1qz0+igi1AcW4gVg+TbDu20omjQi5MTGNHEwOzdgZ8pUmDgP1d2YCjMKpfFQh8Dy0vGed0wtFgnWQ1QfBWiyNNwlYJDAUlJNsBaUnOJxZgRCmhoh4e24GOSAQFHBIKk3Rjyb9cEMOhIGJaJlsYYHEBG3ICNQdBZ7YjzMArBWPEGzSyiOVL3y0hQnaFGHDct8ZUEf5kQmUZ4PDd8mBCBf2R8j4nRNbmN4qNTCMbXkPXEutMCCA5sr0xNTFfSgnq0c+flgKAkjuvh1Fxmo8/BuI8NtwZkZy9+2kWm7KEp3VucuXLpyfLgDK6d+Pb0+3cBgUjxaxYiLWPlomcXCiSHjshz53kKaz1bmx8ucdiJoCttbmPrpy7uJMDUCyya45/2uvEqqhF68n+ca5Mqb37hlE4G+57nCnKY6Md9ZpT585O77c+oRzp/q7eztDvdZyee38x8bmVnNAwpisr19uZIGAN+2JvF7YzEwhE0GzgqlSu7ujTlYxXbu6ywN99VSbr241ASRsgizQnNoMBfUGpPVBlcuLiEjGgIQB02gCdmLTvIQxwdpsrTsUiB17XXC6ugjuj7yFerXa1FYjpqtQE8aEblFedSgsaqiGw9LCpZy+rZe4Kl3IFErce7yMQAFZ6exMJoOSpHcm27wascjXUzkIRV2XCyQsZMGI5uoMAshz1DNE+2qkc2rKKATsldkj4tcXcSC0l+rISPHovo//d3pwKWvKgqMQxYNf9XBlTUgdJ77pBv/TwyZIZ8szdQwh9ql30/krKL2O7AhBQiaFALufJKPGiFZ6PvS+Uav/QMnkW7qyvz0nh1C4YauOgWr54f0wfNOkQzpy946MSMQY6K5QIHYaalToLpGnI5CFBQkt7f6xWwoEKe/bllz6+5ocQO22/RLkTH4wYGtwM6l3j2RDidHI+MLc9NZeorRqU+vN6cXS3FINCEEtkxIa7Bq7sjKxqRlNnTvREQbqG0P3v0/fi5UP6jZS4XPOLeEA3RPpLV3KhFzZvfv4sC6R2Xa9sTw+duaNSSCoNSGh3LO06+T/VbdffmboNdsWq5NDTYViSYEg56z+b03uK9OaX0GAsk/6DHAA+q9OL17B6cnTnzeyyGpjhFMSiM7axeP3zQYIagXjr3/t6OXtWy7QQ7VYYb1NQI++Q1+L8vl5ZCxObpEEgRzGcFrZdPdXAAZEVt1FcPE/vu/6IgQ1IXHuA3srNOgWae0UhrFWn07l7DhvTK8ByLQWckXULq8TZ2+xFci+wfanfujaAoQmeMM3jONG1KI1rA4Q71l2khUrPP7/1ioz1StR30RwH3zhERIRpkE89Vs/WSQJDcg93+RcyU6imy4hBn49SZwR0V56Hhlk9Q+KRm8eQcHdO4QI2oin3nwqwqrHVQlxz1sEJv/JzojdmHwJGaBrawk3YB0eJvwjIxwMC4zGz9y9H6sWbG1GrloC6ZbffyGWwCglrZ0tYUCUhnpYfwUKDWwmrz/Ri1XLitzyIqsHP/PFgUQErBRMc3aixmozOs76a/YNsRoewpo4sQOHGtWC4tZorQoUvvStXfDy/w9Nt06MDE2TGATdQyW07kAiWig4EHTvPz2QSECUMxADpcVzhX/9w4s33YtbZPnoMWQQbBmwaVJUWxGQEJG0Jr9jjw301AYD4jv+LJTgP4/SYitdaGMQCWFAtHCiKQcmmhnRFNzzQx8ak3j68KGYGbsW4pFlIj9Ny/3JxzAoYaT3FVooykRwohKPmhe//OujeHaVgRlwTKRWVadfRACb33RuJGkFKAbLeVyS8BcPPqmZPHJSAwkEF6MWrY9XAJmtN5wZDGpNEgMTWa/84gefn1PURLXZQOstKpO5DGbblgI2rS3GIMLxt3/u9mLUYK7aTOQW0J4rIYDywABGtFhXI9aLP89Nkduk2YJaUBufQwYlm7uNaPlVCbBcHUERE41dxW6uOVXCYC3/cyLS3B+DkRit/+muqmpCrM626TR//M84FeHQxCFQfKzIJbtq0uSlBUQMiFMHUSo5EYwhrD+R9W4sNXqDZxcIiQHM3p6Uaii8S5DkHO1GlMd7U13YQCvULcQ4lSbBmxVwrnGznec7yyuPDSuFfOFCGdPg+WXSzVFoObj29nMT9bwhthL2zCT10RSz05gNvtV+8U/ZQzfnLkm+ukVCXENAuQ72tyjmu8nZpTm/cps6Fh+ZB0emo0C+FyPHlNJj6/yPfcXtpVO12ntFYiu6y3nIaQD7hJxO58zpXWUANafA4PDBiBjFSulc/jdCTFaDaD5xaFk7IgLHafmV5XrFYkoOlhkq5E7aVf1ZGZPBEIJoba6wzPwYisXmxL5PGIpS/Cc/8Wm5VmVfK9OQ06E0v/FgLXU1rPSTjRRNYFofJ5LW+N9OffF3Rciq/jqYNGXa+1YsYOkj7l+eRbGB5JUQkjSc0OYdCysfMs9OzzTig2Jy7UgsAFsFljcL8cm1cvEeHA0gg5FjQ76W4q7PJrozW9lQjxyIjtk1toEypbXoyJVTXb5mAik6yLO7gqMS5ZviSHwwD+5VTMJQnhFSPCLVCdz6bhwRRknamHsF5LEQ5WK9ZPKLuTY01flemfpmLCAKdUjCF8RlEbUrWLrSK8hSHItCA4H7q3JEthjgjVrvYtrTg+ptnyCiXkeDa7CWKtQVPXFpcY184Xw90GhTjoaGYybqjt9Q37x0EdcRCy3iqf0xg0qP7Bgc6ZuEBsVNByLiNG6NrDetagxafVPpaiDwwXpManGr5b1pN3B41b5RB6ojnn0hIkrilpBueT8Kz/3TE1zHofVuJseC8pV1Le3yAQZoNBLVA1ITzeoKTauOGnC0LpUHSfLkSqgjJ59TtGKxdDE0Y9dpWLE6X8WDY/El3MCnfiXxvAJJE1AJEOgZ6exN992xnH5G7VnHKjEDdKVKo7fdEpGuG55fvNA1V37xcoiGpoJCaXy0Q0QMjRSkYjErHuK1j0dx6t0XnijAUD+YxA2tVqIh+u48SalvNFqJpXJ3BKJpa/kTonUEhQbDfdJ0uxUN0MCmSonG3YIrS0S6dJgI5tAKIK6mWdGC881Ydfan57x3bUgDaKcxyaSzWKmYXlpHvUpAATgfNI7V0vn0lHBNOFQMJ+lRcHpD+3uXg69+lISjHhWK6RWGeuWOq+C0HY57lEn36mo5dzh5cPX1a4NB3ixd3zHJRfRqDuI8G/wkNIhf9dnwK7yOjV4hvCLe4Cm4JbSxGy4GV2WDP5IEt+GvpcFpo7eZBVfGGzvTY/VBJ/nfYIXT61arV3JpJI9ZHd4uETP7cJzWF3sFpcEc5G0swEIYENun+fKLKI9TrY57RRHnnt07KwJUcjXrk6Wb1j7YqEo5cS4WuAZ0mub1Uh3y1cat+52svzl/5y0JC+frbFSHCs39xHyxHZ4IbW/+kTNpo+kchtUuOVx8kWYDJJEySxEAgdqZdfoxdlgGkGyQVhkwOdcQtTNYIpG7GAQ2OVug9tZSZga0kGJQgHgNSBHZRAMLKiMxWIIkC0KN7T8QCycuDbSuIygws3wBCjg9KEQNJUksIN1gkBcPELqIhqFEJqWGGvV4ZM2BFkMXRiAJwHk8rgGr0OqPKGoo93UEdygLK9WGfD0BMBl0M/+PHvKJadSumoop5emAArfjoWLk4pTqlQEljt0dj2Rf5KopXbqE2xLMb14/ijdErhDSMNWYdj1dRuuDrHvIo1ZUGtmU0PqjhBmZdfMAKGZKS5lYl3umWEdN3DeX0xAdUQai9UiMT68ncTcTBat10F1Kr6OSktVYBPcb7NqclyCQ7tAYSkf096cEy5fof+tMj5WXnNYMqW8dSa2+2X/BE8fJzxXUk66t6e2JU8N9Z114skd5SVys4L0ToZKSkvJ+HFJqVvoOHnEHyklwYYHeRjgddpVIvVXrO8Uvj4n8XEh6407SNTfE6d10Y9/xqZ5ulJ/uvLFHwxUrBbn3MA5pHbml3xQnEyJHr5R6tYk0xbUXSV8FGMbZkV/Z3olyk5ke7w3lzUpB7n4TDqmlLRgiy8vz4+Tq2kpvwsjRUSuFW28gg+VFaPaRqgs7A8pRSkdzee+s/31TmRT/7N/JYqkCbZQRiScvkK/FbIue/t9RQqvMs/9YxRkYK4kC2ZRiVxfJ3bOV3jx/L1GLJJ69KNIXoy0xgtMTqhI9JJS7xpd6IVZ+uIuoJXKcBDJg0iVEn46MX3prCZOzzcp8L8CfeFcHUlMBOhSTzco44H4Qs++eWiZ/m41LVk+SJ7/zGgjY20k2MwsFnI3FMSDpB+i/Gpy/SDi5hXthL/3Tw0VA6mbDttfv7yGrH85imigLGCmHweQmvbQTJ5/4rpsurlbZdnzbjWcXRDat+svNxIhsipy+WOlJdy9/9NG5y5vV6sGOoWNzJGBlA9bOABzCmcjpZvpk7yxwvZo2age4HAMmu+PjHUNsYJ00H12XewRGbG+kzCh7dU2G5FoG8+4ofeltJLJrRh/h2geWJvoj0DfPkeNrHCfpqRxHyWq8kyeIwqHBJkUOeH5URHrsLTqHDgy2YhK7XB8+1JJjJL8wphzTLA02O3YEzjxDjK071y1AXh1sefzE+N/FSBwdWSSns4baWSGJHuJrrfigO1ad0DWnrWd5/AKnl3BsxNHhRdxtwOeOn6i8S3x1eNoJ8XY/peDYEXi6IUdGRzZWcMT612qcIWEAvHCO2Ba5LBHvrbFV9wksnmAQaubBNo6JNTxaF9srOtkD3/tPad/UtwZCYO7WAooIm0/R8AiOS+HopftfOFVwRqLQFqDsW4inKJ4ZthqLas7dR/kUB3qsbEjtIWHu1gKKhmrzpuEsKuLoXThUj354EmeiutIerI2NoyKSJvsANdZC8VCtegfOk2T+o1tRJkTbHC0MozhoePoyTYpomvTFtzEGzv/p/8Xg9Iod7ULNiQMihkK1Cw5N5PFAtRm2f+F3f+kRlF4I7cKaWt0XBZSer4km29FwpSCS7QKP/NY/XkRpray0C/CFdhGFp0P5ArH2zN+KnO2N+O/f/Ndl26kkcfsQs/N4jVn5RPlG70asrBfpBz9NoOmrf892glo3rObAAOb70doivfjyGnv4by/gKGQrZ16LmlDE9q/+m0VjtchUGaydrHFvzlPYnfVXf2VFAXjsQakxCDD5gX/aXcCq4Z0p4fQQ+QAxgNaKRWWyib07PEhKHO0fe2QPoQkkmD13z66CwUI7c3vqTZJBIhFivDZEOjdWYS/lqa87mUTBiLHPHE/UDCjA/BsfnGZ13jKulLJCbarUnF7bRBkD1ezcxFq085VXjiPvCbtvHIqBEZU3f+cVWhtsTjx8uBivjF5ay5TOr2TF2nLbAGbAhrfMPQ/OmKVk7fgYMntp/upXqrgfDGqZEZRefeC5C7Q82GG8EJc32XkCOYM2Gvr1n30O4UxByffk7LX18uf/ruQ+AKxWGARePPGfT9cIrYOQsDrZzmAG9e4ffDYRzk5r+pVbFvqkVoGIVqv02PZjv/gPVRs1YRBQ+usvPdUNQaQqhM3glwKd//7CElJmZv/0T0h9PRvJe5N46Yu75z7v33cKNySgtnjp3ZObgSByc2DpT77zz19OMrP8339JUEoML5aSHj17Atj5tltn1BAT7125eH6yCgoiT4v4X/7g5XLIiPPaudOEtChtjSCrJQZi/2a/IsHBu27eunSlhmfPz7x8vA1IIm87UtdHb69kBDYeWECpkSxMg0H13GGRAD5/BwFCAgs7L56vkS0uAhI2+VuU3vEX7+jIgp20Tv71/WTQtD54eXIaDBiBOgStWnnldz5SlgCCTaOSzdW5XPr8r9snQKkYweV//d9plAFIOP/QW06N9lM3q7U3VypzkzObNXXTYGjA5qq+77m/vwAYtcgg8Or533mRxGTSQHF2++ld/aHaXFqsLczUlhlK6KoGNpKDD/38wakIg3bibQSuz3/bDcMokN2QAD1dJO3NlG0lsNiAKkB59zXXn+oFI2+jbdLJE+dGLwhEpiVsVgsBBrNxVQD67nxwx2jEDrMW0Fy+/MZLF1pAENlXDXNNLJEwsOOaez6zuLlQAzz91oyhOjFbA4lXQ6UEdn/z0fNnygKXqnRPsLmGBQBWUDgg3k4AAFD1AJ0BKkABPQE+PRqKRCIhoRSZ1mwgA8SyNzNP6P/n6AjuAD8AOrz5YMRLl7bgF8V64/JvAnswW6q9UDb/wvyA7gWRfPP4L+tfuN/iPdys3+d/vfmo7K+uvNJ86/gP+X/jP3b/1Pzt/2f7I+6X9YewH+r37Oetx+13u4/df1G/1n+8fsx7tH+p/4P/A9339n/4v/a/1H+3+QT+a/4f/se1b/1f//7ov+A/2f/w9wv+Of1j/rfn/8av/q/337//Rn/Sv9b/9P93/u//////sK/ln9i/8X7Uf///xfQB/1PUA/5n/z9xb+AfuZ3RP9F/Gn9UPmH5Bfhvx//dj1//GPp373/f/2q/wn/x6QnWfio+6P6v+9fux/ifff/geNfyU/wPUL/JP5t/nvzc/vHHlbX/oP2U9hf2n+uf6j/BfvZ/o/S4/0v8Z6wfZj/Tfcv9gP84/pf+t/Oj/KfPP+V/73j2/cf9p7Af8v/p3+k/vf72f336YP5r/u/5/8rfaz+Zf4j/p/5j/Qfth9g38m/oP+t/t/+T/93+S////8+5X/v+3v9s/+Z7kX6q/ed+///0ckqBC5zfGgpArDKWjQm1awIFYoinvUncb4rVReSnp0UeTVBFawIrWBFaEuRXb3KP3qCmdwWF9DmTlBysVNUlBGmC1C0tkKj7zTrKB5Y323f+xzrYeKbIsZSEtS4lNzk3yr0Z5Atj7MtUN6fWBFaumOfqsYWJG6aVIPDsBYIj3xKdwpZBY6xX4a3kV4/c5meXq5wRDEy0q6DqTN09+PIL/Ns1qZj7WUBF9pXqbnf8WnDU/aFlo/HPP5ty7gmf0mxf+6stHMc2Z+drmdGUqRwyawZnEYy8lTGmJ27BcCstgaksk48RfAlJLmEFLo9VpoEwUC5UEyV8Gawowv5lg+ugVV1j644GsMIWRKJKMmbhAE/zJuThKnRYvdUAnlQzekyAuVEeKzkmGjQ9kN+NlQxr+6QduQ7o0njFzARsNl+25PAPSSw6wuV2KL5pnAkRbnLVd4gj44hQCLPtK9odfotjmOowoWEouav0/NSCyuzSzQZJWEt/cLsOmR8j+j0x6Ct72JZs11S2KsI2sJTfli1xBDf05swju1JfuulrV9MBeZBXL+/BjTATuenV6rcrHuWvOP2l318vDDm5Wm7B2Ufyy/0xq+UD6VhA/d5OdDvFxE5ucgRdEEB2/hnpDnDk+2+EoVRmJclRx8iP3tOmOB/4V9C9+yWYYDEHi6YpMScQ86pU8qEneNcSJgzyA5YePZZLId2MPh2YkRk/jXskpHCLr/5rkRwiW5mbqWS4YpfdK8NbwPoVJNSmOYER2woxBm5CspMy2RsBEJe+1e7eqex7Pu3Q2sf54pMi5FaNohCn5aQx+gt+0TTdx0elfLO0qujEslMQFdtZYwknFQ8rlKW7S+RejOHymzcOsdwjYTGervE2kO6L9LGSFr303hF/mRXegL7+eRc+lIXPoCb6OVdqKyI3sCRdCLu53D98RgyYR7fiWxweBKZ53eHZ7tnP+W8UH0lOtpBlnypTgNPJYqJOfhg3zBbRX4dzPF/p2W6Zt/M3nPWyjLc1kQ57VYm/WC6V1o9VRZfUHTpOK6hbMcFwsh1zfXLPZ4u/qY1KCiZm6yyQTLNlyABG1FRl80modgcSb/QOfpoJXQ3xIPV8pggdD3p1I/uXIsvpFLTh2NeVgLJSgkq7BC99xFLI20B5cTj6Jmj2u9CBNFQuLAhFwzSnIUvoCQacUjYSEZF41ZVBmEyUWILBCa3VCn71z8cpO0HY0+ozR8p5IzRx+MPkCCiOh3480GBSyF0W2whlTWK0M5r+Qqa/17YnwwtQuNQyQsSodHOQLOrZu0aAQmwPBDgxGAVtmBJR4Kc4PKFTmMwuB8RkpLAdjoaNm5pNJw8KEY1PjiO8ZzZYLGTLHH0ZWLlyahDlQr9CN9BqaTiIjH/UBXlyVS3RxBDRqWKzNl2ddW1YUHtEgllGA2l618DHsAGEzWLgVKGLTIiT271hhfxulDduPLdbWvQn6h87dS4Wa9qLJQn5Lg+riLUgupiGH6mGYovO73Mqi1IGUO+UW7U3a0zoz0QwDN8G/mpU3l9+8Dv60UuTQOw6v7lo3Q21v2IzMS7ybxYFoChj8YcN5CqmjMUygGeMaD+cn1/o5JoHp15IlKbbO3nLRfPfqCGl7eGnXT9xQokuLu8NSZrBqMoHoBm6zU02ZYrSjqSueXHYmoGv93gbz8+ySJZiuwmqkks6rpIOReNqqKbADgzSHdn8ivHmXPUhSS+05pTx3SIqEb81iNmofFdVGqhrckTr4XqIpl30/gdTo+dsIHPQn+N21Axt9+vM5Yt5mfTAN3ImcfvPmBNwGYrA2T9rgvcgs+X27gF6AQnoTOtnitFOoW09+7TX3cqAqK5zGwP1OAzw8p32WonP2Vq8zKNdcRyzwQYqu8t5O2npbpvSDmko8inpMz7mQzRo49mlVVJ13hshBD3Rn7yei6SA9xrcXZGNC8E68JSD4376rWxw9xuB97h/zX57kEGNgHc/gsTkcTodKpvRRtp62vY9JG/yreWmDZ3vO6+xSc83SBzRSeNg3+KXq9hz/Obn9uUWJTqgtPCWKE8PxVFEAAD+86NABNfNQYZlmqXEfQSCKJyMW0nUkFZo3k5yTRrN++Kb2QdP9f3TG73vXxei0NF6zck8PtoKrcWbyHd8BR9i8aUc1fGic0E5t37/kYmm6oxj/ij2c4kDQ3KzqTwjBdkoacm6iqWVnN5PvDGLukgzH8CrnvyNodxEo+YM8llRzR+PnhDl0eb5UlMaeJGQ/cwYqMqfn1+ygXcROH2kFcEASSJ0oMHqngJZGuJuAKQrpDkEpOlhxLu7Im8V9TxmNaw+susqWoElENf4ZpHgyfTd0UH2yzkIJtVy4Zi8ZFzvxqv7NnQx/bdHp/VwpTjwQV5A4eaD7gj1JWw+PZBn2loD/UA/2ddqKbOn8imXm/c08gp/LRKiwbDhLqQGn2sM6IzIbm21k+3FdNJUsq8GI8IPJTDsBzOo+LwRWDmiIkzz/98Pwwp/CQZZf8kOnHLkeO5GqrXoU/lxIL4/9f9HglrVCCXuaf9ImIuweE2qhDxM6usj7yZ57Jy/SzTGhdXjnwN/O2P15OVat5NOCmm+UZ6PHd24mzOgSNODE/Ex991hC0tqru7HzAMXNfp5DHcDmMaeaG5L9LdXpXTRMP7OtpKTzzV/Uj9Byrresz0XoOMPqWG1eFtzLWRpVITI1yYIwe/WMONVHZXfA6fb7oFR3n7furBYLL/ATkt1wp+5T776pqGrw83CMQAAAAS3zyEKAYyq9Vk2XVrC41TkZBLWpdWH58c8/+DWseoScxj6d/se0FoKz/26Lf3rZ+jaslhMOO8ZPpHEMNSL9Vz579iMS9MRPKz844SFA97yT8wDMwUtHaFQQp0JeYQF/Aa1fLbG6xnm+cRSKhY6Dl/GhyN/qyp/6UsZDdPPBZGPEbKMvMTBLRxkBocOzI5xHRYmcPrSP9ouAOf/D6xAYxOQ0LzB94/2eDOwATltsV+FCgR+jJ9oxSlkcSS04cftpt2Bt8tX7b6XA6bj/8KP+vR9pQd3AS22r0ppkrAXzgNvaY130jF5QyvuhHgGtvzGldK10g9FKVUpLiSvauduG3K1WvkmJMfxg8Q2Ik2cb00uLXF6uO0f03+YIZbdplZpwx7G1So5YHbITGlUPsJKfeHF6j3OvPzQ+RW3lpqBdMxvDqTgAG2Ux3xIfxHsKNPVSoYBmnrDeRN5dv5EWYXk8nfquVnBh2OlP834PcESlJN9Kkj3uKcZ7yNDGXQxxe3n4HXreqAA5KxYpK/xezt6KXvFozaHdRrs04mrsrwMpXMzYN7Mh5xy/SYfB47EdsIq0TDZTCHo2n3XXeV3kuVWQKBn36QC7wTXVDhVowe6QVBHH4h2gwmcTXPpP9qGzLvZ9HSBpBuHPZDkSpVT7bQZJMGpIi8s5AvdnBZFf+PkAED5evaXZ4efb7XM6rwlAF9TUcJ9MYRUxqFR+ZNV3xEWG8/SJ/snnMuxetfP00Ny+HemYlI8QgNIHjNFvS63/9/KrlWOYidDn9Qjzdpcs3yRsz303SDm8IxvCC7CO6YiDlWgwTF5ZpTRDZFUlDvsKEzIMVJ/plS/zDJODBry5+E3RrwUZPLlWUeLs//DbvsfzH95yqPlGguk9omX8CzSn2iybHP9GjNVxHVES+S0MwuHmWYfSUWXMXpdWMd9Xz6rV6X0yTSNtWOgexnbfuqlxNV3x13jaksrw1sOYvkHKQu1jIg3I7YgopkLOHk0KJgZytU9mUWCmTz5ghIljJXIHWG+ZBjxbeNcezuXGcD/nI97DOmbNvAyfMzbC1loWVJVbV4oNwnpHmo8pF6TDVm6nTCT0kKgZRvqFjzqVCARTcpYelkMSreUYDYLrMAABglmNqRQFcfJNR+KlGLMiN57ZE+r6UQ+zDdNjC02bI+0a+BzZLoVrMkUYnUv1WU/DRxO+MinxaBceROQfWc874hY+RAiyejRv/O3CuxZLm/PgMifCUGnMkNIErzCAyrlnoTGhG4OmWq37fONg2PCkc2QQAADL2CUZ9eS3ZbBOao5rggPoD41Hz3D5go0aAotCibABE8pLd2zm5w3aJN1wkGZWi2K/A/1SiD3aLVUD3J4GwNon5AGrtKyfIWX/0GSyEU3cbFzw81LHtjHniSB/wqsRfkSoQjju/YgB1cxwYVtZJEsVnhBhAX8Zr+fhZAqeu9SsHsgP/qMxdeKVJHeIwRTEfXExUlSkUfI30/3/oi9reJgqs8TkKM5rsvQvysg0Tc5bpXd6U4d5nIRL7ETuDWfE0Uj1q7TZ65+4e+PC0oJOjvstRQEHUJUGPxUdUWH59jaqeTm9ib/ktMIeKKJO4a0WYIqPrFU7/xGUBwPZqcOAD+cPwDDrgeFk5L/zqbghD06QlZ6dxprQKP5Jr3FJFK42bYlhou12++xShpdyE1d82KVqMDsa8m8ClMaUIaCtx2hSk7XVtlpjPkl0aorNqcVnSSofGSCWc6djdC2ii0aD0O2hPCJ9waRCMYulGy5CJpM61lSRBgMVWKP6SlgtBBOCELO+5aPxI1VmO0KTqdeCKPt91UF+5xgDOIm7zxrIUuAmAtPU9Fm0Jj/WiplTrOCy3o8w0r/MQezSjIFh5NeG9B/3cvnB8aAwDbV7wutc4Ps16RDeEGslVYtoX0VzsMqdCqEbrnGEdlWZR8w61W7MGzRX9a82lHn7KFqhOEbZm1fEjNrebZewHcVZqeu+I/EhQ2tMI8Xf5hhKgi3zTvBRor6lFn9Bmt5DE/vUd3dKHWHYdt3j1L539smCBtPEH9bU/+xriN/RtjwavGT3C/6mrMDB+WMkFo/jFJIjpjmpTw5ctKtnF2vkBOaImpDV9WT3mzfO2c3lASwW4A0bAhzT/xG8OcpdWjSjTl0PFn3ZwDf6v5568o5Pxl14YSy2zzXuuhdGy+tsFdF7gvX5lKexcn5wXGA3h7ygLbt1wVINyOdnO8ViWmMRCgXJtDkNGiKIzyoNLXG1rqSnWO4PShez4KK/3CXGDmlvJEuT3GpV1IPmA5cDZxRPRYyGR99NVAqqIpxJdgFXJIB1v0Dql/NEg58CqLXP/37Fah7xdFWYlEjhsENOH2kjUNXoV15jyqATB+QCX/xzLyn85mejC2OQCKKka9dOPTLhEWSyfOx3WzRXmMxDj2BN2GB6S/3m2sPS+lzjSIvDnsl8uaO5ac19rl5DYe//BPx1VKFZyQgJG0VwyFb1otj+fuXuQmB7P5a0jQucfyNWLzGDrbxIbHyftQRP7Di7UYqFuHyeSllbG/++iv2rvznJL+uUgtCCPeCmF6Vs3Fqwq96HX2hGxidl1IZLKnIyGuqMk9JPrk92V8PF7BZ4y1rwynNsGQfYApMdfV76sEq8Wr54fteh0kFRXLNKMqmDurLG1YMP7heyS4uvpgKVkk33W7kisvYYVHMS297S9kXiEneR1uWsk/i+VxCQVTo43pN365Srv/aO30mUNnHfJT2j4oCSfJ2SttuB6qm9HcMOScI8ENp/KAcZMfp5nPAg8fu5UefbLy2UaAFK/ugaiSwgEW6qV2Rt/Gi/m6AEd/DiXubzjG9BK6pQYEN+ULtvnqCUXNEA1MSvkx96IV0ERB90v702HvrrJ4BJug4qMSXvBQ8efOHcsL+v1OCMspdtEug66sQHNkCmzF79/fbDTNHCqMadDc8FgshBzgmIQZA9chKGzuL79pIoz9ytoDLKUmfm0P7RKj0LXvxKxoAyLs1xraI4blrBPqI3m7bi9+CLFp24jkeqIJWdnWYhtzTWj54O9+t31GKsUX3+gagYKkjerbW7BzN//2ngbFCIHtJ76gVINNrWm4fYvNL26VvhhYZhqC0l5T/2e000HAwrCBrZ8nsaPv+WSja3FjhaDH7jStM/xAS15/GvaeqBDbB7vDs3Xt0WJvp24U+FDZX4or+jXOrBIDOY5R/myyqCVa+ET4JV10WX4x8eJ/TQqYhcXX0nr7egAXpMxIgxVnuIK/thy7dsTmRN8ou9mVweXt6SQfIcTSVG4kWw2UylJKJpbViNQA6Xe3H+yJHfVN/2KGjABHPuz2TbnuTmBFEYVmoyPhtabkrEWc8juoM2U14AKPaBPszGSdoMgbtAy7QOQdovmzhXtZZcmW5P3Q9haYx9lAAyMdsy9KAeI9DkfrDRuPzZlXDParhJFMojAmoqsIcicDfyq/C3LM8YTRElu6dc8idoEtWMSBmLH5YqcvREWkI8d4t+K/HgNJz55XmHHXj/Dr/PX/98HGumL1ZxcLjovznw/puYSB9vdmaMnkmrnaF/oz/IuhhpvFVF6B2d5iU8RoDPFF5PNggSg23Pcpso+kfFOVIDydwkT5FbOLlcuQZ99klD2OObq+GHGabjd7YMBEfEbjT8E/suTfbNboFDTiEBIwmr1wEudd6k7+Gj3msz9xBfrFrsxUecGpHqIwRMZ0p40y4QFefiMOZtO+zPauh/1c0Gg7fLDNR6vGXG4tiHW1XFqinsOI4TiPVN8SFQT2uq64bHx2YqzS2yIT+YwcOysCPqFtY5nyoksun8wisq/8slnjBHUwFAb3Gupe98Yv45S4LYmF/CAWhKLOWeTm5ZEAV6BkL+XWftIzMhozEmx+dvv69ZAY00efTtUL/sy7cfcLb8GNtiAQgHw+tU5Zf+0L7ZtRR+d71VLmT8RVwxHcO3WWPkB2SulP50uw9GiUOZm+D2dN8kFRLFR7G0t2qWiTz5uOmO5ztF7CbkJotyHjGHkSjcb1qT0kc6V3yxrNX3Us2AXpGaNpUybE3dRRCOeLFWZtUaCdink6w6bWqGQR5QuNOGKl9y9TV/2MOXj3N7vLjgRvr7yUvbJT7rOnI5ZXV7Khf3nKGDasN8jiV0FGLp8HhOKwjMzIXFq7zc7AWvV6XgPbl49kTvxnvNXYTDqTK/ZpjDZ1AmMSa0qS8AWMcQc7HR11nCjCOEfVd3VXW2M2iDWxnbRMYPjs6/f1x/X8KrAxwKyvAEaDYdL5H7Nu+wJaWJ/dzplK6l/Ar4hNpEMBLGORS4UBpO7TL4BfcDHvXm+lGdndlJVGhkOKpO2ztM+KIXsdOHB8JzzLAgLVpv6tkSmFBTT1mo71EE9h4kJdXcwgzxFoUhcR7TQMLER2xndqMrl79mt8BGG+b/AIyfE3IOjLbrumnABMvNXhL14diIKuI21f/4uUqdKkiXTOqnGx1GhVDhmtrjQG13Hp70DVqMvjD5wRiKtqCvBtFrP+HIe5qGmyhcYaKjEd+hui8XhATpkeRh9K5FlubwlQr4BA2hcx7eI0AtV9hzT1smPlGqXE6HHkYxyaFn7+puxXEVxmFdYKZ0NvMYTx43mU6ZRCCpZoy8/HBM7o4Z9j+vyHaDrhypt9/J/BbW94ktxfegYbmig2QKzzcbLb3lLFyGI2NoF1ZdE4pZXM1SMnygLkslHO0LsHfX593GanQd1LdijnjYJbvudOfmvC3zhHA5S+nM2FHK0vWTtOZsAspk5EbG78sZV40B9njJQgurmVceI13R5OwCyxyo5BGjAlGiTtqT3LOZ2kL5uvEJLK6GOrlknIG0TX0PgPjEfjcwqqkHWZhvTOlcEqMSrj/Itekc2rjsmTa7fgsONap+YHUKzqxGR+rCToq5/QngHmgjkoLFHCvUc7rT8RHYo9Nak9X9elhGwypq8EQh5M0dO8N6AONyT/T12I+fO2KNTrstjbpGUH5fi9tINKHUhp+9iTSFhB4qdVknH8MUVhr2luHVsUALlu+Aoam+pMXC4OS3bYSvTC566o9DkVL9bzdJP3fAhHuCUI5dRZ6jt8dcmQAx/4njGglAJbWxHOnXnhKCWte+8T/BUTj1KKYMwbgmUVkY67U6gOViahsLyssAuhFyNkgxE4+AtRONMqx6rCnzsz+k++NOVcYk2e+sKPqdUJ49tBMHmkRQ+RqbQMddqLqSnyygan7KYCNWuLYz/FXD8UA5XFi75T5PDXOs+k2d9PUaj/+KC5dZ2oQcN4/HuKu+i6JmU7tXYGEq07eWaPPxcC6ri7KrtMrYKr0Z8ZD+f7VbRDq81HnVHhFcosW9xH80JUOb38Mj51+VwJ1LUOnWmZcUYiltswHzHLwVnpKSlhoTvjYlqusapnsknha4le5hLdPK4m9E5rHH33nVUWPBV0wjgp+VS2sId5OBdTZVgYHaHm8OM5ZeBemOv0mu5h9JTjXCzo144dAKh0qF78qKkd9vu2NRzUI0pjz3NjRo0xFqxLL+6KADbOrjIGhwLntRdNMwtByt7t4sUJVHH22EJvaapkcC6gGYG+AkMCVSQHo3EYlY6lR7v1I1QlnHQN6uEVyOwFW8mqMXiZMYWsYysuQ5i7Wq+Qj3A7fWlw5HkJEEANe9MMhZMeLqhAE2EU2ulMJnpoVGjJTgjTl3m1Z3jrKi/7UJWMfO4fvS5kZ9e40H9aV5Z4ErGXJj60wI8iaYSuyZql441YBzwrjfkYkqYrI/L39FgXGX5rMqlOTLv1ZNOATuwxnpxOg+KIurpEh6cLWG/QQY5v6ywgb8p3YZZGYINWRzWcEKkOt8p+h+P0wZqUstxHNDeUzuHmWWkbQx80SRlz1OcY8CkNXvDj5glgoGiSUUDffcPu9q/PndSGkEgawJYDmcbKpibGgoeglUDP/NNC8HRZb3z3G0zZdrI63PutImuckLcd4B6kolF5mMVD7NsACPS6U4UMjM5VM0Y9n5zpQJ81Yj2Y+ltjA4HYwPJ3ic9F7V1X7W0olap1sNMDsip3DwRsgfChqK6leTMquv060ik+o8CaRTVdmRfYeX4O+yMgUfz0JUu4G7YoT2EYMbSTpjkaDkZCgylghNqXtGTxKVhLRWjP4paJ70gr4dU2pjWobpcFl6tMmZSQxgLxXYH8kT8ynvS40TFt8+f9P/p7oce2rJvOAgVbZ7mlpqjwfSiQIrKvB8hO469fkKgeooE8ndmcyaT6yiT5ZMgmCSKFhgP359Pw1eCtahxFIqgDwEYfBNgvH4zAe0MTlI3KKkwFl+HbKC/xrxQBgnnUZs6jZiBpQz6v28QsrbfrljQb1CxfvlyM7RURO09vzOlvFNlB7WCnuk/jt0UngDBIueGZznZyc8ppxpd0JALJ52iAxZfqlZJBx5PqNXRaB72hMsfWWlt9A7EaPSXWNn5f4pspsdwgUTQj5t44v6SRVNzu0vnuHVXLhAR2VfoUI5qbGKdq5gQY8xJOek17JetPAjYdtvox/WcH/0wykyIfww0TA9V4h53nRLBaieCRZobJERvOXXiCOzbPTttECOM2CDL1xQvraqLVNkoWiwIBb5RcOKUe285G0JfqsIipJGq+5ZZTDWLyVg+kUIUR9zIWsbTZUi6fibOIAXS2t8jvUPcegcky/KGkC97TGI+z0OTq4pIQGU+4fhA6j6SRniE6JgEKKxbWgzlfk1Jic7hyXOptY5xQs+AcuVfrjqWVBtemQICj+a1hlKowf2D7uWOJF+UkYn9iiozz7s03M4vdre7Rb1B/yFo6xBygR84EZi6CTp5eUWZHt8cH21Wqc8Z12JHbEsaiNis8E6g525ffLvo2+20HaIfPdaanhRzFsrAr8un1ZQ7a1Wdboo8pht2GumBDBQvyN2EVnGFrhheYPuA1drp+4Q+lmmQqVUaxfl+i/C1z2PiyI9CCDk9eGvqEykH93Uh3anhOb20eInBDLpEEsKKNX5ejGBaRsk3yBSPIszPJAw6J8fl9Ke3pvcE5T6wQoVOpuDs0Z31OFHSCJTery9XAymrDs2c360XRIVvLOAIh2RdulM0zScvLAhwh8zF/FB/esCwYx2fPAZmK6HA1BVZYYAs0pyYCyEL0RLIPLYgWnCSg3hBYwA9iLMElgFFAEQ44+t0lzQGMMdXKAtbkHsJwKXcAlXAIUfO84ek1f3fXQSqhtlQUwTF8hDDhJiLPGhOc3qRhHSIrlqCyf5crf9Qq/YppmpCVLuZeD6rAgr+AxwT1XoleBI+iHFw1HIdKH3/dK+qlOMq643gBo8+jPNaL1gQDk4zXKTKBpjliLxwKWuSnuV11L79flj3duUeP9ST2H90pXM+d9tyBopkG0pNgQcTIwlzzW6TVovB4UshV7qQuOrlcbNz2v3+LlgxE1aX416756CgLYr/jfrcaP0rDGW+1MqtDd7Yl7OpZyxp/RQ/u6DZAZ8Py6Rvakshj7p0vg0TQ35+Yl3EKEKTYpsbfiXBvLKjArrdrl5vlT97VewY//E/CcycBv488tinh5sW2QkhHaangIuczWEpIwKozgulgbairKUBV/RNnQpRdCoKmAh1WcXl7V3qX6+anbZg3ujbXJtK5btzjaSd+4vVjG7wpyvY8Phhs75ohwsd8OXgQ/9X9hHxjr/t2w55VQ776Qlnr7FTrgM2pj2gb66M/aLtHssPmWeIFczkg3zJ/gtT5sL768btT8ltOhLQi25GGVkNEbiujfNnSKXA2ZvGCoMsXCJHB5LGi8xaE0Yj+Vldp3IIcmjlPbJaswhky/4xhAXs54LBj/zzJvOLe7c26aZhM1q3SkpK8/OE9f0bdHPTUhELbSIGD2gMp1RDLJOnCZMWtAGLMO1l9lSb/Pdqo3u6gJqgZv4H0pd+3YplKquud2+Pj3nvFmncFJrN3jmN90KTgYgQ8g8qdOre2dBf5HeDleuTOYQedXCzRjPO6pNI1Tpxh40Z5fGmk3/GsVtC649SWoGHNA+JM3mlXUs9OlOlhA50zXO8sWBmU4jPyP07lOx2DWQ5Sf58q74bW0Zs8xwhslX5TYGXXFk6855HdwlY/dV9TEMOmDxUHMnwRDYyXnAa/ZK+H/+eCNwp+udwLGrv3P5m5s+MhZavJpZws8VjycOR5zjZwccqoE3MypUct5L+27an99Fwd28pM25CJ3XaDgtBOF/WrsBaZ1Eh5U93NvrFZSaQ6m25GZSDju2Ion4s2fE3kFUh5jwqQaqfZy/F+RqI5vtE8z+hwZ1EM7A9Xs76lqiyFdO6Tlfh3XmnUwID1YwfjkLEDL7jwgyt3PLC1ZTXMw2yBhxZCQJihCZPcrTE1jUHhIu+90PtzACKonIDX91KngaTfuLa3nnIWdyIac3KK9BN4DBIiiVnIu4Dunlaq2f4omS1BNpvfiSkQE5VdnFgexnC8i9fHyj1HIc2cbUxjPfKjD7t4R3bq7ilAEjJbIMDR5JgTT+ub5QRy08CTF1RBTvjmd0kxz8k9MJ4iIDW+532JJYkiexgIiqR7CDlURNBRhO0+R1OT/RH50rWPE3oJxN/5wkeJQfScHI1KNkJOaj2Psklx7gsqPa3PwAU7pBdqJ89z7/HDkP/DvfM5OMpLW+gQNs+qOOjAOFtCnDwJbK+neMARdTM2SJE5S1/hHGbyuRQ6/YsgixYlRef4IlTmvyI/GV+FB/tqaHGDzY+F+DueWF3kwcfUdDKcu/vo8rKSwIQZu+KZPC3zVYNcTUbnB9WhPz2kpbpZJNV6TNeQabfZWVl2nf5zaRTwYXSAEGjMMyVPmGCsHah49ZoIS8x/hNDB9sj1fY8zGvdwc4V2YDkvFFWYRVtNbojwfxe4tPkHeULytdtR8QQh32fjO0SD5ck86P7BYqMMEY3ZA0+Lt8751zmqLjVUmHu/ejBvAAtcjVxvtQIY7JJmpSrnq+cmD+xZZgmbO5u0dAqBGOSI5N1hC7xbjrfzK8G1ElqkdCi0ZpYtXi6SkfZOJInAnKQC1U3J6ktJvBF7r51SYJMHofdtTTB/0JzKM/Ndg4vYtuz6nr2By5A917qCFqn9DkHPUuvUMf0t/ZT6pYbfupJek5005QK/Eqc/pPR6G7UnfGKEIfZW/jtm39eT/9ryDdK9vB6N6FX+mK3gkmxr5oDWkRYXYQG0PJD4vpeuzV2X00jgyE5kNavAiveF1PyXbXsy874Rl8VYlGoK1gNWmsr+ex6LK+qWYvT/9vrMZoyZCG8kf9ITVitMTZHArDW2xfpOmmzTA7JkWZbpYVzLxzjoci7N/YHXxC7yppWYydEnHRCmlYqkl0cet1F4ykQj1i9fnFCH0Z9U9nX0bIDqkGwhbutSNLXlfXKhFCdG9nYGr+1wxYI7RN2vf69YGy0jQCMHGqoxnqZGvely8SrZstmwGN9uuwXRM+3i3HNoBiVkU1ArtA2+E1433C8wFMpav15FS6fpY70JAntTnA4FZmb44V5Di4lTG0ZFjPncw15yWGzgqYTl8ZqQVpsIaSuXXi9xvK+0x9SQgK+onuex2r2cOVQZexrRM7dlRNCQDXlKMruEPOJoZt9N6Gj2wTgPCbJak2ColhmwkE8EirERib2pN/CNS268nSl0fO9T8tQQ+qKvQA7iagwagygWebAmvsT939En0q00kuO8gCze3jS5BRIUAwLS+hkUwssxxN0J01jkmDqnWoT9BN55xjKNEh3SX3lkg/IHztj6wqVFo5KQXafPbvKCgA0tK3s7n7MvmfJgX+MTB9/4vbLKC9dMFGjZ7nkT7vuV07OfceMMcscXKh6sXtn2Ipp6mNj3Ow3EakJidlUyi7ngUvHztJ3MeFIOxfVqH2sS496cRafIFgTWwnxIlHhP1AYaNB+hFPbllb7TK48ra9Gi3aiksWXQWGuK44cy8iAJJKi3DIo26QjTV8SR2G8lPq+yHx88TwqBqb8Iom5Nsz0w+JqCZ6pBWibmJk/oRIHJer0ntf6Pf9m3uYJgWVj1n65DxN9+y6u06GGquw/rFv7lnWJa3N3aE2zXvwfLfrasqb7iyYi4o4tXmSB/0k4n1WtXQYhKxEHCW4mdjF5sENhaIkBUUT48woFFPrMwRpjmD3TgFVbHkL62vLqugUgLclavnDte3CdLAGZrXVLm5TOtFXpH9P35yePm+2U8dfP45pZQ+OASVVZNfILN840C21t5MGWZy7wF4DitRf2lXPS/cdgTtOUn/s+4ZC8BxB8ZSXnoB2p3YrtKuxZwlQBi8AH8iXetyWJwQSakEE8HHVnyjsL8jL1sA1oDBIlJWXJxxyOu4seb5A1c2wYe+uFnZ/rzK+33gpMA+7tJBZzQKJKUs957Y3BCAtVyZan7dzRfES+WnBGoXJ3D2jJzMxjM1RtGzuN0a7xPqtbCBGzS1Sdz17r7cTH74BlKztPejnO8b8hA8LOUTYDRhzZ7L6kegMGU5Db7ZbKmC8c/8itihZ8L6jKCjj9nl1ZE6HmSL+tJyqbZ8PiPZ9rvmXspfyOBNAOsi3uWgmfqKW7nLA8JV/jEpQCDd/aV2ahjwds9RdC7zI2XNdU3jWGXKpUU0uKvj9m54HamT8PvQ1APfciQXjMkd8dFKQh6GUrMznvWVsutQSkYGUEC+lzCPytD4zrVQVcsJIlon5yUe3fSNGFKnuiRD3wVWDjq3zIwNcDDS/poFWEUv6hX9rMH6HPjlsTRvWtQR0iyhdlxUfuBKYWIQysuB+KM9Nepm1kIqB7uWqX3QELVLBPf+bnhR7DDQIAQwsgpvNawfA2RMSa6NjY4ZdS6HjJ9P0c06jSAgJsN7EjBHTRL5ekTjSjZf24SZjc7jnXilWXGzesedYDMAqowNJwFjlmamMcszUw43Zz9t9hMG38ppHoMbaNzbWEX4b6IVHBaevEGmUkqlyIfvaNIs5EHKjH+E79kpEDYptAIsAnSBQIFgOUl5Qna6HneeX+L3zTYu0L+bEDpU9ycXrthkn048xLzLzV+iB1DOUboFi9ppD5Jm7CwbiDijW/Yq3YWujn8pMliZ+SQ4QMqBtYfv1tqfBATySSndJTOAOZdH7sP7qzVMu+page4tmG/srrj34DjXimXgJ4IoeE1LVOwlCqo+E0V/rYg1apWM3lU09ziPZ/MMSMG/Scp5S9fgtKQ6EziV50sKibKyDOwgEepPMSYZl1yPD9Hr5sw2wz1Ncveg4xyVX7HifIQ9JgbB34saXxkFvpyNAdhXxvn1UVrHkG0iTIKmGdYeIPCjlFFE6gDzTjCwZbqe6tI1gtDjr9Mav+PF4r10DK9EzLmrDfGyYWSh5GMSIXSeGNvTRNO33eIPEbaFHOOEzt7y7UkYJpspThVUuliGriQ5ebXUlwTi/s9DmV2Uk2NE4DOkoPGKlov8bSmMmtMbhQVoF2DyE6YQRAt69v3gdMUdGkrXsMSCLzrr13Ms3Utr9aGSG/KhgYUGqv+BF9PFN1WSpDJKPa4dMUZqo82d95tvTdnNAc4umMsdCoGUwK6IF7LQ1yEDODPAXlwrlmw0qAsCwXn4O7Dh/oiBCpoxeXwBk+Keyl4Yw6rH3cJtcH82sp1DozUk3997kOQgM3+nboIBxdBQuyyEW8Jw7RXlPg2XZI6c54WIloC5Yz1fGKKq/Y7iByZBJiSkr6NYaiib6cUJmCwJczLc0RrjFU+OslwM9dasgbGzOeZytrUCFc4P7aH9xJQnW76NGEn1dh/WJjp3Isu4GwDpEthOdYyhxeqj0DKQcpuu5eBcAuUn602o/5r3TatZdC/JHcZ5ocKGGMU56ADm/r6R+ns4aN0BH7OIlzTwX50zwYwNA/iWNsZTqsFA/JHrwYr6QI98Rj6eEe9yYdeFzmcJOBG3ftK4zerOVgsCKiZfbpcYG7JdORyjg3STrcGEgCGWOSEDPeCypYbFSTqUfsbTuHre56Y0LmcLOMUr+4CEa3zLW5850HmO6oEbB5fKFOlBW8fCUjBG9GxM3XqH8G2rTcUC0wcmLG046ifOykdNUXuOd8x8Hl0+Cdh9DTjRoNDZO3xLCsLtQVE6kbh3cDAkm4ubJTLhIUC98IQ7IyLcWTqTOxLMlMFS2RiSAhRdRECZkEIvqKnVGgHumgEPfhmaN4plDKiO7ToP6RsC1d5ujXzOhUvJmkCMdkCufepn9QSoTrsv93P6cioSy03ySzvZSqKweXoRChDwBy28E1ppKh5r1tHV5pMy5R4Gnw5mXCyM5Q81YrJVkGt5wlmgwCTVA146PSwfYK049Jgxfd4VaBKtKvGNioiL42Qjyc7RggSQzuM00xmI2S42/N2qbK2O83cC9dcmjiLa8I4iujhh1PxxBxIC9FDsz5i3CT34KnQhgt1rsMVSESPQtJgd2nT/qjEtWDUxnChGOju0k5sgXbqKUELwuKXCfI7xU6UPsUpjU19KNtnt/2scnuBs7BrPwa2UQY8U3ySJSthSPekmyAlVxPo5rjTcM9Fg1s4trUnEEtTL8B2bvPol8S7SJAwNa8l4xwwWmPLC5nLdpvnR9SewbpB0QY9ycLAVT6l3TsodesH3yyW4tqg8Y9uyPdO5qgnT6QyuXWQZjspD7ImS9TLfu6Hxs/P4G6EPjKYHqA1g/iq06qQNQBBZsTzAkdXgVQfGDm1seZhg8ry3CqjVW6U14+dHcyi3D3CJJgEEzM213Np7sYvU8Ad9YS5QaE4ZbcM+ol0qQnz5RR8YhQLIL++IWDXX+w/HdfB0+GK6EuCWKlT1hbPFQCb+3lRkPwW9ITfWuaAK/8Dm23pm5XPYyxLeSWJmxZIhaMhhYvQG+3fxk/1bPV37UBcHhZjJfYKJu2gWq8PKYOvtpWLeqz5rvfRH+J6xHy1W9DljyBVDTwG7DM+leSM2hb0+fy134a9xCFoM72t+HqlNBGJN3m7y/PVUOvG7Sg3FmtWn3N4dvVna6O0S/ds3chLTeYtfEVknUhQmmrGE7Pw3Y9ICbhJlsxhsRNw/RJrB6hC4O9G9TvMPqmcZnr6x29aIIxGjF3UBDo8R7fm9RkK0WldVX8uNUIMh6tfIARTkRkLFUbPrmg/ZXS1yN5S51YKixr3eJXss9C0e4qIT7ry/gSzns8BaFO2ovlPpASSRyGyN2TAgXIJZuWIs3lu7VImQNnH0vCphLnmbIzDDMRe9Fyi0ycnOIwNkGYZgO6qf6V9+WNPfi7qWPjM6/h7gPbrkVJIVMblcWPh/uWUqWsrQyJ5M05AWOiQyA+uOpMIG2Y2oJyBa0KzYMP1B4YjGXsQWn34gY8q9O2JbcMBlyBiYaahu5VqePsdectnpgcBYqqYKdHflgmF6YAazJepYGWAAIT6QuKwPKW8r1T+X/alMoYpy5tZMTBTzEY3ivA+rFOlhmr4/spoUvbyH8pg5FWXzReegicezg6H/8j7mEn+2AD8NgWFO1oB0KuABQBHybGyhC0arPRIwScrwGE2aMelYUBfclayN60lGvWpJifZczCNXSywkfL/I2vToUq9cZaLo9VjfjYDwj5cGDXdJPRjpRoy33e4PvhDhhY6d+i5lG3EC/O7GVzEK/bpmzTnywTQ1z+dPFBsLVuyMX+RR5+IhlqZzpNU2t6SMbYLz9s6MUdRmkMaXT2Y0SqpyB0Udqi80Z1vSs57KKd3qMrFJRgyN4gKy8Wy/k7MIrL6LIg1cHpD8b4ZWE+QYNZWGsdGzzGvks6MEhoHQc5uz3FmAs7ROcrbhhHdZ69x8cDSBh5UC4sipoRCo7T9atPadw6+exXQDo7pZocJEv11pWE/vZJqvVbW5H50S9TwCrUhet5lCBUIz5pqi5yblQye3pIq3uxZhvgYg5IxVA93BNqikmWS43sdOzATuD6WSfiqr3n65zsuOXmA1zeZ4UuNTJwRHl4YW9kurmNPU19LmJ0jY/dvdLVFrGwINRC51xWBWmRBC09dST4xUfUyAtqznZ9jCc6ws6mR0mDESi09o0qUWSaAkhkLGuIodIJIclD5w3OccDhs8Dr5gOv4f+DewuV2c456mFc4DLEHPWrQjU8TqgKNIV3EUYpqiAYT+4KqjQ7vN858Nfx75b3Yv5tzvREpQpyKwV8KX6uXuRp6IZh6pbvzEdNxzEhPKj+wdat55w5lewQpwYfz9HjAOnExcLro/sPJMz9uR2ltFbllbX0dgDVhbcmWCYKjQaEkp39Fv3pUYysO0PbAhGvfG7P9NktjE9yu0rGy8qeeCB686pHOgo9Qr4j+O34LfdzE9eTdL6Li48vWaKvW4mv1yWSlTnvDl6+fB51Gwqz+zacyukDnY8+JiE/us1yoX1i6LYoEAYi3Kf5rVu+jTQnqVFcTlHfZnQd+iO7wQNmH8pTP4aqttMSeKUgmrg5/e+L3ziorvYJtPZqVgB8ApxJB1//dI1ovh/I8ERzgL7LBHyo3a2Odp1AJjT5Dq21RsCZYE4kvasyxwHqQ67CEMdrL5E5F5JEXMfhG11ogrVUNvLoCYMwqoVSRUamOoMrKmz0uyyEX3SvHX4mNsLdUiAkuSj8WfXtVt8Td7yuzqHiOwOzYrM7suGszlf7HQGIGiOoCz3GJGulihcETkEyLEqaZJ+4rd/Y4hanixkco+w5ctcVBRVDC1dKEOd+on4i1Ec51XRRcjCjLraqVNr6YA18IHJ3TubdnzCgFN1owR1kp774xdmGT785iCzCffZn59r/A+gk3C+4IXtv0c8V7P96CSOI/LfemTLYyUPLuvT69D5hgeMO/g3u6taXDcDADpUksnPQY7NMgkW0xiJxSirNdgfvjyN8cs2hMdhxR/MJzRGsa9p/hHojDYKs2+a1POXXTl6fku1yFJonRted5rcp5oTJUn3Nk139vTnesi+ndbm6L8YK3oC88w0fEqBAQHnZ8LZVB5oYNxRfx83gSFR03hDGOzTIW5dEO9ko8dTk6hc2e6M6+Mj3JXLj3iihBvVf5T13qM4Oik0rnl7fnsnQKlJZfuMZEgWD1PpcWZtMaNsKJuX6Ubiq2Zfh9LVbBiWTiMyhrOS7TpBFOKXhweMS0PiWiq26RQBUaNXbPmdgr7k69XnB/BC4eCGNqffq2sHx5WBaCF6FTF1FIL5Tx8az1AVt7hTQ6E0pI8S9JWqR9HAOKg4wxTRES9qH5w0ZVIXw+Y3mvoTsTU82pdGikwJQfeH/b3tLE675hM6daG83zsSjoNrbXsf2kq6EyW4LUMP41fKS0SH+o4dQoz18T7DvvpNkMktk8OAsj6v3qyzdj5N2PZ0+U9KA8swbV49favDjoAcjqyKGucrHZMHlUjZaujadLLFyEZCDEGGj+tYTMajxLVaZS6ijbEtlGKzt8M/Qv2N+aRIrDt7HhxeCByQSdtUnD1FBwsL/YPOF8bvihZvVQD76FpLYtpmhA3hcAD57u2VfblVCJAeiDi8ikd+Mpa/iFa0GRLen7/HECiLhR/UYpfFo8lRGqFasQHl8iJZ9JsSedIe8mVIkgSpbD7k3t9eKGub0WQ8tcnJBTPzwaOPw3uywcf+oAMGpWIR3n4l0OwjZ++CaG8OQSvIvHf3Kj17GQ48JyC+3Z0Le7yrwRjHcR9KnPG+91DIB+jtbZADYv1rwpABn3rBiYMnPMkS8jKpgBetu3uKxjpqPfBj8PgspiYfXnhk6hnYRmUrtqoFq66DE+dmah90BRW5St0bZyg1ISg5gZPrzjfWhqSbQZOxeQMWkmc1+8z8yzBKb8yQPVKgiK57kHqBjfQpQTJh2YmNgruEdXnzy6aYsVbUtyK52EZfXuhwW8NswqjDxTILcuupKnFJUrWyhHE0Z8jfhZuk+3X9JBX67qzeopj/Ij8GBuFc1jFuxx1a1/AQSN3GGbs0Rm/9+CA5VNhzdTFNUKBrD8PcWMorbFIHYPKI6+Q8HkT9Eu5I3hsig6d1jgFc9Uyyg7476fMkYzG5wlAaq4nFTeAJyh8pES/8efYzMDo5nWDrbtjuIGbXGk+PjKY7mZodPkI66v0jxShyiy/keVs3Sfj2Vz+h0VhA5EmQ3zyrRgyPjIjPS77evnuoXDQakYaBabB59Appb969MAQIZ9SZq0mi4khT7ONmbFHqRNaV69RlGFg0BM65T+UjzEvTCNc5NsJqBUFHpOTCGrEg6EpGUoUGutwZxSI03SbWQ7vfXWQrc9NriZcCofLuIi7A4hjQFR2gLTYda4OErsvrxb/66C+31bCppnHE1aGCsb2FG7QARVNx+pwkCxgo9dy7+xvNyuAunLQx5CT+9W92NtYHUlkv7y6RYP3P+k0LM6jhmAX16IhaBmumvCU8F1xuJCdV6nIEQJJqQ8kBSJBiwvfFuX82ASn7QdH/vg9AW5EPJsFDJCBBD4X/6wZZY1lB9Q2iJTANC8KhBbhxk1M7Y0yS5G3u4vvyxfVIPecslJOuUvE1V5SysN6fY/NbVClImfDOtm9hOPjSZq+CgMeJc9UG2YHQ9KocERdYhaHU0sWwQ4OXN3vOySkAj9boDG/QlxnJY558ZAiD3+JRpUXTrPIdM4j9tGrGEMd7ssUiHIsfuqaJz9ni04Lv4uGvdxaZv16Fen56209R8gRyJKXV/fNYcol7WhKJsGSdj03VlwN3xRbzVlGA9iidG58NLwG3g6OwOQWeUrckzYvc8lCZAjvUMN3KZGny5F6DKw7CdRx+8yKrg1plLfv7bb/gGkTIYCtdLxUUKWWgMS5WwQiWezdeGIfvYEmZ0wkDP21kfyZc1++tyb5Cuy+Dl8454FblN+BeKbZjEMcr8crIZT9gedkSy44IlkGdaqghiKdjq2QQmS2LYtM+mBUlgTzSbTCafkaTEsrypItsLB3wLbJ4n90Q9r2E7YbfMNJc+D9LO1ITA5v33/c62guIDpED8/bRdmZyRhjCMEjT9r57LB4EHukO2G8hIGubQG0ERpJP06Tc4Lob11UYKEFbbnP29cYMHqfvfoMYCBjWNd8KRz0Heeq8mItCNsEgYN6bJzMtMiHDwcyOHfTZtVw+aPwbDLibVofPFUyBg2RZSMXX+LyWjX/B0cRvXv2fZmOq5trvYBH4VHOTDNGDppa8GXzm+BVmM3GTQ89RE/tbQmwv9XvKrXvn1e8qt9Pil6awWvaeKNJdDP9euQw/86VNVnvJRkW0yyp60tdMFpPQP6kvbnquhtzLt1i0yIkgXpSgvFARcafFxxS5tq2N+5RBhpLfrfwh0CPXqOffhwkQvTqfSmDsYcAOwqoDGchmfcb8eyotJOYaaYLfN1okcpQkfLqzxlyUAYMR91ZLPZDBXuPZ8EJn/AaL//DzL/y4UiciPYlzvcLimm8BivRwNztOAbtt+bfr8VSKYHdH7msN805z7OZtFP+gH7x2fg4C3u8qjJHUHaw+4Uu4mqf+rUHqcoDIfzcVmqu9UMJZQ/pT+UeolDQ/s8ySX5mH1pa/Lil3WyzGPBkffSTBUktvEvCffqAaukabaNxBFfCpOdsEHJDJVTwvexEq27RGgVaGueqfRFt1kH2BPecNMGkAFMfYt9VY4X8onGuuVQYkCQyz+90xPs+OYFjqL4V3Agvx4Y5SbFDwndpi0t3Azfcze1+bpoQ/81FuDbuYREsmAQhxS21k7LaTdbb00QPmvxyEEbnOS8388wSwmrcFkEc25gFjNHr9/MYdusp02cDvRXw0fNjHs04BQbsoFj13OpwqK9gUPcIeqvnyUIqNwKPjxhSp035PFGGzQjOKBUkDKqcr/xlC2nNWrCDsRxRnHmhIRYBIMCtaLUbYLH2sIqTUdZsCurB7jWMQL+AsmAgLtPr7hzuVO2c6/b3YdLQh7YaNDKMp46N1jgv/I3h7ubv27t8yRca0Kwwp9Azp+bIqUDP+nRbadAdoxlFgZNz/XP2uwC/etbn6GiYfYue9ekJZ36wvny7Cp0yeY+1SZj1zs2CqWVHTXBe9dPWUvjHP9Cak4y9+4laHFfQrhRoRuqGVWHNYQ2U6FaCSIzc4EnKIxWMZALlVBRzCPCcnpyIUwMY41SH0g2j3pzbKH2i51gcEdo89ixocMrr1s5rRXALT2eUNMe3xKj0kD33CovXj4FA1AiODGwHv6BDUaS9CWqppzfXrrdExyr7ZYZB7XhxBKqvQeNsxyMr0BOTkQhH3K23Z9KpsBksa8aEP2pv8uNFENhCGBGIvNyFYnjRACmYPIL7gdpkQotSgko91iEmktyQ2NIotLrqXe2TpxgiRVgRGj5dClefq0WkcphKl1dHCpHqHvnNA79Wj9cVkfqH8OhbV5Jqsbax/QDVljn2RGbNUZ2tpsahQY907IEInZ4AbGsZ8uiXSG/vkXoaEtNN1DROpe3gQt+dLFIxNVFjEilZ3B8c05vlcGb8tYZbFG3SWAWdS+dwc/Qixba1B6DgK5cqziyDSCrXry2ihDCdLZ1vNxwNiBPVX1l/yT6MbNnvEYevpAAn+0KhCSMzVWu9hfOHZNA/sdNTZ02H0xEkiQDwVwwaNY5Vp1YvnRNJTtJJ3ILPQ3ZNqklfvNaVgUx0GWkrfDWq6OxoUc8lQXTL1mq6KvNhitaCuRuImR+WeR77Rn/9JyAYaV4Vkl+9/vmwppn4bRWp164fZvn51oLUBzAiZg47AMPoZ+lL9HH8dd/8GIq5Yb9maUJI6sAhrXTyuMbJ7jkLGuqGYFIdjlH++yJV9zRS81QFvyfukNwAjnVNG0gTH/qJmaFqLqOOl10bEbFNqVu3fjAGM0CyqySqtqdXRYpN1hCU8KIl2AyKOrRIZZxlsci63v13nK+S8Dthj+U8IJQ/tg96ydy0vP6YjGQ5XvCDy6N2fBIrSX5xGZkcO3xsK1tpIoiL24cHkhMpJDKfDol0U1E/pl8XHAVDZ8yQRy8W1iL0A1ZVZn3us27IaLIh/EnsUr4HHjHTnmZJ5YMTEFQlzydzhXtOVbYYCTqSLCGIGdQV1IPUyzZ4+rX+iWNQUQ6MlbPJtMmMVxud89HmQ9GHpg5299rcyjF8OxmuLEIfstTscWLts6r6PpB2OOCT5c+NEYcTkJ5WbTLQuDBKM4n1zNDwxjc75AiQLPPmWwZkd/EDsfP5BVYeEgxCxyzEwCmQhyTFG8DQvhd+FPIuTb9nw/moPSGbwpUwt7p/YWOYplozkBqQkVWMyE9m71se0HsfmIKcXlmO5Kb5OQyYfNgAkh5IpzOtp5U/j0zDSn39H4tiLrYKhx61icMqvXzDxn59ltDqJeYeoSuGpU2uCdT05OcmesdmMcL2AfMeD6lvimOzObf3sr+2myk4fSKW6k1sJBM99XB1K7+n/vmssvwIerLQXXNMyWuGcaXOIaYAK93C5Q8k83bvV2BT2A5RAHO3y8vplVN6zD7Qbj07mRM48giFaBRkjYvgYIPYg5SgR6zwZ8mIo0dIK1WdEu8qREjWYATkjQVXYZXbiY3SUkAjtb9TgOQd3zBSzdYZsypZvocXbd2hglnN7Z3MWySjLn6FXMd32C/5i6o5bVOPgleQjwec5D0K5i9sHgWM+5JngR9Ea7IugozR8ZCVq9jl2QlGd1SN518kWJXDIaw/d9//3U1EPgAAACxxQNIxzJMcZTSsO7zFvmoaQoE9Gqx1e3R++WvYvPYgDuZrXNzlIt8EzuxDa5OzGgD5SIArYYlg7gjMw10oTRi6wgpPbKt64felKjTTIl7B26Dg62eTc9ldMw7JWML50O5Bo3U9Ujx7mCEp/yFERvFhMW82Lxm/R1QwLI4XSQR1o38uoshk+oAvOSad34HwcsY4lf4IPGV/H2wXbE/LdLW+WlbaURqxCLzDDcl30Zg/1HhhhZivI6VS8O8Co2rZf129j8K8P5yd8AeFPVsm7KgFKDpuTG22DWp3fOPc4i4spv6ttGhGcHQXsEcdOOfkSknn39PwhWZJLaXknpflRM10DP3ho27uE4EqZ7p58zbDVZk4RwRKdq7R9H9UGvGd3+iwqyPknCynv6Ui7NqUp6CB53coBxNgaF/lbuJngoZupD6vSwQ2tpXu5jO4FruEqxOoRboBem2aSCanJhJTZuGNg9hBlE4kPK/TGh/RU2+YIZUfod+1t/OApij0DtcEkIcUmQgENh721EMq0EUR8lWgdHTju6U1CqqqxWy7xDDnywoRqWb39jQmVLj+MMmDAvb8ZmUFfzBhmzzXGBIrLEWVoL1uUno6A9KOTBWxc2+j+tfujPDU2wgraKBvnAGRIMBxvIpKFdoo6ttV5T4/AE4Yp2V9BDNq6SnbQounly6I2OCTQF3HMqR6TsJ72GfGTYQwL0wzOcvdf0X9tx3TT467UUlojN/fla0bn/X3PY06JlqI39sqpYQ3MYQCBlx8HOrwme1XoDVlKX/++cnlrfjicuwVl4BhPzXQL9ZBJaPr+q+yVe1hmFD+X0poqHo/a0C4ckyZb0do8V7eUMWOIHAXuCuPiYDbtLpcCN3x+9vHnYvTUz0ezfr5BW46y0fYKPvKuTTM7b+E+Gsd8FMk9VfEB74lLAMK0cUfowXsShDZgAKTxkPQGOm2JI+dSfuNikert3DednAjJsvbE45dPVm8p4NfL8jo52QVHQ395vO7ub+vqq8g7X8CUtXV7E1/YXEZsQNQwNOlJGF1a3HK4g+TfNq8lgbWsZuO9QQbNx8NvA8aA4G1iRCNpmEAPWCdZXmIc5q6/JdeWd0yShqM6+lHWJcB3IyP305JG4phDZsSAxQk3KgvqX5zEq8FZZ1Tc4BD2L1bJaa8XlCjllcSk67LtEZndMIQzvdiU1taTdR66Ux3IO20zopwC58ptRGUK+nVhlD6jNKUsYcTWH4eGUKIRYdOYQWIIgCIq93h/VrgVUGOma4PatMUL6cxAFoPVcnUIiqC/kLufC1lcCLg7u1SHFriTmaKBuZHpdLUCAdD738/CDFPIJauaaae6RHPZY81OaVsa8Sr+KmBqouS1Uam2vwKAlptzFpV59r2i759X+PAzJKAc6YAND/GeWMwr1QstwYQiX/P1DcSe9r/LxutbSIHqEaW7KJeTOAxlngyVs1Q69uDXa8jl/zQ1e/ZalWqnaT3XlYxxNXK6tkihgZCZByhI30P41hQAuMbav6Tg0GD+NSLuT1nH1iZkuUDngIVVfHwrfsWoYAEolQkzQljdLOIntBa+vBEgGbBKtYAHBBNo/COykLgA6lYO/VqnEWUhCWlFeNQSewKgh7ToJvRBxlPtdii+pJrxpP0BdZ1FwDvlT7dlFQ9MUNlc7R7mh9O/aCufdFUNbTYSrHeOGwo9of1wrqj6iWQUEfT7rUdKCcJEn5i7AyjekjfyEWSnpFxIWy9Jjmt8bfXQLWr0KvYangHZZJvyoR4M52mWv5fe6Upp+1eKct68ScoLaZZOKJ9U9v/5i9UPzYPIbIWMsxUxai/PMGyIz+2hb0PvvuyUr6Iruo2oyEbo4C2MhO/zS9eLn7P2OKs6tX+dcRNWAxUMfQWZcdyYX7YXhcXTSqJ9M7+2AReMF2Grt3trlEvrRT/wdQxXAUPy+0FjgCdogZmkNyPGPtFBmm91wBfzORhoAikvwa+BDVrSY5MJQOfuZvFL6R9BwXv5vrTFKn2jxIQHgWWr7ABgtSEEN/UIMMG7W0t8xPuRykmSq/N0vVZbPwn56PR91P6jU2dgcJeQsT7GS8SMa/Cwmf9S0STybyyT1Nn4zGIKJzKtgwH/KNLoIPSvhegxL4l6w8QXKi+0KA/6fLjG/sdyxcEWj1KYD/eN+92QWL/dam/ttWi38qKLBhpg1DpaqPZGWpLP4VSLqjCot/ysviGSilnZSM/xcA7NXBQijBWkz554hIg3+T3jrKp8dobUjg4zqUxiwdHfI4l+hDHI+7XaxBtVxceRHkHBH5Yw9KYSO64rU6E2UyQU7WI6pI7Od9S3ROZItLXuUiWYwE9k3rPRT5v4d8e2zLcri2CiKPihsUH9v47rXaipFvwsc3MoEXftkW+oQgvAUeBrhqzfhePFkgngcvKjog5kMhF6OB5/Q3dERHGDz6Aoj4xmjwQeJ2AqdIetCQv/tTWm6YjZzi/+B0j1tNnoKcgjMqICqFYfaRLINUfb5KqJt57tnBb0A5N5QbikiBhihzMRy/vs7YjyuS64o9ijTKWJEFTY5r9k+p4i4A6UNAHuCNqN3RoNrWHlY9KAUHEvj1cENSgwKeOoAh8PaD05kpwzhXiH9Ze9TxUfe6fst2Qww2mR/oPKmseutnuQRYyRT7qlQ2HyW8cc2eAmCOq0SVZsqaxAoCU6AX3Gyxl79Gw/l7o6azWXRmEuF5u3kzcTZPn2FfxjbIc1Z4Qeo4SLtFbyZhDeAwOg+p6ZaYRLMXr5rEWi6yY0BiNCvP3LG+9x47ILswqdgiCFqYFgnjVV3DY7bf+xFILSWOk7fLhfW5Odql+p9YQDE1zDVHRFkFblDJ8xtRj0PVB1BTLiOdXfAn+nrhZI64WWqfsDX9rvM6zCqMfmwQE86th8R2ktuZG2jeYCnX25Z5n79gxXneOFx88PDOB32HG08gf6OaPZquixlu4rKkZXTdKr++8epSGuq4NB1ar3s1zO5Z3A7q5J7LL82UtAUGnK9YuFuTn1PSLeXv9oM9yauX3UtlbIMlXCuggT+oJf9TX4DHwcNAeSJh8P94HkKNz4t3UvoVsv9Y6VDFizuZ19B3mGiAFwG6fm8OCDnHFk9MMJVHK9wEbhuWjd+4A2fddn6xrhOEQnAUlH/KgAETwkjaKFKE2eW4qKckNrf/5A+zACwdR8zIqYKSaX5mGrNeLndahIkqCpXXL5lTxqsY6Gmu6c+2pEr3oUS4C5M2bAvHhsG3t4PiMzCQOVw5tJmXuVjPQvf8Kn1bCBnOpx+TmY3kqvPyiEOWcwdfC5yV7Wipkv5xQSTr+XhH1NynI68JAyyEnHY/ouBM0znS8+eKjTkhK51447k2+p6A+KpDv8vegYuDdTQ3JdvkXenOxbRD15ZpjMlcvkWb+tAbdosSieQVDgTSFXmakoP9UYMbBFoBifLbRyWGgqPlQ73fPAFt7LMmpz08XIv3N+yJEWV7EJ6Oz3G9sA9aAj/3wIT+O82dvLPlr5OJz/qv75WNkupu5DhFWBoQv0q5llRA2I9Aym87HiNW/7m0+rQmOFgGgqijbjjjc/EDkJmbIHij7vHtLoh6jQXEorowWfUvAUTvNxMX3KUuNH7WnD8udyIGSsIc/FyXXd0eQV8hSuwFRzdKcjglrrAi+g0z8uKO5Drvy+tfM0sLL2gb2y3iUDx3Z93gXK4C/zCEiLUGuLl1b/Tll9AJSYJDgh/qndadUu5ivlvaDWcRlunQOlX8BS7iWaJXmtYu/no7GLUNKWtjGMXJEjljdL/i0j7us7AOzW4isDHOj+SU8ZH9XHFYhFhLoFJdc5Uy0zz9IcNV1Smoj8HbTg5FH3ZR5yFg4WmXmYvF6BU5pydd5jQ53jJCS1burCsynmYMTRnblLBFguKvIzy8q7goe+q4xgEdUcNS476YO5+9ceanlemcDr7LRa4gvyXNPwGCUn/xkhz0DwxmqJyggJDf2QAZ6d3rrBNvGezjzp7+owb8FXX4tgzVRNbi3kYkJY/N+ELXJXmN5Izk2MADG9DapZmG8oBwvVL/O0i6rdpWt5kvu/HOvxVX71gCD9V44dxHSm3QLgCM6ayrid3p3Cx5WyIskfYCYtDu614vO3UZ8LZilujMeM4v4AAAAAA==';
+/* ================= FIELD LIBRARY =================
+   One shared library so every program saves to the same column names
+   (same schema will power the future client fill-out portal). */
+const OPT={
+  yn:['Yes','No'],
+  ptype:['Single Family','2-4 Units','Condo','Townhome','5+ Units Multifamily','Mixed Use','Retail','Office','Industrial/Warehouse/Self-Storage','Assisted Living','Manufactured Home','Land / Lot','Other'],
+  occ:['Vacant','Tenant occupied (long-term)','Short-term rental (Airbnb/VRBO)','Mid-term rental','Owner occupied (STOP: consumer loan)'],
+  src:['MLS','Direct To Seller','Wholesaler','Private Sale','Short Sale','Foreclosure Auction',"Sheriff's Sale",'Estate Sale','Online Auction','Bankruptcy Sale','Pre-Foreclosure','N/A (refinance)'],
+  pa:['Yes','No','N/A (refinance)'],
+  txn:['Purchase','Refinance – Cash Out','Refinance – Rate & Term','Delayed Financing (bought cash)'],
+  cdesc:['No Renovations Planned','Light and Cosmetic','Moderate Rehab','Gut Rehab','Structural Improvements','Condo Conversion','Adding or Subtracting Units','Expanding Sqft','New Construction'],
+  exit:['Sale','Refinance (DSCR / long-term)','Hold','Sale of other property','Business cash flow'],
+  rentType:['Long-term (12-mo leases)','Short-term (Airbnb/VRBO)','Mid-term (30+ days)','Section 8','Vacant – use market rent (1007)'],
+  prepay:['No preference','No prepay (higher rate)','1 year','2 year','3 year (3-2-1)','5 year (5-4-3-2-1)'],
+  cit:['US Citizen','Permanent Resident Alien','Non-Permanent Resident Alien','Foreign National'],
+  credit:['760+','740-759','720-739','700-719','680-699','660-679','640-659','620-639','550-619','Under 550','Unknown'],
+  delinq:['None','Bankruptcy','Judgment','Foreclosure','Felony','Lawsuit','Tax lien','Collections','Late mortgage payments (12 mo)'],
+  lic:['General Contractor','Architect','Realtor','Mortgage','Appraiser','Attorney','CPA','None'],
+  entity:['LLC','Corporation','Partnership','Sole Proprietorship','Trust','Individual (personal name)'],
+  plans:['None yet','In progress','Complete – not submitted','Submitted to city','Approved / stamped'],
+  permits:['Not needed','Not applied','Applied – pending','Issued'],
+  util:['On site / connected','Stubbed to lot','At street (need tap)','None – well/septic needed','Unknown'],
+  useBiz:['Working Capital','Consolidation','Equipment Acquisition','Payroll','Inventory','Expansion','Business Acquisition','Commercial Real Estate (owner-occupied)','Refinance business debt','Marketing / Staffing','Other Asset Based Lending'],
+  freq:['Daily','Weekly','Bi-weekly','Monthly'],
+  sba:['SBA 7(a)','SBA 504','SBA Express','Not sure – help me pick'],
+  newUsed:['New','Used','Refurbished'],
+  helocUse:['Down payment on next deal','Rehab / renovation','Pay off hard money','Debt consolidation','Reserves / liquidity','Business use','Other'],
+  bailout:['Notice of default only','Foreclosure filed','Sale date set','Receiver appointed','Loan matured / balloon past due','Tax foreclosure'],
+  lien:['1st lien','2nd lien','Cross-collateral (multiple properties)','Not sure'],
+};
+// [id, label, type, tip, optsKey|extra]
+const F={};
+function fld(id,label,type,tip,o){F[id]={id,label,type,tip,o}}
+/* --- borrower / guarantor (every file) --- */
+fld('first','First name','text','Guarantor = the human who signs the personal guaranty. Lenders run credit/background on every 20%+ owner.');
+fld('last','Last name','text');
+fld('phone','Phone','tel');
+fld('email','Email','email');
+fld('entityName','Entity name (vesting)','text','Investment loans close in an LLC/corp almost every time. The name must match the Articles exactly or title/closing gets delayed.');
+fld('entityType','Entity type','select','Lenders want an LLC or corp for business-purpose loans. Personal name usually = consumer rules (TRID, licensing) – most investor lenders won\'t do it.','entity');
+fld('entityState','State entity formed','text','If the LLC was formed in another state than the property, the lender may require a foreign registration in the property state.');
+fld('cit','Citizenship','select','Foreign nationals get lower leverage (often 5-10% less), higher rates, and need a US bank account/ITIN.','cit');
+fld('credit','Estimated credit score','select','Mid score (middle of 3 bureaus) drives pricing tiers. Most DSCR lenders floor at ~660; hard money can go lower with experience.','credit');
+fld('delinq','Credit delinquencies','multi','Ask BEFORE you submit. BK/foreclosure seasoning (usually 2-4 yrs), open judgments, liens, felonies all kill or reprice deals. Disclose early – lenders find it anyway.','delinq');
+fld('ownHome','Owns primary residence?','select','Homeowners are viewed as more stable; some lenders price or size better for it.','yn');
+fld('lic','Professional licenses','multi','A GC or Realtor license can count as experience or support a self-managed rehab.','lic');
+fld('rehabs3','# completed rehab/flip projects (past 3 yrs)','num','THE #1 hard-money pricing input. Experience tiers (0, 1-2, 3-4, 5+) change leverage and rate. Need proof: HUDs/settlement statements.');
+fld('rentals','# rental properties owned now','num','Shows landlord experience for DSCR; also tells you if they are a portfolio/blanket loan candidate.');
+fld('firstProj','Is this their first project?','select','First-timers: expect lower leverage (e.g. 80-85% of purchase), more reserves, and a required GC.','yn');
+fld('proj1p','Largest project #1 – purchase price','money','Lenders compare the new deal to the biggest deals they have done. Jumping 3x in size = "scale risk".');
+fld('proj1r','Largest project #1 – rehab amount','money');
+fld('proj2p','Largest project #2 – purchase price','money');
+fld('proj2r','Largest project #2 – rehab amount','money');
+fld('proj3p','Largest project #3 – purchase price','money');
+fld('proj3r','Largest project #3 – rehab amount','money');
+fld('liquidity','Liquidity (cash + reserves available)','money','Must cover down payment + closing costs + reserves (often 3-12 months of payments) – and it gets verified with bank statements.');
+fld('netWorth','Net worth','money','Commercial and larger loans often want net worth ≥ loan amount.');
+fld('referral','Referral source','text','Track it – pay your referral partners and double down on the sources that close.');
+/* --- property --- */
+fld('addr','Property full address','text','Exact address incl. unit #. Title, appraisal and insurance are all ordered off this.');
+fld('ptype','Property type','select','Property type decides which lender/program even applies (1-4 = residential DSCR/HM; 5+ & mixed use = commercial).','ptype');
+fld('units','Number of units','num');
+fld('sqft','Square feet','num');
+fld('yb','Year built','num','Pre-1978 = lead paint disclosures; very old homes may need more inspection.');
+fld('occ','Occupancy','select','Investor loans are BUSINESS PURPOSE only. If the borrower or family will live there it is a consumer mortgage – different licenses and rules. Do not broker it as investment.','occ');
+fld('src','How did they source the property?','select','Wholesale/assignment deals: many lenders cap the assignment fee or only lend off the A-B price. Auctions need fast, no-contingency money.','src');
+fld('pa','Accepted purchase agreement?','select','No signed contract = scenario only. Lenders won\'t order appraisal without one.','pa');
+fld('closeBy','Target closing date','date','Work backwards: appraisal 7-14 days, title 5-10 days. Under 10 days = hard money only.');
+/* --- deal --- */
+fld('txn','Transaction type','select','Purchase vs refi changes the value used: purchase = lower of price or appraisal; refi = appraised value.','txn');
+fld('price','Purchase price','money','On a purchase the lender sizes off the LOWER of price or appraised value.');
+fld('asis','As-is value','money','Today\'s value in current condition (what the appraiser will say before rehab).');
+fld('rehab','Construction / rehab amount needed','money','Must match a written scope of work/budget. Lenders usually fund rehab in DRAWS after inspection – client fronts the work first.');
+fld('arv','After repair value (ARV)','money','Support it with 3+ sold comps within ~0.5-1 mile, last 6 months, similar size/beds/baths. Over-stated ARV is the #1 reason loans get cut.');
+fld('cdesc','Construction description','select','Structural, adding units/sqft and new construction = permits + plans + often a GC requirement.','cdesc');
+fld('loanReq','Loan amount requested','money','What they WANT. Your job: compare it to what the program will actually do (see Numbers check).');
+fld('exit','Exit strategy','select','Lenders lend on the exit. Sale = ARV/comps matter. Refi = rent + DSCR after rehab must work.','exit');
+fld('months','Project timeline (months)','num','Term should be timeline + cushion (e.g. 6-month rehab → 12-month loan). Extensions cost points.');
+/* --- refi --- */
+fld('acqDate','Date of acquisition','date','"Seasoning". Many cash-out refis use APPRAISED value only after 6-12 months owned; before that they cap at purchase price + documented rehab.');
+fld('improv','Cost of improvements completed','money','Receipts/invoices prove it. Adds to cost basis for early cash-out refis.');
+fld('payoff','Existing lien amount (payoff)','money','Get a written payoff later. Cash out = new loan – payoff – closing costs.');
+fld('holder','Who holds the current mortgage','text','Private/hard-money payoffs can have exit fees or default interest – ask.');
+fld('curRate','Current interest rate','pct');
+fld('maturity','When does the current mortgage mature?','date','Matured / balloon coming due = urgency (and leverage for your fee). Past maturity = default rate may be accruing.');
+fld('cashGoal','Cash-out goal','money','Ask what they need the cash for – it tells you if the deal even works.');
+fld('lates','Mortgage lates in last 12 months?','select','Any 30-day late in 12 months knocks out many DSCR/refi programs.','yn');
+/* --- income --- */
+fld('rentNow','Total monthly rent CURRENTLY','money','Actual leases. Lenders use lesser of lease or market rent (1007) – some allow up to 120-125% of market with lease history.');
+fld('rentFmr','Total monthly FAIR MARKET rent (after construction)','money','Appraiser\'s 1007 rent schedule decides this – get comps from Rentometer/Zillow so the client is realistic.');
+fld('rentType','Rental type','select','STR income usually needs 12-mo history or AirDNA projections and often a lower LTV.','rentType');
+fld('taxes','Annual property taxes','money','Use the post-sale reassessed amount where your state reassesses on sale – it can wreck DSCR.');
+fld('ins','Annual property insurance','money','Get a real quote early. Insurance has been the silent DSCR killer – coastal/older homes especially.');
+fld('hoa','Annual HOA dues','money');
+fld('flood','Flood zone?','select','Flood insurance is required in A/V zones and goes into PITIA.','yn');
+fld('prepay','Prepayment penalty preference','select','Prepay buys down the rate. Flipping/refinancing soon? Shorter or no prepay. Long hold? 5-yr prepay = best rate.','prepay');
+fld('ioWant','Wants interest-only option?','select','IO lowers the payment (better DSCR) but no principal paydown; usually priced a bit higher.','yn');
+/* --- ground up --- */
+fld('lotOwned','Lot already owned?','select','Owning the lot free and clear = the lot equity can count as the borrower\'s skin in the game.','yn');
+fld('lotPrice','Lot purchase price','money');
+fld('lotValue','Current lot value','money');
+fld('lotAcq','Lot acquisition date','date');
+fld('lotPayoff','Lot loan payoff (if any)','money');
+fld('sqftNew','Square footage to be built','num','Lenders check cost per sq ft against local norms. Too cheap = budget not believable; too rich = over-improving the area.');
+fld('plans','Plans / architectural drawings','select','No approved plans = no construction loan closing. Budget and appraisal are based on them.','plans');
+fld('permits','Building permits','select','Most lenders require permits issued (or at least applied for) before the first draw.','permits');
+fld('zoning','Zoning allows the build by-right?','select','Variance or rezoning needed = not ready for a construction loan yet (maybe a land loan).','yn');
+fld('util','Utilities','select','Missing utilities = big hidden costs. Lenders want a plan and budget for it.','util');
+fld('gc','General contractor name','text');
+fld('gcLic','GC licensed & insured?','select','Lenders vet the GC: license, insurance certificate, references, sometimes a GC questionnaire.','yn');
+fld('builds','# ground-up builds completed (borrower or GC)','num','New-construction experience is weighed separately from flips.');
+/* --- HELOC --- */
+fld('lineReq','Line amount requested','money');
+fld('helocUse','Use of HELOC funds','select',null,'helocUse');
+fld('lienPos','Lien position','select','Behind an existing mortgage = 2nd lien (combined LTV matters). Free & clear = 1st lien.','lien');
+/* --- commercial --- */
+fld('noi','Net operating income (annual, T12)','money','NOI = income – operating expenses (NOT the mortgage). Commercial lenders size the loan off this: NOI ÷ annual debt service ≥ 1.20-1.25.');
+fld('occPct','Physical occupancy %','pct','Stabilized usually means 85-90%+ for 90 days. Lower = bridge/value-add money.');
+fld('capex','Planned capital improvements','money');
+/* --- bailout --- */
+fld('stage','Foreclosure stage','select','The further along, the faster you move and the fewer lenders will touch it.','bailout');
+fld('saleDate','Foreclosure / auction sale date','date','THE most important date on the file. Under ~2-3 weeks you may need a bankruptcy attorney or reinstatement instead of a new loan.');
+fld('reinst','Reinstatement amount','money','Catching up arrears may be cheaper than a full payoff – ask the servicer for both letters.');
+fld('servicer','Current lender / servicer','text');
+fld('cause','What caused the default?','textarea','Lenders want a story that\'s fixed now (tenant issue, construction delay, partner dispute) – plus the exit.');
+fld('litig','Open litigation / receiver / bankruptcy?','select','Lawsuits, receivers and BK filings require attorney involvement and kill speed.','yn');
+fld('otherCollat','Other properties available as extra collateral','textarea','Cross-collateralizing other equity is how a lot of bailouts get done.');
+fld('attorney','Borrower\'s attorney (name/phone)','text');
+/* --- transactional --- */
+fld('abPrice','A-B purchase price','money','Transactional lenders fund 100% of A-B for 1-3 days, repaid from the B-C closing.');
+fld('bcPrice','B-C resale price','money');
+fld('ebFunding','End buyer funding','select','The end buyer must be cash or have approved financing – the transactional lender gets repaid from their money.',['Cash','Hard money (approved)','Conventional (approved)','Unknown']);
+fld('ebPof','End buyer proof of funds received?','select',null,'yn');
+fld('titleBoth','Same title company closing both sides?','select','Most transactional lenders require the same title/escrow for A-B and B-C on the same day.','yn');
+/* --- business --- */
+fld('bizName','Business name','text');
+fld('bizLegal','Business legal name','text');
+fld('dba','DBA','text');
+fld('bizStart','Business start date','date','Time in business: many alt lenders need 6+ months; SBA/bank usually 2+ years (startups possible on SBA with injection + plan).');
+fld('industry','Industry','text','Some industries are restricted (cannabis, adult, gambling, some trucking/auto). Ask early.');
+fld('website','Business website','text');
+fld('homeBased','Is the business home based?','select',null,'yn');
+fld('bizAddr','Business address','text');
+fld('stateInc','State incorporated','text');
+fld('ein','EIN','text','Tax ID of the business. (Never collect SSN or bank account #s here – those go on the lender\'s secure app.)');
+fld('ownPct','Ownership % (this owner)','pct','SBA: every 20%+ owner signs a personal guarantee.');
+fld('useBiz','Use of funds','select','Lenders match product to purpose: equipment → equipment loan, payroll → short-term/LOC, real estate → SBA 504/7(a).','useBiz');
+fld('monthlyRev','Average monthly revenue (gross deposits)','money','Alt lenders look at 4 months of business bank statements: average deposits, # of negative days, NSFs.');
+fld('annualRev','Annual revenue (last year)','money');
+fld('netIncome','Net income / EBITDA (last year)','money','Banks/SBA size the loan off cash flow (global DSCR ~1.25x).');
+fld('mca','Currently have a cash advance (MCA)?','select','Existing MCA "positions" = stacking risk. Many lenders cap at 1-2 positions or require payoff.','yn');
+fld('finPrev','Has the business taken financing before?','select',null,'yn');
+fld('positions','Current lenders being paid','list','List every lender/MCA: name, balance and payment frequency. Daily payments = heavy cash drain.');
+fld('judg','Any open judgments or liens?','select','Tax liens (especially IRS) block most business funding until on a payment plan.','yn');
+fld('bkEver','Ever filed bankruptcy?','select',null,'yn');
+fld('bankChk','Has a business checking account?','select','Required by nearly every business lender – deposits are the underwriting.','yn');
+/* SBA */
+fld('sbaType','SBA program','select','7(a) = flexible (working capital, acquisition, real estate). 504 = fixed assets only (real estate / heavy equipment), ~10% down.','sba');
+fld('ownerOcc','Business will occupy 51%+ of the property?','select','SBA real estate must be OWNER-occupied: 51% of an existing building, 60% of new construction. Pure rentals are not eligible.','yn');
+fld('injection','Equity injection / down payment available','money','SBA typically expects ~10-15% down; startups and acquisitions need more.');
+fld('startup','Startup (under 2 years)?','select','Startups need a business plan, 2-yr projections, industry experience and a bigger injection.','yn');
+/* Equipment */
+fld('eqType','Equipment type & description','text','Titled equipment (trucks, trailers) and equipment with resale value = easier approval.');
+fld('eqNewUsed','New or used','select','Used equipment typically gets 2-7 year terms depending on age.','newUsed');
+fld('vendor','Vendor / dealer','text','Dealer sales are easier than private-party – lenders pay the vendor directly.');
+fld('eqCost','Equipment cost (invoice)','money');
+fld('eqDown','Down payment available','money','Equipment loans are "best if you have a down payment" – 0-20% depending on credit/TIB.');
+fld('eqTerm','Desired term (months)','num','Section 179 may let them deduct the full price this year – tell them to ask their CPA.');
+/* Payroll */
+fld('payAmt','Payroll amount per cycle','money');
+fld('payFreq','Payroll frequency','select',null,'freq');
+fld('employees','# of employees','num');
+fld('arOut','Accounts receivable outstanding','money','Invoices from creditworthy customers can be factored/financed – often the cheapest payroll fix.');
+fld('invTerms','Average invoice terms (net days)','num');
+fld('payTax','Behind on payroll taxes (941s)?','select','Unpaid payroll taxes = IRS trust-fund liability. Most lenders need it on a payment plan first.','yn');
+fld('needBy','Funds needed by','date');
+/* other */
+fld('desc','Describe the request','textarea','Write the "story": who, what, where, why, how they repay. Lenders buy the story + the numbers.');
+
+/* ================= NEEDS LIST =================
+   key | label | category | stage (U=upfront, P=processing/underwriting, C=closing) | tip */
+const NEEDS_RAW=`
+app|Signed loan application (lender's app)|Borrower & ID|U|Every lender has its own app; you collect the data here, the client signs theirs.
+id|Government photo ID (driver's license / passport)|Borrower & ID|U|Front & back, not expired. Name must match the entity docs.
+credit|Credit authorization (soft or hard pull)|Borrower & ID|U|Get written OK before anyone pulls credit.
+reo|Track record / REO schedule (properties owned & sold)|Borrower & ID|U|Address, buy date/price, rehab, sale date/price. Drives experience tier.
+hud|Settlement statements (HUDs) proving past deals|Borrower & ID|P|Proves the track record.
+pfs|Personal financial statement|Borrower & ID|P|Assets, liabilities, net worth – common for commercial/SBA/construction.
+resume|Resume / bio (developer or business owner)|Borrower & ID|P
+greencard|Green card / visa / ITIN docs|Borrower & ID|P|Non-US-citizen borrowers.
+articles|Articles of Organization / Incorporation|Entity|U
+opagree|Operating Agreement / Bylaws|Entity|P|Shows owners %, who can sign. Every 20-25%+ owner usually guarantees.
+einltr|EIN letter (IRS CP-575 / 147C)|Entity|P
+goodstand|Certificate of Good Standing|Entity|P|Usually must be dated within 30-90 days of closing.
+resolution|Corporate resolution / authority to borrow|Entity|C|Usually lender-drafted at closing.
+foreignreg|Foreign registration in property state|Entity|P|LLC formed out of state.
+trust|Trust agreement / certification of trust|Entity|P
+bank2|Bank statements – last 2 months (all pages)|Assets & Liquidity|U|Proves down payment + reserves. All pages, even blank ones.
+pof|Proof of funds / liquidity|Assets & Liquidity|U
+retire|Retirement / brokerage statements|Assets & Liquidity|P|Often counted at 60-70% for reserves.
+gift|Gift letter + donor bank statement|Assets & Liquidity|P|Many investor lenders don't allow gifts – confirm first.
+deposits|Letter explaining large deposits|Assets & Liquidity|P|Any deposit not from payroll/sales gets questioned.
+ptax|Personal tax returns (2 years)|Income (full-doc / SBA)|P|NOT needed for DSCR or hard money – don't ask for it there.
+btax|Business tax returns (2-3 years)|Income (full-doc / SBA)|P
+w2|W-2s / paystubs (30 days)|Income (full-doc / SBA)|P
+pl|YTD profit & loss|Income (full-doc / SBA)|P
+bs|YTD balance sheet|Income (full-doc / SBA)|P
+debtsched|Business debt schedule|Income (full-doc / SBA)|P|Every business loan: lender, balance, payment, maturity.
+bizbank4|Business bank statements – last 4 months|Income (full-doc / SBA)|U|Alt business lenders underwrite off these (deposits, NSFs, negative days).
+bizbank12|Business bank statements – 12-24 months|Income (full-doc / SBA)|P|Bank-statement programs.
+ar|A/R & A/P aging reports|Income (full-doc / SBA)|P
+payroll941|Payroll reports / 941s|Income (full-doc / SBA)|P
+projections|Business plan & 2-yr projections|Income (full-doc / SBA)|P|SBA startups & expansions.
+sba1919|SBA Form 1919 / 413 (lender provides)|Income (full-doc / SBA)|P
+contract|Fully executed purchase contract (+ all addenda)|Property|U
+assign|Assignment contract (if wholesaled)|Property|U|Shows assignment fee. Lenders may cap it or lend off A-B.
+photos|Property photos (interior + exterior)|Property|U
+sow|Scope of work / rehab budget (line items)|Property|U|Line-item budget: lenders build the draw schedule from it.
+comps|ARV comps / support|Property|U
+leases|Lease agreements|Property|P
+rentroll|Rent roll|Property|P
+t12|Operating statement (T12) / T3|Property|P|Commercial & 5+ units.
+taxbill|Property tax bill|Property|P
+insquote|Insurance quote / binder (lender as mortgagee)|Property|C|Builder's risk for construction; landlord/DP-3 for rentals; flood if in zone.
+hoa|HOA contact / budget / questionnaire|Property|P|Condos: lender may need a condo questionnaire.
+payoffltr|Payoff statement (existing loan)|Property|P
+mortstmt|Current mortgage statement|Property|U
+appraisal|Appraisal (lender orders; client pays)|Property|P|Usually paid upfront by card on the lender's portal.
+rent1007|Rent schedule (1007) / market rent analysis|Property|P|Part of the appraisal for 1-4 unit DSCR.
+bpo|BPO / desktop valuation|Property|P
+title|Title commitment / prelim|Property|P|Usually ordered by lender/closing agent; client picks title co.
+survey|Survey|Property|C
+pm|Property management agreement|Property|P
+strhist|STR income history (12 mo) / AirDNA report|Property|P
+phase1|Environmental Phase I|Property|P|Commercial / land / industrial.
+zoningltr|Zoning verification letter|Property|P
+inspect|Inspection report|Property|P
+plans|Plans & specs (architectural)|Construction|U
+permits|Building permits|Construction|P
+budget|Construction budget / cost breakdown|Construction|U
+gcbid|GC bid / contract|Construction|P
+gclic|GC license, insurance & references|Construction|P
+drawsched|Draw schedule|Construction|P
+timeline|Construction timeline / schedule|Construction|P
+soils|Soils / engineering report|Construction|P
+utilltr|Utility availability letters|Construction|P
+lotdocs|Lot purchase docs (HUD / deed)|Construction|U
+nod|Notice of default / foreclosure filing|Foreclosure / Distress|U
+saledoc|Sale / auction date notice|Foreclosure / Distress|U
+reinstltr|Reinstatement & payoff letters|Foreclosure / Distress|U
+hardship|Explanation of default (letter)|Foreclosure / Distress|P
+liens|Junior lien / judgment statements|Foreclosure / Distress|P
+litig|Litigation / bankruptcy filings|Foreclosure / Distress|P
+eqquote|Equipment quote / invoice|Equipment|U
+eqspec|Equipment spec sheet (year, make, model, VIN/serial)|Equipment|P
+vendor|Vendor / dealer contact info|Equipment|P
+eqtitle|Title (titled equipment / vehicles)|Equipment|C
+voidchk|Voided business check (for ACH)|Closing|C|Lender's secure portal only – never email.
+titleco|Title / closing attorney contact|Closing|U
+insagent|Insurance agent contact|Closing|U
+cpl|Closing protection letter|Closing|C
+wire|Wire instructions verified by PHONE|Closing|C|Wire fraud is real. Verify with a known number, never an email.
+`;
+const NEEDS=NEEDS_RAW.trim().split('\n').map(l=>{const [k,label,cat,stage,tip]=l.split('|');return {k,label,cat,stage,tip}});
+const NEED_BY_K=Object.fromEntries(NEEDS.map(n=>[n.k,n]));
+
+/* ================= PROGRAMS =================
+   terms = common market ranges for TEACHING (verify with the lender – they move). */
+const BORROWER_RE=[['Experience & strength',['rehabs3','rentals','firstProj','lic','proj1p','proj1r','proj2p','proj2r','proj3p','proj3r','liquidity','netWorth','ownHome','delinq']]];
+const BORROWER_BIZ=[['Owner & credit',['ownPct','delinq','ownHome','liquidity','netWorth']]];
+const P={
+dscr:{name:'DSCR (Rental)',cat:'re',rate:7.25,io:false,termM:360,amortM:360,
+  blurb:'30-year rental loan that qualifies off the PROPERTY\'s rent, not the borrower\'s income. No tax returns.',
+  how:['DSCR = monthly rent ÷ monthly PITIA (principal, interest, taxes, insurance, HOA). 1.00 = rent exactly covers the payment.','Loan amount is the lesser of the LTV limit and whatever keeps DSCR at the lender\'s minimum.','Prepay penalty is normal (3-5 yr step-down) – it buys the rate down.'],
+  terms:[['Max LTV purchase','~75-80%'],['Max LTV cash-out','~70-75%'],['Min DSCR','~1.00 (some 0.75 "no-ratio" at lower LTV)'],['Credit','typically 660+ (Premier: 660+)'],['Term','30-yr fixed, ARMs, IO options'],['Property','1-4 units, condos, townhomes, small MF up to ~8 units, STR allowed if income supports'],['Close','~10-21 days']],
+  looks:['Rent vs. PITIA (DSCR)','Credit score & mortgage history','Reserves (often 3-12 months PITIA)','Appraisal + 1007 rent schedule','Entity docs'],
+  flags:['Owner-occupied or family living there','DSCR under 1.0 at their desired loan amount','Insurance/taxes not quoted – DSCR blows up at closing','Recent 30-day lates'],
+  tips:['Quote the taxes AFTER the sale reassessment.','Interest-only can push a 0.95 DSCR over 1.0.','If they plan to sell within 3 years, sell them a shorter prepay.'],
+  lim:{ltv:80,dscr:1.0},groups:[['Property',['addr','ptype','units','sqft','yb','occ','src','pa','closeBy']],['Deal',['txn','price','asis','loanReq','acqDate','improv','payoff','holder','curRate','lates','cashGoal']],['Income & expenses',['rentType','rentNow','rentFmr','taxes','ins','hoa','flood','prepay','ioWant']]],
+  needs:['app','id','credit','reo','articles','opagree','einltr','goodstand','bank2','contract','leases','insquote','appraisal','rent1007','title','titleco','insagent'],
+  ts:{term:'360',amort:'360',prepay:'5-4-3-2-1 step-down (buy-down options available)',recourse:'Personal guaranty from all 20%+ owners'}},
+ff:{name:'Hard Money – Fix & Flip',cat:'re',rate:10.5,io:true,termM:12,amortM:0,
+  blurb:'Short-term, interest-only loan to buy AND rehab a property, repaid when it sells (or refis).',
+  how:['Lender funds a % of purchase at closing + up to 100% of rehab in DRAWS after inspections (client fronts each phase, then gets reimbursed).','Loan is capped by THREE tests: % of purchase (LTV), % of total cost (LTC), and % of ARV (LTARV). The lowest one wins.','Interest only, 6-18 month terms. Points (1-3) paid at closing. Extensions cost extra points.'],
+  terms:[['Purchase funded','~80-90% (experience-based)'],['Rehab funded','up to 100% via draws'],['Max LTC','~85-92.5%'],['Max LTARV','~70-75%'],['Term','12-18 months, interest only'],['Credit','~620-660+ typical'],['Close','as little as a few days – 2 weeks']],
+  looks:['Experience (# flips in 36 months)','ARV support (comps)','Scope of work / budget realism','Liquidity for down payment + carry + rehab float','Exit: resale margin'],
+  flags:['ARV not supported by sold comps','Budget too light for scope','No liquidity to float the first draw','Huge assignment fee on a wholesale purchase','First-timer doing a gut/structural rehab with no GC'],
+  tips:['Run the 70% ARV test BEFORE you quote – it\'s usually what caps the loan.','Tell the client: rehab money comes in draws, not upfront.','Interest is charged only on funds drawn with most lenders (Dutch vs non-Dutch – ask).'],
+  lim:{ltv:90,ltc:90,ltarv:75},groups:[['Property',['addr','ptype','units','sqft','yb','occ','src','pa','closeBy']],['Deal',['txn','price','asis','rehab','cdesc','arv','loanReq','months','exit','rentFmr']],['Refinance (if refi)',['acqDate','improv','payoff','holder','curRate','maturity']]],
+  needs:['app','id','credit','reo','hud','articles','opagree','einltr','bank2','pof','contract','assign','photos','sow','comps','insquote','appraisal','title','titleco','insagent'],
+  ts:{term:'12',amort:'0',io:true,prepay:'None',recourse:'Personal guaranty',draws:'Rehab funds held back and disbursed in draws after inspection'}},
+bridge:{name:'Hard Money – Bridge',cat:'re',rate:10.5,io:true,termM:12,amortM:0,
+  blurb:'Fast short-term money to buy/refi now and get out later (sale or long-term refi). Asset-based – no tax returns.',
+  how:['Sized off value and equity, not income. Interest only; principal paid at sale/refi.','Used for: time-sensitive purchases, buying before selling, paying off maturing loans, partner buyouts, tax liens, auctions.','Can be 1st or 2nd lien, and can cross-collateralize multiple properties.'],
+  terms:[['Leverage','~65-80% LTV (some up to ~90% combined)'],['Term','~12-36 months'],['Payments','interest only'],['Docs','no tax returns / W-2s typically'],['Close','days once valuation & title are done']],
+  looks:['Equity position','Exit strategy & timeline','Collateral quality','Title'],
+  flags:['No believable exit','Exit depends on a DSCR refi that doesn\'t pencil','Multiple junior liens / title mess'],
+  tips:['Always run the exit refi numbers too – show the client the DSCR on the take-out loan.'],
+  lim:{ltv:75},groups:[['Property',['addr','ptype','units','occ','src','pa','closeBy']],['Deal',['txn','price','asis','loanReq','lienPos','months','exit','otherCollat']],['Existing debt',['acqDate','payoff','holder','curRate','maturity']],['Income',['rentNow','rentFmr','taxes','ins','hoa']]],
+  needs:['app','id','credit','reo','articles','opagree','einltr','bank2','contract','photos','mortstmt','payoffltr','insquote','appraisal','title','titleco'],
+  ts:{term:'12',amort:'0',io:true,prepay:'None',recourse:'Personal guaranty'}},
+constr:{name:'Hard Money – Construction / Heavy Rehab',cat:'re',rate:11,io:true,termM:18,amortM:0,
+  blurb:'Heavy rehab: additions, structural, adding units/sq ft, change of use. Bigger budgets, permits, plans, GC.',
+  how:['Like fix & flip but rehab ≥ ~50-100% of purchase price or structural/expansion work.','Draw schedule tied to milestones + third-party inspections; holdback is usually most of the loan.','Lender underwrites the GC as much as the borrower.'],
+  terms:[['Max LTC','~80-90%'],['Max LTARV','~65-75%'],['Term','12-24 months IO'],['Needs','plans, permits, GC, line-item budget']],
+  looks:['Plans & permits status','GC license/insurance/references','Budget vs. comps','Borrower construction experience'],
+  flags:['Permits not applied for','No GC on structural work','Budget missing soft costs/contingency'],
+  tips:['Add 10% contingency to the budget – lenders like seeing it.'],
+  lim:{ltc:85,ltarv:70},groups:[['Property',['addr','ptype','units','sqft','sqftNew','yb','occ','closeBy']],['Deal',['txn','price','asis','rehab','cdesc','arv','loanReq','months','exit']],['Construction',['plans','permits','zoning','gc','gcLic','builds']]],
+  needs:['app','id','credit','reo','hud','articles','opagree','einltr','bank2','pof','contract','plans','permits','budget','gcbid','gclic','drawsched','timeline','comps','insquote','appraisal','title'],
+  ts:{term:'18',amort:'0',io:true,prepay:'None',recourse:'Personal guaranty',draws:'Construction holdback disbursed per draw schedule after inspection'}},
+guc:{name:'Ground Up / New Construction',cat:'re',rate:11,io:true,termM:18,amortM:0,
+  blurb:'Build from dirt: land through completion. Loan covers % of total cost (lot + hard + soft costs).',
+  how:['Total cost = lot (value or price) + hard costs (sticks & bricks) + soft costs (plans, permits, interest reserve).','Lot equity usually counts as the borrower\'s down payment – owning the lot free & clear is huge.','Funds go out in draws as each phase is inspected; interest only during the build.'],
+  terms:[['Loan size','~$250K-$10M (Premier)'],['Max LTC','~80-90%'],['Max LTV (ARV)','~65-75%'],['Term','12-36 months IO'],['Needs','approved plans, permits, budget, GC, utilities']],
+  looks:['Builder experience','Plans/permits approved','Budget per sq ft vs. local','Completed value (ARV) & exit'],
+  flags:['Zoning/variance not resolved','No utilities to the lot','First-time builder with no experienced GC'],
+  tips:['Ask early: who is the GC and how many homes have they built?','An interest reserve keeps payments out of the borrower\'s pocket during the build.'],
+  lim:{ltc:85,ltarv:70},groups:[['Lot & property',['addr','ptype','units','lotOwned','lotPrice','lotValue','lotAcq','lotPayoff','zoning','util']],['Build',['rehab','sqftNew','arv','loanReq','months','plans','permits','gc','gcLic','builds','exit','closeBy']]],
+  needs:['app','id','credit','reo','hud','articles','opagree','einltr','bank2','pof','lotdocs','plans','permits','budget','gcbid','gclic','drawsched','timeline','soils','utilltr','insquote','appraisal','title','survey'],
+  ts:{term:'18',amort:'0',io:true,prepay:'None',recourse:'Personal guaranty',draws:'Construction funds disbursed per draw schedule after inspection'}},
+heloc:{name:'Investment HELOC',cat:'re',rate:8.5,io:true,termM:120,amortM:0,
+  blurb:'Revolving line of credit on an INVESTMENT property\'s equity – draw, repay, draw again.',
+  how:['Combined LTV (existing liens + new line) ÷ value must stay under the cap.','Variable rate tied to prime; interest-only draw period then repayment period.','Fewer lenders do these on investment property – many require personal-name vesting.'],
+  terms:[['Max CLTV','~70-80%'],['Rate','variable (prime + margin)'],['Draw period','~2-10 years'],['Credit','~680-700+ typical']],
+  looks:['Equity (CLTV)','Credit','Rental income / DSCR on some programs'],
+  flags:['Property in LLC when lender requires personal name','Low equity'],
+  tips:['Great tool for down payments + rehab float – the client only pays interest on what they use.'],
+  lim:{cltv:75},groups:[['Property',['addr','ptype','units','occ']],['Line',['asis','payoff','holder','lineReq','lienPos','helocUse','acqDate']],['Income',['rentNow','taxes','ins','hoa']]],
+  needs:['app','id','credit','reo','bank2','mortstmt','leases','insquote','appraisal','title','taxbill'],
+  ts:{term:'120',amort:'0',io:true,prepay:'Per lender',recourse:'Per lender'}},
+cashout:{name:'Refinance – Cash Out',cat:'re',rate:7.25,io:false,termM:360,amortM:360,
+  blurb:'Replace the current loan with a bigger one and hand the borrower the difference (BRRRR "refinance" step).',
+  how:['Cash to borrower = new loan – payoff – closing costs.','Seasoning: many lenders use appraised value only after 6-12 months; earlier = capped at cost basis (price + documented rehab).','Usually a DSCR or bank-statement loan for investors.'],
+  terms:[['Max LTV','~70-75%'],['Min DSCR','~1.0-1.2 at the new loan amount'],['Seasoning','~3-12 months by lender'],['Credit','660+ typical']],
+  looks:['Appraised value','DSCR at new amount','Seasoning & rehab receipts','Mortgage history'],
+  flags:['Owned < 6 months with no receipts','DSCR fails at the cash-out amount','Lates on current loan'],
+  tips:['Gather rehab receipts + before/after photos to justify the new value.'],
+  lim:{ltv:75,dscr:1.0},groups:[['Property',['addr','ptype','units','sqft','occ']],['Loan',['asis','acqDate','price','improv','payoff','holder','curRate','maturity','cashGoal','loanReq','lates']],['Income & expenses',['rentType','rentNow','rentFmr','taxes','ins','hoa','flood','prepay','ioWant']]],
+  needs:['app','id','credit','reo','articles','opagree','einltr','goodstand','bank2','mortstmt','payoffltr','leases','insquote','appraisal','rent1007','title','hud','photos'],
+  ts:{term:'360',amort:'360',prepay:'5-4-3-2-1 step-down',recourse:'Personal guaranty'}},
+rt:{name:'Refinance – Rate & Term',cat:'re',rate:7.25,io:false,termM:360,amortM:360,
+  blurb:'Refinance to a better rate/term or out of hard money – no (or minimal) cash out.',
+  how:['New loan pays off the old loan + closing costs.','Common exit from hard money once the rehab is done and the property is rented.'],
+  terms:[['Max LTV','~75-80%'],['Min DSCR','~1.0'],['Credit','660+ typical']],
+  looks:['Payment savings','DSCR','Payoff amount'],
+  flags:['Prepay penalty on the current loan wipes out the savings'],
+  tips:['Always ask for the current loan\'s prepay terms.'],
+  lim:{ltv:80,dscr:1.0},groups:[['Property',['addr','ptype','units','occ']],['Loan',['asis','acqDate','payoff','holder','curRate','maturity','loanReq','lates']],['Income & expenses',['rentNow','rentFmr','taxes','ins','hoa','prepay','ioWant']]],
+  needs:['app','id','credit','articles','opagree','bank2','mortstmt','payoffltr','leases','insquote','appraisal','title'],
+  ts:{term:'360',amort:'360',prepay:'Per lender',recourse:'Personal guaranty'}},
+portfolio:{name:'Rental Portfolio / Blanket',cat:'re',rate:7.5,io:false,termM:360,amortM:360,
+  blurb:'One loan across many rentals – one payment, one closing, often across states.',
+  how:['Lender underwrites the whole portfolio\'s rent vs. debt (DSCR) and value (LTV).','Partial-release clauses let them sell one property without refinancing all.'],
+  terms:[['Max LTV','~70-75%'],['Min DSCR','~1.1-1.25'],['Size','usually 5+ properties']],
+  looks:['Portfolio DSCR','Rent roll & leases','Property condition'],
+  flags:['A few weak properties dragging DSCR'],
+  tips:['Ask for release prices up front if they may sell some.'],
+  lim:{ltv:75,dscr:1.1},groups:[['Portfolio',['addr','units','ptype','asis','payoff','loanReq','txn']],['Income',['rentNow','taxes','ins','hoa','prepay']]],
+  needs:['app','id','credit','reo','articles','opagree','einltr','bank2','rentroll','leases','mortstmt','insquote','appraisal','title'],
+  ts:{term:'360',amort:'360',prepay:'Step-down per lender',recourse:'Personal guaranty'}},
+comm:{name:'Commercial / Multifamily 5+',cat:'re',rate:7.5,io:false,termM:120,amortM:300,
+  blurb:'5+ units, mixed use, retail, office, industrial. Sized off NOI.',
+  how:['Loan = what the NOI supports at the lender\'s DSCR (1.20-1.25x) and LTV caps.','Value is income-based: NOI ÷ cap rate.','Commercial bridge for value-add/low-occupancy; permanent once stabilized.'],
+  terms:[['Max LTV','~65-75%'],['Min DSCR','~1.20-1.25x'],['Term','5-10 yr, 25-30 yr amortization'],['Bridge close','~10-20 days']],
+  looks:['T12 & rent roll','Occupancy','Sponsor net worth/liquidity','Property condition'],
+  flags:['Occupancy below ~85% for perm loan','Pro-forma rents instead of actual'],
+  tips:['Always ask for the T12 and rent roll FIRST – no numbers, no quote.'],
+  lim:{ltv:75,dscr:1.25},groups:[['Property',['addr','ptype','units','sqft','yb','occPct','closeBy']],['Deal',['txn','price','asis','loanReq','capex','exit','payoff','maturity']],['Income',['noi','rentNow','taxes','ins']]],
+  needs:['app','id','credit','pfs','reo','articles','opagree','einltr','bank2','contract','rentroll','t12','leases','phase1','insquote','appraisal','title','survey'],
+  ts:{term:'120',amort:'300',prepay:'Step-down / yield maintenance per lender',recourse:'Non-recourse w/ carve-outs or full recourse – per lender'}},
+sba:{name:'SBA / Business (7(a) & 504)',cat:'biz',rate:10,io:false,termM:120,amortM:120,
+  blurb:'Government-guaranteed bank loans: long terms, low down payment, heavy paperwork.',
+  how:['7(a): working capital, equipment, business acquisition, owner-occupied real estate. SBA max is $5M per 7(a) loan.','504: real estate/heavy equipment only. ~50% bank / 40% CDC / 10% borrower.','Owner-occupied: business must use 51%+ of an existing building (60% new construction). Every 20%+ owner guarantees.'],
+  terms:[['Down','~10-15%'],['Term','up to 25 yrs real estate, ~10 yrs equipment/working capital'],['Rate','7(a) tied to Prime; 504 fixed (Treasury-based)'],['Timeline','~30-60 days with a complete file']],
+  looks:['Cash flow / global DSCR','2-3 yrs tax returns','Owner credit','Equity injection','Industry experience'],
+  flags:['Investment/rental real estate (not eligible)','Unfiled tax returns','Open IRS liens'],
+  tips:['Start with taxes + interim financials – that is what decides it.'],
+  lim:{dscr:1.25},groups:[['Business',['bizName','bizLegal','dba','bizStart','industry','website','bizAddr','stateInc','entityType','ein','annualRev','netIncome','monthlyRev']],['Request',['sbaType','useBiz','loanReq','ownerOcc','injection','startup','price','addr','positions','judg','bkEver']]],
+  needs:['app','id','credit','pfs','resume','articles','opagree','einltr','ptax','btax','pl','bs','debtsched','projections','sba1919','bizbank12','contract','appraisal','phase1'],
+  ts:{term:'300',amort:'300',prepay:'SBA prepay rules (first 3 yrs on 15+ yr terms)',recourse:'Personal guaranty – all 20%+ owners'}},
+biz:{name:'Business Funding (Term / LOC / Working Capital)',cat:'biz',rate:0,io:false,termM:12,amortM:12,
+  blurb:'Fast alternative business funding: term loans, lines of credit, revenue-based – underwritten on bank deposits.',
+  how:['Lender reads the last ~4 months of business bank statements: average deposits, daily balances, NSFs.','Payments can be daily/weekly. Factor rates are common – translate to cost for the client.','Can renew/increase after ~50% paid down.'],
+  terms:[['Amounts','~$5K-$1.5M'],['Term','short (≤8 mo), medium (12-24 mo), long (3-10 yr)'],['Minimums','~6 mo in business, ~$25K/mo revenue, FICO 500+, no open BK'],['Speed','decision same day, funding 24-48 hrs']],
+  looks:['Monthly deposits','Existing positions (stacking)','Time in business','Credit'],
+  flags:['3+ existing MCA positions','Lots of NSFs/negative days','Open tax liens'],
+  tips:['Always list EVERY current position – lenders see them on the bank statements anyway.'],
+  lim:{},groups:[['Business',['bizName','bizLegal','dba','bizStart','industry','website','homeBased','bizAddr','stateInc','entityType','ein','bankChk']],['Request & history',['loanReq','useBiz','monthlyRev','annualRev','mca','finPrev','positions','judg','bkEver','needBy']]],
+  needs:['app','id','credit','bizbank4','einltr','articles','voidchk','debtsched'],
+  ts:{term:'12',amort:'12',prepay:'Early payoff discount (per lender)',recourse:'Personal guaranty'}},
+equip:{name:'Equipment Financing',cat:'biz',rate:9,io:false,termM:60,amortM:60,
+  blurb:'Loan or lease secured by the equipment itself – lender pays the vendor.',
+  how:['The equipment is the collateral, so approvals are easier (even with weaker credit if it can be repossessed).','Funds are restricted to equipment – not a cash-flow fix.','Section 179 may allow deducting the full price in year one (CPA confirms).'],
+  terms:[['Term','~2-7 yrs (used)'],['Down','0-20% by credit/TIB'],['Minimums','~6 mo TIB, ~$25K/mo revenue, FICO 500+, no open BK']],
+  looks:['Equipment type & resale value','Time in business','Bank deposits','Credit'],
+  flags:['Private-party sale with no invoice','Very old used equipment'],
+  tips:['Get the dealer invoice first – that is the application.'],
+  lim:{},groups:[['Business',['bizName','bizLegal','bizStart','industry','entityType','monthlyRev','bankChk']],['Equipment',['eqType','eqNewUsed','vendor','eqCost','eqDown','eqTerm','mca','positions','judg','bkEver']]],
+  needs:['app','id','credit','eqquote','eqspec','vendor','bizbank4','einltr','articles','voidchk'],
+  ts:{term:'60',amort:'60',prepay:'Per lender',recourse:'Personal guaranty'}},
+payroll:{name:'Payroll Financing',cat:'biz',rate:0,io:false,termM:6,amortM:6,
+  blurb:'Short-term money to make payroll on time: line of credit, invoice factoring, or cash advance.',
+  how:['Repaid from incoming revenue/receivables.','Factoring advances cash against unpaid invoices – underwritten on the customer\'s credit.','Usually a last-resort tool – price matters.'],
+  terms:[['Minimums','~6 mo TIB, ~$25K/mo revenue, FICO 500+, no open BK, business checking'],['Uses','wages, bonuses, commissions, payroll taxes']],
+  looks:['Revenue & receivables','Payroll tax status','Existing positions'],
+  flags:['Behind on 941s','Already stacked with MCAs'],
+  tips:['If they have B2B invoices, lead with factoring – it\'s usually cheaper than an MCA.'],
+  lim:{},groups:[['Business',['bizName','bizStart','industry','entityType','monthlyRev','bankChk']],['Payroll',['payAmt','payFreq','employees','arOut','invTerms','payTax','loanReq','needBy','mca','positions','judg','bkEver']]],
+  needs:['app','id','credit','bizbank4','payroll941','ar','einltr','articles','voidchk'],
+  ts:{term:'6',amort:'6',prepay:'Per lender',recourse:'Personal guaranty'}},
+bailout:{name:'Foreclosure Bailout ($3M+)',cat:'re',rate:12,io:true,termM:12,amortM:0,
+  blurb:'Emergency equity-based loan to stop a foreclosure and buy time to sell or refinance. Speed is everything.',
+  how:['Sized off EQUITY: value vs. total payoff (arrears, default interest, fees, legal). Leverage is conservative.','You need the sale date, payoff + reinstatement letters, and a believable exit within the term.','Often 1st position refinance of the defaulted loan; sometimes cross-collateralized.'],
+  terms:[['Loan size','$3M+ (this program)'],['Max LTV','~50-65%'],['Term','~6-24 months IO'],['Pricing','premium rate + points (risk + speed)']],
+  looks:['Equity cushion','Days to sale date','Title & litigation','Exit plan'],
+  flags:['Sale date < 2 weeks','Bankruptcy/receiver already filed','Equity too thin after default interest + fees'],
+  tips:['Get BOTH a payoff and a reinstatement quote.','Bring in the borrower\'s attorney early.'],
+  lim:{ltv:65},groups:[['Property',['addr','ptype','units','occPct','asis','noi']],['Default',['stage','saleDate','servicer','payoff','reinst','maturity','cause','litig','attorney']],['Request',['loanReq','exit','otherCollat','months']]],
+  needs:['app','id','credit','pfs','reo','articles','opagree','nod','saledoc','reinstltr','payoffltr','hardship','liens','litig','rentroll','t12','insquote','appraisal','title'],
+  ts:{term:'12',amort:'0',io:true,prepay:'Minimum interest per lender',recourse:'Personal guaranty'}},
+land:{name:'Land Loan',cat:'re',rate:11,io:true,termM:24,amortM:0,
+  blurb:'Financing raw or entitled land. Low leverage – land doesn\'t produce income.',
+  how:['Entitled/permitted land gets better terms than raw land.','Often a bridge to a construction loan.'],
+  terms:[['Max LTV','~50-65%'],['Term','~12-36 months']],
+  looks:['Entitlements','Zoning','Exit (build or sell)'],flags:['No entitlements and no plan'],tips:['If they plan to build, quote the construction loan at the same time.'],
+  lim:{ltv:60},groups:[['Land',['addr','ptype','zoning','util','price','asis','loanReq','exit','months','closeBy']]],
+  needs:['app','id','credit','articles','opagree','bank2','contract','survey','zoningltr','phase1','appraisal','title'],ts:{term:'24',amort:'0',io:true,prepay:'None',recourse:'Personal guaranty'}},
+trans:{name:'Transactional Funding (double close)',cat:'re',rate:0,io:true,termM:0,amortM:0,
+  blurb:'Same-day money to close A-B so a wholesaler can double close to the end buyer.',
+  how:['Lender funds 100% of A-B for hours/days, paid back out of the B-C closing.','Flat fee (often ~1-2% of A-B) instead of interest.'],
+  terms:[['Funds','100% of A-B'],['Term','1-3 days'],['Cost','flat fee']],
+  looks:['End buyer proof of funds','Both contracts','Same title company'],flags:['End buyer financing not approved'],tips:['Get the B-C contract and EMD before you order funds.'],
+  lim:{},groups:[['Deal',['addr','abPrice','bcPrice','ebFunding','ebPof','titleBoth','closeBy']]],
+  needs:['contract','assign','pof','titleco','id','articles'],ts:{term:'0',amort:'0',io:true,prepay:'None',recourse:'Per lender'}},
+other:{name:'Other / Custom',cat:'re',rate:0,io:false,termM:12,amortM:0,blurb:'Anything else – describe it.',how:[],terms:[],looks:[],flags:[],tips:[],lim:{},
+  groups:[['Request',['desc','addr','ptype','price','asis','loanReq','exit']]],needs:['app','id','credit'],ts:{}},
+};
+const STATUSES=['Lead','Intake','Docs requested','Submitted to lender','Term sheet issued','Conditional approval','Clear to close','Funded','On hold','Dead'];
+const COND_STAGES=['Prior to approval','Prior to docs','Prior to funding','At closing','Post-closing'];
+const COND_STATUS=['Open','Requested from client','Received','Submitted to lender','Cleared','Waived'];
+const COND_OWNER=['Client','Us','Title','Appraiser','Insurance','Lender','GC'];
+const LENDER_STATUS=['Not sent','Submitted','Quoted','Term sheet','Approved','Declined','Withdrawn'];
+const GLOSSARY=[
+['LTV','Loan-to-Value. Loan ÷ value. On a purchase, value = lower of price or appraisal.'],
+['LTC','Loan-to-Cost. Loan ÷ (purchase price + rehab/construction). Used for flips & construction.'],
+['LTARV','Loan ÷ After-Repair Value. Usually the cap that actually limits hard money loans.'],
+['CLTV','Combined LTV: ALL liens (1st + 2nd/HELOC) ÷ value.'],
+['DSCR','Debt Service Coverage Ratio. Residential: rent ÷ PITIA. Commercial: NOI ÷ annual debt service.'],
+['PITIA','Principal + Interest + Taxes + Insurance + Association (HOA) – the full monthly housing payment.'],
+['NOI','Net Operating Income: gross income – vacancy – operating expenses (no mortgage).'],
+['Points','1 point = 1% of the loan amount, paid at closing. Lender points + your broker points.'],
+['Interest only (IO)','Payment = interest only; no principal paid down. Standard on hard money.'],
+['Amortization','Schedule that pays the loan to zero (e.g. 30 years). Term can be shorter (balloon).'],
+['Prepayment penalty','Fee to pay off early. "5-4-3-2-1" = 5% yr 1, 4% yr 2 … Buys a lower rate.'],
+['Yield maintenance','Commercial prepay: borrower pays the lender\'s lost interest. Expensive.'],
+['Holdback / draws','Rehab money held by the lender and released in stages after inspections.'],
+['Dutch interest','Interest charged on the FULL loan incl. undrawn rehab. Non-Dutch = only on funds drawn.'],
+['Seasoning','How long they\'ve owned it. Affects whether a refi uses appraised value or cost basis.'],
+['Delayed financing','Bought with cash, refinance right away to pull the cash back out (usually up to cost basis).'],
+['Recourse / guaranty','Personal guaranty = lender can go after the borrower personally. Non-recourse = only the property (with "bad-boy" carve-outs).'],
+['Reserves','Cash left over after closing, measured in months of PITIA.'],
+['1007','Appraiser\'s rent schedule – sets "market rent" for DSCR.'],
+['Cross-collateral / blanket','One loan secured by multiple properties.'],
+['Term sheet','Non-binding summary of proposed loan terms. Not a commitment.'],
+['Conditional approval','Lender approves subject to conditions (PTD = prior to docs, PTF = prior to funding).'],
+['CTC','Clear to close: all conditions cleared, docs can be drawn.'],
+['Business purpose','Loan for investment/business. Owner-occupied homes are consumer loans with different laws.'],
+['Factor rate','MCA pricing: $100K at 1.30 = $130K payback. Not an interest rate.'],
+];
+
+/* ============ client-facing wording ============ */
+const CLIENT={
+  dscr:['Rental property loan','Buy or refinance a rental. Qualifies on the rent – no tax returns.','house'],
+  ff:['Fix & flip','Purchase and renovation funding, interest only.','hammer'],
+  bridge:['Bridge loan','Fast short-term capital for time-sensitive deals.','bolt'],
+  constr:['Heavy rehab','Additions, structural work, adding units or square feet.','crane'],
+  guc:['Ground-up construction','Build new – from lot to finished property.','crane'],
+  cashout:['Cash-out refinance','Pull equity out of a property you own.','key'],
+  rt:['Rate & term refinance','Lower your rate or get out of a short-term loan.','key'],
+  heloc:['Investment HELOC','A line of credit on an investment property\'s equity.','key'],
+  portfolio:['Rental portfolio','One loan across several rentals.','building'],
+  comm:['Commercial & multifamily','5+ units, mixed use, retail, office, industrial.','building'],
+  land:['Land loan','Raw or entitled land.','land'],
+  bailout:['Foreclosure bailout','Stop a foreclosure on a $3M+ property and buy time.','shield'],
+  trans:['Transactional funding','Same-day funds for a double close.','bolt'],
+  biz:['Business funding','Working capital, term loans and lines of credit.','brief'],
+  sba:['SBA loan','7(a) and 504 – long terms, low down payment.','brief'],
+  equip:['Equipment financing','Machinery, vehicles and equipment.','gear'],
+  payroll:['Payroll funding','Make payroll on time while receivables catch up.','people'],
+  other:['Something else','Not sure which fits? Tell us about it.','q']};
+const ORDER_RE=['dscr','ff','bridge','constr','guc','cashout','rt','heloc','portfolio','comm','land','bailout','trans'],ORDER_BIZ=['biz','sba','equip','payroll','other'];
+const ICON={house:'<path d="M4 15 16 5l12 10M7 13v13h18V13M13 26v-7h6v7"/>',hammer:'<path d="M6 26 18 14M15 11l6-6 6 6-3 3-2-2-4 4z"/>',bolt:'<path d="M18 3 7 18h8l-2 11 12-16h-8z"/>',crane:'<path d="M6 28V6h3v22M9 7h17l-6 4M24 7v8M21 15h6v4h-6z"/>',key:'<circle cx="11" cy="16" r="5"/><path d="M16 16h12M24 16v4M28 16v3"/>',building:'<path d="M6 28V8l10-4v24M16 12h10v16M10 11v2M10 16v2M10 21v2M20 16v2M20 21v2"/>',land:'<path d="M3 24c5-6 9-6 13 0s8 6 13 0M3 18l7-8 6 6 4-4 9 9"/>',shield:'<path d="M16 3 6 7v8c0 7 5 11 10 14 5-3 10-7 10-14V7z"/><path d="m11 16 4 4 7-8"/>',brief:'<rect x="4" y="10" width="24" height="16" rx="2"/><path d="M12 10V6h8v4M4 17h24"/>',gear:'<circle cx="16" cy="16" r="4"/><path d="M16 4v4M16 24v4M4 16h4M24 16h4M7.5 7.5l3 3M21.5 21.5l3 3M7.5 24.5l3-3M21.5 10.5l3-3"/>',people:'<circle cx="11" cy="11" r="4"/><circle cx="22" cy="12" r="3"/><path d="M3 26c1-5 4-7 8-7s7 2 8 7M19 19c4 0 7 2 8 6"/>',q:'<circle cx="16" cy="16" r="12"/><path d="M12 12c0-2.5 2-4 4-4s4 1.5 4 4-4 3-4 6M16 23v.5"/>'};
+const LABEL={entityName:'Business entity name (LLC or corporation, if you have one)',entityType:'How will you hold this loan?',entityState:'State the entity is registered in',credit:'Estimated credit score',
+  rehabs3:'Renovation projects completed in the last 3 years',rentals:'Rental properties you own today',firstProj:'Is this your first investment project?',delinq:'Anything on your credit we should know about?',
+  liquidity:'Cash available (for down payment, closing costs and reserves)',ownHome:'Do you own your home?',loanReq:'How much would you like to borrow?',occ:'Who will live in the property?',
+  rehab:'Renovation / construction budget',arv:'Estimated value after repairs',asis:'Estimated current value',addr:'Property address',src:'How did you find this property?',pa:'Do you have a signed purchase agreement?',
+  proj1p:'Largest past project – purchase price',proj1r:'Largest past project – renovation cost',proj2p:'2nd largest – purchase price',proj2r:'2nd largest – renovation cost',proj3p:'3rd largest – purchase price',proj3r:'3rd largest – renovation cost',
+  referral:'How did you hear about us?',ein:'Business EIN (optional)',ownPct:'Your ownership percentage',cause:'What caused the default?',desc:'Tell us about your request'};
+const HINT={email:'We\'ll send your confirmation here.',arv:'Your best estimate is fine – we\'ll verify it.',rentFmr:'What it should rent for once finished.',liquidity:'A range is fine. You\'ll show statements later, not now.',
+  months:'How long until you sell or refinance.',desc:'Who, what, where, and how you plan to repay.',saleDate:'If a sale date is set, we move fast – tell us right away.'};
+const OCC_CLIENT={'Owner occupied (STOP: consumer loan)':'Me or my family (owner occupied)'};
+const BIZ=k=>(P[k]||{}).cat==='biz';
+/* ============ state ============ */
+const LS={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const SK='ajdfApply.v1';
+const rnd=n=>{const a=new Uint8Array(n);crypto.getRandomValues(a);return [...a].map(x=>'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'[x%62]).join('')};
+let S=LS.get(SK,null);
+const fresh=()=>({id:(Date.now().toString(36)+rnd(6)).toLowerCase().slice(0,16),token:rnd(32),program:'',q:{},step:0,max:0,uploads:[],done:false});
+if(!S||!S.id||S.done)S=fresh();
+const persist=()=>LS.set(SK,S);
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const STEPS=()=>['Loan type','About you',BIZ(S.program)?'Your business':'The deal',BIZ(S.program)?'Ownership & credit':'Your experience','Documents','Review & submit'];
+
+/* ============ saving ============ */
+let saveT,saving=false,again=false,lastOK=0;
+function labelsFor(){const m={};Object.keys(S.q).forEach(k=>{if(F[k])m[k]=LABEL[k]||F[k].label});return m}
+function payload(submit){const pr=P[S.program];return {action:'apply',id:S.id,token:S.token,program:S.program,programName:pr?pr.name:'',needs:pr?pr.needs:[],q:S.q,labels:labelsFor(),step:Math.max(1,S.step),steps:6,submit:!!submit,hp:($('#hp')||{}).value||''}}
+const hasContact=()=>!!(S.q.first||S.q.last)&&!!(S.q.email||S.q.phone);
+function setSaved(state,txt){const el=$('#saved');el.className='saved '+state;$('#savedTxt').textContent=txt;$('#mSaved').textContent=state==='ok'?'Saved':state==='busy'?'Saving…':''}
+async function save(submit){
+  if(!SCRIPT_URL||!S.program)return true;if(!submit&&!hasContact())return true;
+  if(saving){again=true;return true}saving=true;setSaved('busy','Saving…');
+  try{const r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(payload(submit))});const j=await r.json();if(!j.ok)throw new Error(j.error||'Not saved');lastOK=Date.now();S.saved=true;persist();setSaved('ok','Saved · '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}));saving=false;if(again){again=false;return save()}return true}
+  catch(e){saving=false;setSaved('','Not saved yet – check your connection');return false}}
+function soon(){clearTimeout(saveT);saveT=setTimeout(()=>save(),1800)}
+window.addEventListener('pagehide',()=>{if(SCRIPT_URL&&S.program&&hasContact()&&!S.done){try{navigator.sendBeacon(SCRIPT_URL,new Blob([JSON.stringify(payload(false))],{type:'text/plain'}))}catch(e){}}});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&S.program&&hasContact()&&!S.done)save()});
+
+/* ============ fields ============ */
+function opts(f){let o=Array.isArray(f.o)?f.o:(OPT[f.o]||[]);return o}
+function field(id,req){const f=F[id];if(!f)return '';const v=S.q[id]==null?'':S.q[id];const lab=LABEL[id]||f.label;const p=`data-q="${id}" id="q_${id}" name="${id}"`;let inp='';
+  switch(f.type){
+    case 'money':inp=`<div class="money"><input inputmode="decimal" ${p} value="${esc(v)}" autocomplete="off"></div>`;break;
+    case 'pct':inp=`<div class="pct"><input inputmode="decimal" ${p} value="${esc(v)}"></div>`;break;
+    case 'num':inp=`<input inputmode="numeric" ${p} value="${esc(v)}">`;break;
+    case 'date':inp=`<input type="date" ${p} value="${esc(v)}">`;break;
+    case 'tel':inp=`<input type="tel" autocomplete="tel" ${p} value="${esc(v)}">`;break;
+    case 'email':inp=`<input type="email" autocomplete="email" ${p} value="${esc(v)}">`;break;
+    case 'select':inp=`<select ${p}><option value="">Choose…</option>${opts(f).map(o=>`<option value="${esc(o)}" ${o===v?'selected':''}>${esc(OCC_CLIENT[o]||o)}</option>`).join('')}</select>`;break;
+    case 'multi':{const a=Array.isArray(v)?v:[];inp=`<div class="chips" role="group" aria-label="${esc(lab)}">${opts(f).map(o=>`<label><input type="checkbox" data-m="${id}" value="${esc(o)}" ${a.includes(o)?'checked':''}>${esc(o)}</label>`).join('')}</div>`;break}
+    case 'textarea':inp=`<textarea ${p}>${esc(v)}</textarea>`;break;
+    case 'list':{const rows=Array.isArray(v)&&v.length?v:[{name:'',bal:'',freq:''}];inp=`<table class="ltable"><tbody>${rows.map((x,i)=>`<tr><td><input placeholder="Lender name" data-l="${id}.${i}.name" value="${esc(x.name)}"></td><td><input placeholder="Balance $" inputmode="decimal" data-l="${id}.${i}.bal" value="${esc(x.bal)}"></td><td><select data-l="${id}.${i}.freq"><option value="">Payments…</option>${OPT.freq.map(o=>`<option ${o===x.freq?'selected':''}>${o}</option>`).join('')}</select></td></tr>`).join('')}</tbody></table><button type="button" class="quiet" data-act="addrow" data-k="${id}">+ Add another</button>`;break}
+    default:{const ac={first:'given-name',last:'family-name',addr:'street-address',bizName:'organization',entityName:'organization'}[id]||'on';inp=`<input autocomplete="${ac}" ${p} value="${esc(v)}">`}
+  }
+  const wide=['multi','textarea','list'].includes(f.type)||id==='addr'||id==='bizAddr';
+  return `<div class="f${wide?' wide':''}" data-f="${id}"><label for="q_${id}">${esc(lab)}${req?'<span class="req" aria-hidden="true">*</span>':''}</label>${inp}${HINT[id]?`<span class="hint">${esc(HINT[id])}</span>`:''}<span class="e">${req?'Required':''}</span></div>`}
+
+/* ============ views ============ */
+function railSteps(){const st=STEPS();$('#steps').innerHTML=st.map((t,i)=>{const n=i+1,cls=S.step===n?'on':(n<S.step||n<=S.max)&&S.step>0?'done':'';return `<li class="${cls}" ${cls==='done'?`data-goto="${n}"`:''}><i>${cls==='done'?'✓':n}</i>${esc(t)}</li>`}).join('');
+  $('#mBar').style.width=(S.step?Math.round(S.step/st.length*100):0)+'%';$('#mStep').textContent=S.step?`Step ${S.step} of ${st.length} · ${st[S.step-1]}`:'Funding application'}
+function render(){const p=$('#panel');p.classList.remove('swap');void p.offsetWidth;p.classList.add('swap');p.innerHTML=[welcome,stepProg,stepYou,stepDeal,stepExp,stepDocs,stepReview,doneView][S.done?7:S.step]();railSteps();
+  const f=p.querySelector('input:not([type=checkbox]):not([type=file]),select,textarea');if(f&&S.step>1&&window.innerWidth>980)setTimeout(()=>f.focus({preventScroll:true}),60);window.scrollTo({top:0,behavior:'smooth'})}
+const nav=(back,next,label='Continue')=>`<div class="nav">${back?`<button type="button" class="btn" data-act="back">Back</button>`:''}<span class="sp"></span>${next?`<button type="button" class="btn gold" data-act="${next}">${label}</button>`:''}</div>`;
+function welcome(){const resume=S.program&&S.max>0;return `<div class="hero"><svg class="seal" viewBox="0 0 84 84" aria-hidden="true"><g fill="none" stroke="#D9A86C" stroke-width=".7" opacity=".9">${Array.from({length:18},(_,i)=>`<ellipse cx="42" cy="42" rx="38" ry="15" transform="rotate(${i*10} 42 42)"/>`).join('')}</g><circle cx="42" cy="42" r="9" fill="#14100C" stroke="#C08A4A"/></svg>
+  <h1>Funding, arranged.</h1><p class="lede">Tell us about your deal or your business once. We match it with the right lender and come back with real terms.</p>
+  <ul class="pts"><li><b>About 5 minutes</b>Only the questions for your loan type.</li><li><b>Saves as you go</b>Stop anytime and pick up where you left off.</li><li><b>No credit pull</b>Applying here doesn't touch your credit.</li></ul>
+  <div class="nav" style="border:0;margin-top:0;padding-top:0"><button type="button" class="btn gold" data-act="start">${resume?'Continue my application':'Start my application'}</button>${resume?'<button type="button" class="quiet" data-act="restart">Start a new one</button>':''}</div>
+  <p class="fine">Acquire JDF Corp arranges business-purpose loans for investment properties and businesses. Owner-occupied home loans are not available through this application.</p></div>`}
+function stepProg(){const card=k=>{const c=CLIENT[k];return `<button type="button" class="pg ${S.program===k?'on':''}" data-prog="${k}" aria-pressed="${S.program===k}"><svg viewBox="0 0 32 32" aria-hidden="true">${ICON[c[2]]}</svg><b>${esc(c[0])}</b><span>${esc(c[1])}</span></button>`};
+  return `<h2>What are you looking to fund?</h2><p class="sub">Pick the closest fit – you can change it later.</p><div class="progs"><div class="pcat">Real estate</div>${ORDER_RE.map(card).join('')}<div class="pcat">Business</div>${ORDER_BIZ.map(card).join('')}</div><div id="progErr" class="e" style="display:none;color:var(--err);margin-top:12px">Choose a loan type to continue.</div>${nav(true,'next')}`}
+function stepYou(){return `<h2>About you</h2><p class="sub">So we know who to send your options to.</p><div class="grid">${field('first',1)}${field('last',1)}${field('email',1)}${field('phone',1)}${field('entityName')}${field('entityType')}${field('entityState')}${field('cit')}${field('credit')}${field('referral')}</div><input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">${nav(true,'next')}`}
+function stepDeal(){const pr=P[S.program];if(!pr)return stepProg();const owner=S.q.occ&&/Owner occupied/.test(S.q.occ);
+  return `<h2>${BIZ(S.program)?'Your business':'The deal'}</h2><p class="sub">${esc(CLIENT[S.program][0])}. Estimates are fine – answer what you know and skip what you don't.</p>${owner?'<div class="note warn">We arrange business-purpose loans only. If you or your family will live in the property, continue anyway and we\'ll reach out to talk through options.</div>':''}
+  ${pr.groups.map(([t,ids])=>`<div class="group">${esc(t)}</div><div class="grid">${ids.filter(id=>!['first','last','phone','email'].includes(id)).map(id=>field(id)).join('')}</div>`).join('')}${nav(true,'next')}`}
+function stepExp(){const g=(BIZ(S.program)?BORROWER_BIZ:BORROWER_RE)[0];return `<h2>${BIZ(S.program)?'Ownership & credit':'Your experience'}</h2><p class="sub">${BIZ(S.program)?'Lenders look at the owners as well as the business.':'Experience and reserves shape your rate and leverage. Be honest – surprises later cost more than answers now.'}</p><div class="grid">${g[1].map(id=>field(id)).join('')}</div>${nav(true,'next')}`}
+function upNeeds(){const pr=P[S.program]||{needs:[]};return pr.needs.map(k=>NEED_BY_K[k]).filter(n=>n&&n.stage==='U'&&!['app','credit','titleco','insagent','voidchk'].includes(n.k))}
+const SUBIDX={'Borrower & ID':0,'Entity':0,'Assets & Liquidity':1,'Income (full-doc / SBA)':1,'Property':2,'Construction':2,'Foreclosure / Distress':2,'Equipment':2,'Closing':4};
+function stepDocs(){const ns=upNeeds();const got=k=>S.uploads.filter(u=>u.need===k);
+  return `<h2>Documents</h2><p class="sub">Have these handy? Upload them now and skip the back-and-forth. Optional – you can also send them later.</p>
+  <div class="note">PDF, photos or scans up to 15 MB each. Please don't upload anything showing a full Social Security or bank account number – black those out first.</div>
+  ${ns.map(n=>`<div class="doc"><div class="nm"><b>${esc(n.label)}</b>${got(n.k).length?`<small>${got(n.k).map(u=>esc(u.name)).join(', ')}</small>`:''}</div><span class="st" id="st_${n.k}">${got(n.k).length?'Uploaded':''}</span><label class="btn up">${got(n.k).length?'Add another':'Upload'}<input type="file" data-up="${n.k}" data-sub="${SUBIDX[n.cat]||0}" data-label="${esc(n.label)}" accept=".pdf,image/*,.doc,.docx,.xls,.xlsx"></label></div>`).join('')}
+  <div class="doc"><div class="nm"><b>Anything else</b>${got('').length?`<small>${got('').map(u=>esc(u.name)).join(', ')}</small>`:'<small>Rent roll, scope of work, photos – anything that helps.</small>'}</div><span class="st" id="st_other"></span><label class="btn up">Upload<input type="file" data-up="" data-sub="2" data-label="Other" multiple accept=".pdf,image/*,.doc,.docx,.xls,.xlsx"></label></div>
+  ${nav(true,'next')}`}
+function fmtV(id,v){const f=F[id];if(Array.isArray(v))return f.type==='list'?v.filter(x=>x.name).map(x=>[x.name,x.bal&&'$'+x.bal,x.freq].filter(Boolean).join(' ')).join('; '):v.join(', ');if(f.type==='money'&&v!=='')return '$'+Number(String(v).replace(/[^0-9.]/g,'')||0).toLocaleString();return OCC_CLIENT[v]||v}
+function stepReview(){const pr=P[S.program];const sec=(t,n,ids)=>{const rows=ids.filter(id=>S.q[id]!=null&&S.q[id]!==''&&!(Array.isArray(S.q[id])&&!fmtV(id,S.q[id])));return `<div class="rv"><h3>${esc(t)}<button type="button" class="quiet" data-goto="${n}">Edit</button></h3>${rows.length?`<dl>${rows.map(id=>`<dt>${esc(LABEL[id]||F[id].label)}</dt><dd>${esc(fmtV(id,S.q[id]))}</dd>`).join('')}</dl>`:'<p class="sub" style="margin:0">Nothing entered.</p>'}</div>`};
+  const re=!BIZ(S.program);
+  return `<h2>Review & submit</h2><p class="sub">Look it over, then send it to our team.</p>
+  <div class="rv"><h3>Loan type<button type="button" class="quiet" data-goto="1">Edit</button></h3><dl><dt>Program</dt><dd>${esc(CLIENT[S.program][0])}</dd></dl></div>
+  ${sec('About you',2,['first','last','email','phone','entityName','entityType','entityState','cit','credit','referral'])}${sec(STEPS()[2],3,pr.groups.flatMap(g=>g[1]))}${sec(STEPS()[3],4,(re?BORROWER_RE:BORROWER_BIZ)[0][1])}
+  <div class="rv"><h3>Documents<button type="button" class="quiet" data-goto="5">Edit</button></h3><p class="sub" style="margin:0">${S.uploads.length?S.uploads.length+' file(s) uploaded':'None yet – we\'ll send you a list.'}</p></div>
+  <label class="check"><input type="checkbox" id="c1"> The information I provided is true and complete to the best of my knowledge.</label>
+  <label class="check"><input type="checkbox" id="c2"> I authorize Acquire JDF Corp to contact me and to share this application with prospective lenders to obtain financing for me.</label>
+  ${re?'<label class="check"><input type="checkbox" id="c3"> This loan is for business or investment purposes, not for a home I or my family will live in.</label>':''}
+  <div id="subErr" class="e" style="display:none;color:var(--err)">Please check the boxes above to submit.</div>
+  ${nav(true,'submit','Submit application')}`}
+function doneView(){return `<div class="hero"><svg class="seal" viewBox="0 0 84 84" aria-hidden="true"><g fill="none" stroke="#D9A86C" stroke-width=".7">${Array.from({length:18},(_,i)=>`<ellipse cx="42" cy="42" rx="38" ry="15" transform="rotate(${i*10} 42 42)"/>`).join('')}</g><circle cx="42" cy="42" r="12" fill="#C08A4A"/><path d="m36 42 4 4 8-9" stroke="#14100C" stroke-width="2.4" fill="none"/></svg>
+  <h1>Application received.</h1><p class="lede">Thank you${S.q.first?', '+esc(S.q.first):''}. Our team is reviewing your ${esc((CLIENT[S.program]||['loan'])[0].toLowerCase())} request and will reach out shortly with next steps.${S.q.email?' A confirmation is on its way to '+esc(S.q.email)+'.':''}</p>
+  <p class="sub">Need to add something? Reply to your confirmation email or contact <a href="mailto:info@acquirejdf.app">info@acquirejdf.app</a>.</p>
+  <button type="button" class="btn" data-act="restart">Start another application</button></div>`}
+
+/* ============ validation + nav ============ */
+function validate(){$$('.f.bad').forEach(x=>x.classList.remove('bad'));let ok=true;
+  if(S.step===1&&!S.program){$('#progErr').style.display='block';return false}
+  if(S.step===2){['first','last','email','phone'].forEach(k=>{const v=String(S.q[k]||'').trim();let bad=!v;if(k==='email'&&v&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v))bad=true;if(k==='phone'&&v&&v.replace(/\D/g,'').length<10)bad=true;if(bad){ok=false;const f=$(`[data-f="${k}"]`);f.classList.add('bad');f.querySelector('.e').textContent=!v?'Required':k==='email'?'Enter a valid email':'Enter a 10-digit phone number'}});
+    if(!ok){const b=$('.f.bad input');b&&b.focus()}}
+  return ok}
+async function go(n){S.step=n;S.max=Math.max(S.max,n);persist();render();save()}
+document.addEventListener('click',async e=>{
+  const g=e.target.closest('[data-goto]');if(g){go(+g.dataset.goto);return}
+  const pg=e.target.closest('[data-prog]');if(pg){S.program=pg.dataset.prog;persist();$$('.pg').forEach(x=>{x.classList.toggle('on',x===pg);x.setAttribute('aria-pressed',x===pg)});$('#progErr').style.display='none';railSteps();setTimeout(()=>{if(validate())go(2)},180);return}
+  const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+  if(a==='start'){go(S.program&&S.max?Math.max(1,S.step||1):1)}
+  else if(a==='restart'){S=fresh();persist();render()}
+  else if(a==='back'){go(Math.max(0,S.step-1))}
+  else if(a==='next'){if(validate())go(S.step+1)}
+  else if(a==='addrow'){const k=b.dataset.k;S.q[k]=Array.isArray(S.q[k])&&S.q[k].length?S.q[k]:[{name:'',bal:'',freq:''}];S.q[k].push({name:'',bal:'',freq:''});persist();render()}
+  else if(a==='submit'){const need=['c1','c2'].concat($('#c3')?['c3']:[]);if(!need.every(id=>$('#'+id).checked)){$('#subErr').style.display='block';return}
+    b.disabled=true;b.textContent='Submitting…';const ok=await save(true);if(ok){S.done=true;persist();render();try{parent!==window&&parent.postMessage({jdfTop:1},'*')}catch(x){}}else{b.disabled=false;b.textContent='Submit application';$('#subErr').textContent='We couldn\'t reach our server. Check your connection and try again – your answers are saved on this device.';$('#subErr').style.display='block'}}
+});
+document.addEventListener('input',e=>{const t=e.target;
+  if(t.dataset.q){S.q[t.dataset.q]=t.value;persist();$(`[data-f="${t.dataset.q}"]`)?.classList.remove('bad');soon()}
+  else if(t.dataset.l){const [k,i,f]=t.dataset.l.split('.');S.q[k]=Array.isArray(S.q[k])?S.q[k]:[];S.q[k][+i]=S.q[k][+i]||{name:'',bal:'',freq:''};S.q[k][+i][f]=t.value;persist();soon()}
+});
+document.addEventListener('change',async e=>{const t=e.target;
+  if(t.dataset.q&&t.tagName==='SELECT'){S.q[t.dataset.q]=t.value;persist();soon();if(t.dataset.q==='occ')render()}
+  if(t.dataset.l&&t.tagName==='SELECT'){const [k,i,f]=t.dataset.l.split('.');S.q[k]=Array.isArray(S.q[k])?S.q[k]:[];S.q[k][+i]=S.q[k][+i]||{};S.q[k][+i][f]=t.value;persist();soon()}
+  if(t.dataset.m){S.q[t.dataset.m]=$$(`[data-m="${t.dataset.m}"]:checked`).map(x=>x.value);persist();soon()}
+  if(t.dataset.up!=null&&t.files.length){const k=t.dataset.up,st=$('#st_'+(k||'other'));const files=[...t.files];t.value='';
+    for(const file of files){if(file.size>15*1024*1024){st.style.color='var(--err)';st.textContent=file.name+' is over 15 MB';continue}
+      st.style.color='var(--gold)';st.textContent='Uploading '+file.name+'…';
+      try{if(!S.saved){const ok=await save();if(!ok)throw new Error('offline')}
+        const data=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=no;r.readAsDataURL(file)});
+        const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'upload',id:S.id,token:S.token,need:k,label:t.dataset.label,sub:+t.dataset.sub,name:file.name,type:file.type||'application/octet-stream',data})});const j=await res.json();if(!j.ok)throw new Error(j.error);
+        S.uploads.push({need:k,name:file.name});persist();st.style.color='';st.textContent='Uploaded'}
+      catch(x){st.style.color='var(--err)';st.textContent='Upload failed – try again'}}
+    const keep=window.scrollY;render();window.scrollTo(0,keep)}
+});
+
+/* ============ guilloché background ============ */
+(function(){const c=$('#bg'),g=c.getContext('2d');let W,H,D,t=0,raf;const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const small=()=>innerWidth<700;
+  function size(){D=Math.min(devicePixelRatio||1,1.5);W=c.width=innerWidth*D;H=c.height=innerHeight*D;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px'}
+  function rosette(cx,cy,R,lines,pts,k1,k2,amp,phase,alpha){
+    for(let l=0;l<lines;l++){const off=l/lines*Math.PI*2,rr=R*(0.62+0.38*l/lines);g.beginPath();
+      for(let i=0;i<=pts;i++){const a=i/pts*Math.PI*2;
+        const r=rr+amp*Math.sin(k1*a+off+phase)+amp*0.55*Math.sin(k2*a-off*1.7-phase*0.8);
+        const x=cx+r*Math.cos(a),y=cy+r*Math.sin(a)*0.92;i?g.lineTo(x,y):g.moveTo(x,y)}
+      g.strokeStyle=`rgba(${l%3?'217,168,108':'192,138,74'},${alpha*(0.45+0.55*l/lines)})`;g.stroke()}}
+  function draw(){g.clearRect(0,0,W,H);
+    const gl=g.createRadialGradient(W*.82,H*.18,0,W*.82,H*.18,Math.max(W,H)*.75);gl.addColorStop(0,'rgba(120,78,38,.38)');gl.addColorStop(.45,'rgba(60,40,22,.18)');gl.addColorStop(1,'rgba(20,16,12,0)');g.fillStyle=gl;g.fillRect(0,0,W,H);
+    const gl2=g.createRadialGradient(W*.1,H*.95,0,W*.1,H*.95,Math.max(W,H)*.5);gl2.addColorStop(0,'rgba(90,62,36,.32)');gl2.addColorStop(1,'rgba(20,16,12,0)');g.fillStyle=gl2;g.fillRect(0,0,W,H);
+    g.lineWidth=0.9*D;const m=small();const ph=t*0.00025;
+    rosette(W*(m?.78:.86),H*(m?.12:.2),Math.min(W,H)*(m?.55:.42),m?14:26,m?220:360,7,11,Math.min(W,H)*.05,ph,.42);
+    rosette(W*.06,H*.98,Math.min(W,H)*.36,m?9:16,m?180:280,5,13,Math.min(W,H)*.035,-ph*1.3,.3)}
+  let last=0;
+  function loop(ts){if(document.visibilityState==='visible'&&ts-last>=33){t+=ts-last||33;last=ts;draw()}raf=requestAnimationFrame(loop)}
+  size();addEventListener('resize',()=>{size();draw()});
+  draw();if(!still)raf=requestAnimationFrame(loop);
+})();
+
+$('#rLogo').src=$('#mLogo').src=$('#fav').href=LOGO;
+render();
+</script>
+</body>
+</html>
