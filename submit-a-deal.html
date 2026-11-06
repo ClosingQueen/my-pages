@@ -1649,6 +1649,7 @@ async function loadRemote(force){
   if(!api()){REMOTE=null;REMOTE_ERR='';renderDesk();return}
   if(!force&&REMOTE&&Date.now()-remoteAt<20000){renderDesk();return}
   deskBusy=true;renderDesk();
+  if(!PUBLIC&&!adminKey()){REMOTE=null;REMOTE_ERR='';deskBusy=false;renderDesk();return}
   try{const j=PUBLIC?await apiGet({action:'mine',token:myToken()}):await apiGet({action:'all',key:adminKey()});REMOTE=j.deals||[];REMOTE_ERR='';remoteAt=Date.now()}
   catch(e){REMOTE_ERR=e.message}
   deskBusy=false;syncFromRemote();renderDesk();
@@ -1688,7 +1689,8 @@ function renderDesk(){
       <td class="dact"><button class="btn btn-sm" onclick="openRemote('${esc(i.id)}')">Open</button><button class="btn btn-sm" title="Message the submitter" onclick="msgRemote('${esc(i.id)}')">✉</button>${o.mapUrl?`<a class="btn btn-sm" title="Satellite map" href="${esc(o.mapUrl)}" target="_blank" rel="noopener">🛰</a>`:''}${o.folderUrl?`<a class="btn btn-sm" title="Drive folder" href="${esc(o.folderUrl)}" target="_blank" rel="noopener">📁</a>`:''}${o.sheetUrl?`<a class="btn btn-sm" title="Deal sheet" href="${esc(o.sheetUrl)}" target="_blank" rel="noopener">📄</a>`:''}</td></tr>`}).join('');
   }
   const cnt=t=>items.filter(t[1]).length;
-  const note=!api()?(PUBLIC?'':`<div class="cmpbox" style="margin:0 0 14px">Connect your Google Sheet in <b>⚙ Underwriting settings</b> to see every submission here.</div>`):REMOTE_ERR?`<div class="cmpbox" style="margin:0 0 14px;border-color:var(--red-line)">Couldn't load ${PUBLIC?'your deals':'submissions'}: ${esc(REMOTE_ERR)}</div>`:'';
+  const lockNote=!PUBLIC&&api()&&!adminKey()?`<div class="cmpbox" style="margin:0 0 14px"><b>🔒 Unlock your Submissions</b><br>Enter your admin key once on this device to see every deal sent to you.<div class="row2" style="margin-top:10px"><input id="unlockKey" type="password" placeholder="Admin key" style="flex:1;min-width:200px;border:1px solid var(--line);border-radius:7px;padding:9px 12px"><button class="btn btn-blue btn-sm" onclick="unlockAdmin()">Unlock</button></div></div>`:'';
+  const note=lockNote?lockNote:!api()?(PUBLIC?'':`<div class="cmpbox" style="margin:0 0 14px">Connect your Google Sheet in <b>⚙ Underwriting settings</b> to see every submission here.</div>`):REMOTE_ERR?`<div class="cmpbox" style="margin:0 0 14px;border-color:var(--red-line)">Couldn't load ${PUBLIC?'your deals':'submissions'}: ${esc(REMOTE_ERR)}</div>`:'';
   const link=PUBLIC&&api()?`<div class="dlink">🔒 Your private dashboard link (open it on any device): <input readonly value="${esc(location.href.split('?')[0].split('#')[0]+'?me='+myToken())}" onclick="this.select()"><button class="btn btn-sm" onclick="navigator.clipboard&&navigator.clipboard.writeText(this.previousElementSibling.value).then(()=>toast('Link copied'))">Copy</button></div>
     <details class="drestore" ${!deals.some(d=>d.submittedAt)&&!(REMOTE||[]).length?'open':''}><summary>New phone, or just installed the app? Bring your deals over</summary>
     <div class="dlink" style="padding-left:0"><input id="restoreIn" placeholder="Paste your private dashboard link"><button class="btn btn-sm btn-blue" onclick="restoreLink()">Restore my deals</button></div></details>`:'';
@@ -1702,6 +1704,7 @@ function renderDesk(){
 }
 function restoreLink(){const v=($('#restoreIn')||{}).value||'';const m=v.match(/[?&]me=([a-f0-9]{32})/)||v.trim().match(/^([a-f0-9]{32})$/);
   if(!m){toast('Paste the full private link (it ends with ?me=…)');return}ME.token=m[1];LS.set('jdf_me',ME);REMOTE=null;loadRemote(true);toast('Deals restored')}
+function unlockAdmin(){const k=($('#unlockKey')||{}).value||'';if(!k.trim())return;S.portal.adminKey=k.trim();LS.set('jdf_settings',S);REMOTE=null;loadRemote(true).then(()=>{if(REMOTE_ERR){S.portal.adminKey='';LS.set('jdf_settings',S);REMOTE_ERR='';renderDesk();toast('That key didn\'t work')}else toast('Submissions unlocked')})}
 function startDeal(addr){saveDeal();D=blank();D.address=String(addr||'').trim();fillInputs();render();go(1);if(!D.address)$('#address').focus()}
 async function setRemote(id,patch){try{await apiPost(Object.assign({action:'update',key:adminKey(),id},patch));const o=(REMOTE||[]).find(x=>String(x.id)===String(id));if(o){Object.assign(o,patch);o.updated=new Date().toISOString()}toast(patch.status?'Status → '+patch.status:'Message sent');renderDesk()}catch(e){toast("Couldn't update: "+e.message);loadRemote(true)}}
 function msgRemote(id){const o=(REMOTE||[]).find(x=>String(x.id)===String(id));const m=prompt('Message the submitter sees on their dashboard:',o&&o.message||'');if(m!==null)setRemote(id,{message:m})}
