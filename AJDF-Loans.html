@@ -663,7 +663,8 @@ function M(r){
   const P_=pmt(loan,rate,amortM,io),pitia=P_+tia;
   const noi=n('noi');
   let dscr=null;
-  if(noi&&P_)dscr=noi/(P_*12);else if(rent&&pitia)dscr=rent/pitia;
+  const noDscr=['ff','constr','guc','trans','land','biz','equip','payroll'].includes(r.program)&&!/Refi/.test(q.exit||'');
+  if(noDscr){}else if(noi&&P_)dscr=noi/(P_*12);else if(rent&&pitia)dscr=rent/pitia;
   if(r.program==='sba'&&n('netIncome')&&P_)dscr=n('netIncome')/(P_*12);
   const cost=(r.program==='guc'?(n('lotPrice')||n('lotValue')):(price||asis))+rehab;
   const rehabIn=['ff','constr'].includes(r.program)&&rehab?Math.min(rehab,loan):0;const ltv=value?(loan-rehabIn)/value:null,ltc=rehab&&cost?loan/cost:null,ltarv=arv?loan/arv:null;
