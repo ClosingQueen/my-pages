@@ -420,6 +420,19 @@ html:not(.pub) .pubonly{display:none!important}
 .tl .ti.off b{color:var(--red)}
 .drestore{padding:0 24px 18px;font-size:13.5px;color:var(--mute)}.drestore summary{cursor:pointer;color:var(--gold);padding:4px 0}
 .r.tot.neg b{color:var(--red)}
+.sowbox summary{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;list-style:none}
+.sowbox summary::-webkit-details-marker{display:none}.sowbox summary::after{content:'▾';color:var(--gold)}.sowbox[open] summary::after{content:'▴'}
+.sowsum-mini{margin-left:auto;color:var(--gold);font-weight:600;font-size:14px}
+.sowt{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;min-width:560px}
+.sowt th{text-align:left;font-weight:500;color:var(--mute);font-size:12.5px;padding:0 4px 6px}.sowt td{padding:3px 4px;vertical-align:middle}
+.sowt input[type=text],.sowt .sow-cat,.sowt .sow-note,.sowt .sow-amt{width:100%;border:1px solid var(--line);border-radius:6px;padding:8px 9px;font-size:14px}
+.sowt .inp.has-pre input{padding-left:24px}.sowt .x{border:0;background:none;color:var(--mute2);font-size:18px}
+.sowt input[type=checkbox]{width:17px;height:17px;accent-color:var(--bronze)}
+.sow-empty{color:var(--mute);font-size:13.5px;padding:10px 4px!important}
+.sowsum{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:14px}
+.repchecks{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
+#repModal .f input,#repModal .f textarea{width:100%;border:1px solid var(--line);border-radius:7px;padding:10px 12px;font-size:15px}
+@media (max-width:640px){.repchecks{grid-template-columns:1fr}}
 /* responsive */
 @media (max-width:1180px){.grid{grid-template-columns:minmax(0,1fr) 440px}}
 @media (max-width:980px){
@@ -455,6 +468,7 @@ html:not(.pub) .pubonly{display:none!important}
 <header class="top">
   <div class="brand"><img src="data:image/webp;base64,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" alt="Acquire JDF"><span class="bn" id="brandName">Acquire JDF</span> <small>Deal Desk</small></div>
   <div class="top-actions">
+    <button class="btn int" onclick="openReport()">📄 Report</button>
     <button class="btn int" onclick="openSettings()">⚙ Underwriting settings</button>
     <button class="btn btn-blue" onclick="newDeal()">+ New deal</button>
   </div>
@@ -563,6 +577,17 @@ html:not(.pub) .pubonly{display:none!important}
         <div class="nrow">
           <div><div class="lbl">Renovation estimate <span class="i" title="Type a number to override the tier math">i</span></div><div class="hint" id="rehabHint"></div></div>
           <div class="val"><div class="inp has-pre"><span class="pre">$</span><input data-k="rehabOverride" data-num data-money inputmode="numeric" id="rehabIn"></div><div class="psf" id="rehabPsf"></div></div>
+        </div>
+
+        <div class="nrow block int">
+          <details class="sowbox" id="sowBox">
+            <summary><span class="lbl">Scope of work (SOW) <span class="opt">Line items</span></span><span class="sowsum-mini" id="sowMini"></span></summary>
+            <div class="sel-note" style="margin-top:8px">Break the rehab into categories. Check the ones you want on your PDF report.</div>
+            <div style="overflow-x:auto"><table class="sowt"><thead><tr><th>Category</th><th style="width:150px">Amount</th><th>Notes</th><th style="width:60px;text-align:center">Report</th><th style="width:30px"></th></tr></thead><tbody id="sowRows"></tbody></table></div>
+            <div class="row2" style="margin-top:10px"><button class="btn btn-sm" onclick="sowAdd()">+ Add line</button><button class="btn btn-sm" onclick="sowLoadDefaults()">Load standard categories</button><button class="btn btn-sm" onclick="sowSpread()">Starting split from tier</button></div>
+            <div class="sowsum" id="sowSum"></div>
+            <label class="switch" style="margin-top:10px"><input type="checkbox" id="sowUse" onchange="D.sowUse=this.checked;if(D.sowUse)D.rehabOverride='';fillInputs();autosave();render()"><i></i>Use the SOW total as my renovation estimate</label>
+          </details>
         </div>
 
         <div class="nrow block int">
@@ -686,6 +711,7 @@ html:not(.pub) .pubonly{display:none!important}
         <div class="bar"><i id="chkBar"></i></div>
         <div id="chkList"></div>
         <button class="btn btn-blue continue" onclick="saveDeal();go(2)">Save &amp; continue →</button>
+        <button class="btn continue int" style="margin-top:10px" onclick="openReport()">📄 Create PDF report</button>
         <div class="next-note">Next: asking price, contract and seller info.</div>
       </div>
     </div>
@@ -909,6 +935,9 @@ html:not(.pub) .pubonly{display:none!important}
     </div>
   </div>
 </div>
+<div class="modal" id="repModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="card"><div class="card-h"><h2>Create a PDF report</h2><button class="btn btn-sm" onclick="$('#repModal').classList.remove('open')">Close</button></div><div class="card-b" id="repBody"></div></div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -974,7 +1003,8 @@ function calc(d,o={}){
   const arv=has(d.arv)?n(d.arv):(cs.count?cs.avg:NaN);
   const mult=(o.mult??multOf(d))/100;
   const tRehab=tierRehab(d,o.grade);
-  const rehab=(o.grade===undefined&&has(d.rehabOverride))?n(d.rehabOverride):tRehab;
+  const sowT=(d.sow||[]).reduce((a,x)=>a+(n(x.amt)||0),0);
+  const rehab=(o.grade===undefined&&d.sowUse&&sowT>0)?sowT:(o.grade===undefined&&has(d.rehabOverride))?n(d.rehabOverride):tRehab;
   const floor=o.floor??d.floorZero;
   let dispo=arv*mult-rehab;
   const mode=o.feePct!==undefined?'pct':d.feeMode;
@@ -1016,7 +1046,7 @@ function fillInputs(){
     else el.value=v??'';
   });
   renderComps();renderUnits();
-  $('#desc').innerHTML=cleanHTML(D.desc);photoZone();contractZone();geoFor=null;if(PIN&&MAP){MAP.removeLayer(PIN);PIN=null}
+  $('#desc').innerHTML=cleanHTML(D.desc);photoZone();contractZone();if(!PUBLIC)renderSOW();geoFor=null;if(PIN&&MAP){MAP.removeLayer(PIN);PIN=null}
 }
 let saveT;function autosave(){clearTimeout(saveT);saveT=setTimeout(()=>saveDeal(false,true),500)}
 
@@ -1098,9 +1128,12 @@ function render(){
 
   // rehab
   $('#rehabIn').placeholder=Math.round(r.tRehab).toLocaleString();
+  if(D.sowUse&&sowTot()>0){$('#rehabHint').innerHTML=`From your SOW (${(D.sow||[]).filter(x=>has(x.amt)).length} lines) · <a onclick="D.sowUse=false;fillInputs();autosave();render()">Use tier/manual instead</a>`}else
   $('#rehabHint').innerHTML=has(D.rehabOverride)?`Manual · tier math says ${money(r.tRehab)} · <a onclick="D.rehabOverride='';fillInputs();autosave();render()">Reset</a>`:(D.perUnit?`Sum of ${D.unitList.length} units`:`From condition ${D.grade} · adjust if needed`);
   $('#rehabPsf').textContent=sq?money(r.rehab/sq,2)+'/ft²':'';
   if(!has(D.rehabOverride))$('#rehabIn').value='';
+  $('#rehabIn').disabled=!!(D.sowUse&&sowTot()>0);if($('#rehabIn').disabled)$('#rehabIn').placeholder=Math.round(r.rehab).toLocaleString();
+  if(!PUBLIC){sowSummary();const mi=$('#sowMini');if(mi){const t=sowTot();mi.textContent=t?money(t)+(D.sowUse?' · in use':''):'Optional'}}
 
   // fee
   $$('#feeSeg button').forEach(b=>{b.classList.toggle('on',b.dataset.v===D.feeMode);b.onclick=()=>{D.feeMode=b.dataset.v;autosave();render()}});
@@ -1187,6 +1220,138 @@ function renderSens(r){
 }
 
 
+
+
+/* ---------- Scope of work (SOW) ---------- */
+const SOW_DEFAULT=['Roof','HVAC','Electrical','Plumbing','Kitchen','Bathrooms','Flooring','Paint (interior/exterior)','Windows & doors','Exterior / siding','Foundation / structural','Cleanout & landscaping','Permits & contingency'];
+function sowTot(d){d=d||D;return (d.sow||[]).reduce((a,x)=>a+(n(x.amt)||0),0)}
+function renderSOW(){
+  const box=$('#sowRows');if(!box)return;
+  const list=D.sow||(D.sow=[]);
+  box.innerHTML=list.map((x,i)=>`<tr><td><input class="sow-cat" data-i="${i}" value="${esc(x.cat)}" placeholder="Category"></td>
+    <td><div class="inp has-pre"><span class="pre">$</span><input class="sow-amt" data-i="${i}" value="${has(x.amt)?n(x.amt).toLocaleString('en-US'):''}" inputmode="numeric" placeholder="0"></div></td>
+    <td><input class="sow-note" data-i="${i}" value="${esc(x.note||'')}" placeholder="Notes (optional)"></td>
+    <td style="text-align:center"><input type="checkbox" class="sow-show" data-i="${i}" ${x.show!==false?'checked':''} title="Show on report"></td>
+    <td><button class="x" data-i="${i}" title="Remove">×</button></td></tr>`).join('')||`<tr><td colspan="5" class="sow-empty">No line items yet. Load the standard categories or add your own.</td></tr>`;
+  box.querySelectorAll('.sow-cat').forEach(el=>el.oninput=()=>{list[el.dataset.i].cat=el.value;autosave()});
+  box.querySelectorAll('.sow-note').forEach(el=>el.oninput=()=>{list[el.dataset.i].note=el.value;autosave()});
+  box.querySelectorAll('.sow-show').forEach(el=>el.onchange=()=>{list[el.dataset.i].show=el.checked;autosave()});
+  box.querySelectorAll('.sow-amt').forEach(el=>{el.oninput=()=>{list[el.dataset.i].amt=el.value.replace(/[^0-9.]/g,'');autosave();render()};el.onblur=()=>{if(has(el.value))el.value=n(el.value).toLocaleString('en-US')}});
+  box.querySelectorAll('button.x').forEach(b=>b.onclick=()=>{list.splice(+b.dataset.i,1);renderSOW();autosave();render()});
+  sowSummary();
+}
+function sowSummary(){
+  const el=$('#sowSum');if(!el)return;const t=sowTot(),r=calc(D),tier=r.tRehab,sq=n(D.sqft);
+  el.innerHTML=`<span>SOW total <b style="color:var(--gold)">${money(t)}</b>${sq&&t?` · ${money(t/sq,2)}/ft²`:''}</span><span style="color:var(--mute)">Tier estimate ${money(tier)}${t?` · ${t>=tier?'+':'−'}${money(Math.abs(t-tier))} vs tier`:''}</span>`;
+  const sw=$('#sowUse');if(sw)sw.checked=!!D.sowUse;
+}
+function sowAdd(cat){(D.sow||(D.sow=[])).push({cat:cat||'',amt:'',note:'',show:true});renderSOW();autosave();const ins=$$('#sowRows .sow-cat');if(!cat&&ins.length)ins[ins.length-1].focus()}
+function sowLoadDefaults(){const have=new Set((D.sow||[]).map(x=>x.cat));SOW_DEFAULT.forEach(c=>{if(!have.has(c))(D.sow||(D.sow=[])).push({cat:c,amt:'',note:'',show:true})});renderSOW();autosave()}
+function sowSpread(){ // split the current rehab estimate across categories by typical weights
+  const w={'Roof':.10,'HVAC':.09,'Electrical':.07,'Plumbing':.07,'Kitchen':.16,'Bathrooms':.11,'Flooring':.10,'Paint (interior/exterior)':.08,'Windows & doors':.06,'Exterior / siding':.05,'Foundation / structural':.03,'Cleanout & landscaping':.03,'Permits & contingency':.05};
+  const total=calc(D).tRehab;if(!total)return toast('Set the condition tier or sqft first');
+  if((D.sow||[]).some(x=>has(x.amt))&&!confirm('Replace the amounts with a starting split of '+money(total)+'?'))return;
+  sowLoadDefaults();D.sow.forEach(x=>{if(w[x.cat]!=null)x.amt=String(Math.round(total*w[x.cat]/50)*50)});renderSOW();autosave();render();toast('Starting split loaded. Adjust each line to your real bids')
+}
+
+/* ---------- Shareable report (PDF) ---------- */
+const REP_SECTIONS=[['facts','Property facts'],['photos','Photo + satellite map'],['offer','Our offer'],['comps','Comps & ARV'],['rehab','Rehab estimate'],['sow','Rehab line items (SOW)'],['rent','Rent estimate'],['dscr','DSCR rental scenario'],['hml','Hard money scenario (flip + BRRRR)'],['notes','Notes']];
+function repCfg(){const r=D.rep||(D.rep={});REP_SECTIONS.forEach(([k])=>{if(r[k]===undefined)r[k]=true});if(r.title===undefined)r.title='Property Analysis & Offer';if(r.offer$===undefined)r.offer$='';if(r.terms===undefined)r.terms='Cash · As-is · We cover standard closing costs · Close in 14–21 days';if(r.noteText===undefined)r.noteText='';if(r.prepFor===undefined)r.prepFor='';return r}
+function openReport(){
+  const R=repCfg(),r=calc(D);
+  const off=has(R.offer$)?n(R.offer$):Math.floor((r.moa||0)/500)*500;
+  $('#repBody').innerHTML=`
+    <div class="seg" style="margin-bottom:14px"><button onclick="repPreset('seller')">Seller offer report</button><button onclick="repPreset('analysis')">Analysis only (no offer)</button></div>
+    <div class="f"><label>Report title</label><input id="repTitle" value="${esc(R.title)}"></div>
+    <div class="f2" style="margin-top:10px"><div class="f"><label>Prepared for <span class="opt">Optional</span></label><input id="repFor" value="${esc(R.prepFor)}" placeholder="Seller name"></div>
+    <div class="f"><label>Offer shown on report</label><div class="inp has-pre"><span class="pre">$</span><input id="repOffer" value="${off?off.toLocaleString('en-US'):''}" inputmode="numeric"></div><div class="helper">Your MOA is ${money(r.moa)} (rounded down). Change it if you want.</div></div></div>
+    <div class="f" style="margin-top:10px"><label>Offer terms line</label><input id="repTerms" value="${esc(R.terms)}"></div>
+    <div class="rhead" style="margin-top:16px">Sections to include</div>
+    <div class="repchecks">${REP_SECTIONS.map(([k,l])=>`<label class="switch"><input type="checkbox" data-rep="${k}" ${R[k]?'checked':''}><i></i>${l}</label>`).join('')}</div>
+    <div class="f" style="margin-top:12px"><label>Notes on the report <span class="opt">Optional</span></label><textarea id="repNotes" placeholder="Anything you want the seller or partner to read">${esc(R.noteText)}</textarea></div>
+    <div class="cmpbox" style="margin-top:12px">🔒 Never on the report: your multiplier, assignment fee, BC price, MOA label or any formula.</div>
+    <div class="row2" style="justify-content:flex-end;margin-top:16px"><button class="btn" onclick="$('#repModal').classList.remove('open')">Cancel</button><button class="btn btn-blue" onclick="buildReport()">Create PDF report →</button></div>`;
+  $('#repModal').classList.add('open');
+}
+function repPreset(p){$$('[data-rep]').forEach(c=>{c.checked=p==='seller'?true:c.dataset.rep!=='offer'});const t=$('#repTitle');t.value=p==='seller'?'Property Analysis & Offer':'Property Analysis'}
+async function buildReport(){
+  const R=repCfg();R.title=$('#repTitle').value.trim()||'Property Analysis';R.prepFor=$('#repFor').value.trim();R.offer$=$('#repOffer').value.replace(/[^0-9.]/g,'');R.terms=$('#repTerms').value.trim();R.noteText=$('#repNotes').value;
+  $$('[data-rep]').forEach(c=>R[c.dataset.rep]=c.checked);saveDeal(false,true);
+  const w=window.open('','_blank');if(!w){toast('Allow pop-ups to open the report');return}
+  w.document.write('<p style="font:16px Arial;padding:40px;color:#555">Building your report…</p>');
+  if(R.photos&&!hasPin()&&D.address){const ll=await geocode(D.address);if(ll){D.lat=String(ll[0]);D.lng=String(ll[1]);autosave()}}
+  const map=R.photos?await snapMap(900,520,18):'';
+  w.document.open();w.document.write(reportHTML(map));w.document.close();
+  $('#repModal').classList.remove('open');
+}
+function reportHTML(mapImg){
+  const R=repCfg(),r=calc(D),q=returns(D),h=hardMoney(D),sq=n(D.sqft),e=v=>esc(v??'');
+  const off=has(R.offer$)?n(R.offer$):Math.floor((r.moa||0)/500)*500;
+  const comps=(D.comps||[]).filter(c=>has(c.price));const cs=r.cs;
+  const fact=(l,v)=>v&&v!=='—'?`<div class="fact"><small>${l}</small><b>${v}</b></div>`:'';
+  const kv=(l,v,c='')=>`<tr><td>${l}</td><td class="${c}">${v}</td></tr>`;
+  const sec=(t,body)=>`<section><h2>${t}</h2>${body}</section>`;
+  const gl=S.grades[D.grade];const sowL=(D.sow||[]).filter(x=>x.show!==false&&has(x.amt));
+  const hasQ=q.rent>0&&!isNaN(r.arv);
+  let out='';
+  if(R.facts)out+=sec('Property details',`<div class="facts">${fact('Property type',e(D.type))}${fact('Bedrooms',e(D.beds))}${fact('Bathrooms',e(D.baths))}${fact('Living area',has(D.sqft)?n(D.sqft).toLocaleString()+' sq ft':'')}${fact('Lot size',has(D.lot)?n(D.lot).toLocaleString()+' sq ft':'')}${fact('Year built',e(D.year))}${fact('Units',n(D.units)>1?e(D.units):'')}${fact('County',e(D.county))}${fact('Parcel ID',e(D.parcel))}${fact('Occupancy',e(D.occ))}</div>`);
+  if(R.photos&&(D.photo||mapImg))out+=`<section class="pics">${D.photo?`<figure><img src="${D.photo}" alt="Exterior"><figcaption>Exterior</figcaption></figure>`:''}${mapImg?`<figure><img src="${mapImg}" alt="Satellite"><figcaption>Satellite view${hasPin()?` · ${(+D.lat).toFixed(5)}, ${(+D.lng).toFixed(5)}`:''}</figcaption></figure>`:''}</section>`;
+  if(R.offer&&off>0)out+=`<section class="offer"><div><small>Our cash offer</small><b>${money(off)}</b>${R.terms?`<p>${e(R.terms)}</p>`:''}</div><div class="offer-side">${fact('After-repair value',money(r.arv))}${fact('Estimated repairs',money(r.rehab))}</div></section>`;
+  if(R.comps)out+=sec('Comparable sales & after-repair value',(comps.length?`<table class="tbl"><thead><tr><th>Address</th><th class="n">Sold price</th><th class="n">Sq ft</th><th class="n">$ / sq ft</th><th>Sold</th><th class="n">Distance</th></tr></thead><tbody>${comps.map(c=>`<tr><td>${e(c.addr||'Comp')}</td><td class="n">${money(n(c.price))}</td><td class="n">${has(c.sqft)?n(c.sqft).toLocaleString():'—'}</td><td class="n">${has(c.sqft)&&n(c.sqft)>0?money(n(c.price)/n(c.sqft)):'—'}</td><td>${e(c.date||'—')}</td><td class="n">${has(c.dist)?n(c.dist)+' mi':'—'}</td></tr>`).join('')}</tbody></table>`:'')+
+    `<table class="kv">${cs.count?kv(`Average of ${cs.count} comps`,money(cs.avg))+(!isNaN(cs.avgPsf)?kv('Average $ / sq ft',money(cs.avgPsf,2)):'')+(!isNaN(cs.psfArv)?kv('$ / sq ft × subject sq ft',money(cs.psfArv)):''):''}${kv('<b>After-repair value (ARV)</b>',`<b>${money(r.arv)}</b>${sq&&!isNaN(r.arv)?` <span class="mut">(${money(r.arv/sq)}/sq ft)</span>`:''}`,'n')}</table>`);
+  if(R.rehab)out+=sec('Rehab estimate',`<table class="kv">${kv('Condition',D.perUnit?'Priced per unit':gl?`${e(D.grade)} · ${e(gl.label)} renovation`:'—')}${kv('<b>Total rehab estimate</b>',`<b>${money(r.rehab)}</b>${sq?` <span class="mut">(${money(r.rehab/sq,2)}/sq ft)</span>`:''}`,'n')}</table>`+
+    (R.sow&&sowL.length?`<table class="tbl" style="margin-top:10px"><thead><tr><th>Scope item</th><th>Notes</th><th class="n">Estimate</th></tr></thead><tbody>${sowL.map(x=>`<tr><td>${e(x.cat)}</td><td class="mut">${e(x.note||'')}</td><td class="n">${money(n(x.amt))}</td></tr>`).join('')}${(()=>{const shown=sowL.reduce((a,x)=>a+n(x.amt),0),other=Math.round(r.rehab-shown);return other>0?`<tr><td>Other items</td><td class="mut">Miscellaneous scope</td><td class="n">${money(other)}</td></tr>`:''})()}<tr class="tot"><td colspan="2">Total</td><td class="n">${money(Math.max(r.rehab,sowL.reduce((a,x)=>a+n(x.amt),0)))}</td></tr></tbody></table>`:''));
+  if(R.rent&&has(D.rent))out+=sec('Rent estimate',`<table class="kv">${kv('Market rent (all units)',money(n(D.rent))+' / month','n')}${kv('Gross annual rent',money(n(D.rent)*12),'n')}${sq?kv('Rent per sq ft',money(n(D.rent)/sq,2)+' / month','n'):''}</table>`);
+  if(R.dscr&&hasQ)out+=sec('Rental scenario · DSCR loan',`<div class="metrics">${[['Cash-on-cash',pct(q.coc)],['ROI (year 1)',pct(q.roi)],['Cap rate',pct(q.cap,2)],['DSCR',isNaN(q.dscr)?'—':q.dscr.toFixed(2)+'x'],['Cash flow',money(q.cf/12)+'/mo']].map(([l,v])=>`<div><small>${l}</small><b>${v}</b></div>`).join('')}</div>
+    <table class="kv">${kv('Purchase price',money(q.price),'n')}${kv(`Loan (${100-(n(D.inv_down)||0)}% LTV @ ${n(D.inv_rate)||0}%, ${n(D.inv_term)||30} yr)`,money(q.loan),'n')}${kv('<b>Cash to close</b>',`<b>${money(q.cashToClose)}</b>`,'n')}${q.rehabCash?kv('+ Rehab (paid in cash)',money(q.rehabCash),'n'):''}${kv('Total cash needed',money(q.cashIn),'n')}${kv('Monthly payment (PITIA)',money(q.pitia),'n')}${kv('Net operating income',money(q.noi)+' / yr','n')}${kv('Equity at ARV',money(q.equity),'n')}</table>`);
+  if(R.hml&&!isNaN(r.arv))out+=sec('Fix & flip / BRRRR scenario · Hard money',`<div class="metrics">${[['Cash to close',money(h.cashToClose)],['Total cash needed',money(h.totalCash)],['Flip profit',money(h.profit)],['Flip ROI',pct(h.roi)],['Left in deal (BRRRR)',money(Math.max(0,h.leftIn))]].map(([l,v])=>`<div><small>${l}</small><b>${v}</b></div>`).join('')}</div>
+    <table class="kv">${kv(`Loan (${n(D.hm_ltc)||0}% purchase + ${n(D.hm_rehab)||0}% rehab @ ${n(D.hm_rate)||0}%)`,money(h.loan),'n')}${kv(`Holding costs (${h.months} months)`,money(h.holding),'n')}${kv(`Sale at ARV less ${n(D.inv_sell)||0}% costs`,money(h.sale),'n')}${kv(`Refi at ${n(D.hm_refiLtv)||0}% of ARV`,money(h.newLoan),'n')}${kv(h.cashBack>=0?'Cash back at refi':'Cash needed at refi',money(Math.abs(h.cashBack)),'n')}${kv(h.leftIn>0?'<b>Money left in the deal</b>':'<b>Cash out beyond money in</b>',`<b>${money(Math.abs(h.leftIn))}</b>`,'n')}${kv('DSCR after refi',isNaN(h.refiDscr)?'—':h.refiDscr.toFixed(2)+'x','n')}</table>`);
+  if(R.notes&&String(R.noteText||'').trim())out+=sec('Notes',`<div class="notes">${e(R.noteText).replace(/\n/g,'<br>')}</div>`);
+  const date=new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  return`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${e(R.title)} · ${e(D.address)}</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@page{size:letter;margin:.5in}
+*{box-sizing:border-box}body{margin:0;background:#EEE9E2;font-family:Inter,Arial,sans-serif;color:#1C1A17;font-size:13px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.bar{position:sticky;top:0;background:#0F0F0F;color:#D9A86C;padding:10px 16px;display:flex;gap:10px;align-items:center;justify-content:space-between;z-index:5;font-size:14px}
+.bar button{background:linear-gradient(180deg,#D9A86C,#C08A4A);border:0;color:#0F0F0F;font-weight:700;padding:9px 16px;border-radius:7px;font-size:14px;cursor:pointer}
+.page{max-width:8.5in;margin:18px auto;background:#fff;padding:.45in .5in;box-shadow:0 4px 24px rgba(0,0,0,.12)}
+header{display:flex;align-items:center;gap:14px;border-bottom:3px solid #C08A4A;padding-bottom:14px}
+header img{width:62px}header .co{font-family:Cinzel,Georgia,serif;font-size:20px;font-weight:700;letter-spacing:.06em;color:#8A5A22;text-transform:uppercase}
+header .sub{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6E655C;font-weight:600}
+header .meta{margin-left:auto;text-align:right;font-size:12px;color:#6E655C;line-height:1.5}
+h1{font-family:Cinzel,Georgia,serif;font-size:24px;margin:18px 0 2px;color:#1C1A17}
+.title{color:#8A5A22;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+section{margin-top:20px;page-break-inside:avoid;break-inside:avoid}
+h2{font-family:Cinzel,Georgia,serif;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:#8A5A22;border-bottom:1px solid #E6DCCD;padding-bottom:6px;margin:0 0 10px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fact{background:#FBF7F1;border:1px solid #EADFD0;border-radius:6px;padding:8px 10px}.fact small{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#6E655C}.fact b{font-size:14px}
+.pics{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pics figure{margin:0}.pics img{width:100%;height:210px;object-fit:cover;border-radius:8px;border:1px solid #E6DCCD;display:block}
+figcaption{font-size:11px;color:#6E655C;margin-top:4px}
+.offer{display:flex;gap:16px;align-items:stretch;background:#0F0F0F;color:#fff;border-radius:10px;padding:18px 20px;border-bottom:4px solid #C08A4A}
+.offer small{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#D9A86C;font-weight:700}.offer b{display:block;font-family:Cinzel,Georgia,serif;font-size:34px;color:#D9A86C;margin-top:2px}
+.offer p{margin:6px 0 0;color:#E8E0D4;font-size:12.5px}.offer-side{margin-left:auto;display:grid;gap:8px;min-width:190px}.offer-side .fact{background:#1E1C1A;border-color:#3A3632}.offer-side .fact b{color:#fff}.offer-side .fact small{color:#B4AA9F}
+table{width:100%;border-collapse:collapse}.tbl th{background:#F4EFE8;text-align:left;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#6E655C;padding:7px 8px;border-bottom:1px solid #E6DCCD}
+.tbl td{padding:7px 8px;border-bottom:1px solid #F0E8DC}.tbl .tot td{font-weight:700;border-top:2px solid #E6DCCD}
+.kv td{padding:7px 0;border-bottom:1px solid #F0E8DC}.kv td:first-child{color:#3D3832}
+.n{text-align:right;white-space:nowrap}.mut{color:#8C8278;font-weight:400}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:8px}.metrics div{background:#FBF7F1;border:1px solid #EADFD0;border-radius:6px;padding:8px 10px}
+.metrics small{display:block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#6E655C}.metrics b{font-size:16px;color:#8A5A22}
+.notes{background:#FBF7F1;border:1px solid #EADFD0;border-radius:8px;padding:12px 14px;line-height:1.6}
+footer{break-inside:avoid;page-break-inside:avoid;break-before:avoid;page-break-before:avoid;margin-top:18px;border-top:1px solid #E6DCCD;padding-top:10px;font-size:10.5px;color:#8C8278;line-height:1.5;display:flex;gap:10px;align-items:center}footer img{width:26px}
+@media print{body{background:#fff}.bar{display:none}.page{margin:0;box-shadow:none;padding:0;max-width:none}section{margin-top:14px}h1{margin-top:12px}}
+@media (max-width:640px){.facts{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:1fr 1fr}.pics{grid-template-columns:1fr}.offer{flex-direction:column}.offer-side{margin-left:0}.page{padding:18px}}
+</style></head><body>
+<div class="bar"><span>📄 Your report is ready. Save it as a PDF, then send it.</span><button onclick="window.print()">Save as PDF / Print</button></div>
+<div class="page">
+<header><img src="${LOGO}" alt=""><div><div class="co">${e(S.portal.brand)} Corp</div><div class="sub">Premium Real Estate Investments</div></div><div class="meta">${date}${R.prepFor?`<br>Prepared for <b>${e(R.prepFor)}</b>`:''}</div></header>
+<div class="title" style="margin-top:16px">${e(R.title)}</div>
+<h1>${e(D.address||'Property')}</h1>
+<div class="mut">${[D.type,has(D.beds)&&D.beds+' bd',has(D.baths)&&D.baths+' ba',has(D.sqft)&&n(D.sqft).toLocaleString()+' sq ft',D.year&&'Built '+D.year].filter(Boolean).map(e).join(' · ')}</div>
+${out}
+<footer><img src="${LOGO}" alt=""><div><b>${e(S.portal.brand)} Corp</b> · ${e(S.portal.contact)}<br>Estimates are for discussion only and are not an appraisal, inspection or loan approval. Figures may change with inspection, title and market conditions.</div></footer>
+</div></body></html>`;
+}
 
 /* ---------- hard money (fix & flip / BRRRR bridge) ---------- */
 function hardMoney(d){
@@ -1703,7 +1868,7 @@ function dealSheetHTML(r,o={}){
 <div class="jtx" style="${F}color:${T.tx2};font-size:14px">${e(f.Property)}</div>
 ${D.photo?`<img src="${PH}" alt="Exterior" width="676" style="width:100%;max-width:676px;height:auto;border-radius:10px;margin-top:16px;display:block;border:0">`:''}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="6" style="margin:12px 0 0;table-layout:fixed"><tr>${box('Ask price',money(n(D.dispoAsk)),1)}${box('ARV',money(r.arv))}${box('Rehab',money(r.rehab))}</tr><tr>${box('Contract',money(n(D.contract)))}${box('MOA',money(r.moa),1)}${box('BC price',money(r.bc),1)}</tr></table>
-${sec('Underwriting')}${tbl(row('ARV',e(f.ARV))+row('Comps',e(f.Comps))+row('Multiplier',e(f.Multiplier))+row('Rehab',e(f.Rehab))+row('Investor price',e(f['Investor price']))+row('MOA',`<b class="jhi" style="color:${T.hi}">${e(f.MOA)}</b>`)+row('Assignment',e(f.Assignment))+row('BC price',`<b class="jhi" style="color:${T.hi}">${e(f['BC price'])}</b>`)+row('Contract fit',fit)+row('Spread (ask − contract)',spread)+row('Rent estimate',e(f['Rent est']))+row('Investor returns',e(f['Investor returns']))+row('DSCR cash to close',e(f['DSCR cash to close']))+row('Hard money',e(f['Hard money'])))}
+${sec('Underwriting')}${tbl(row('ARV',e(f.ARV))+row('Comps',e(f.Comps))+row('Multiplier',e(f.Multiplier))+row('Rehab',e(f.Rehab))+row('Investor price',e(f['Investor price']))+row('MOA',`<b class="jhi" style="color:${T.hi}">${e(f.MOA)}</b>`)+row('Assignment',e(f.Assignment))+row('BC price',`<b class="jhi" style="color:${T.hi}">${e(f['BC price'])}</b>`)+row('Contract fit',fit)+row('Spread (ask − contract)',spread)+row('Rent estimate',e(f['Rent est']))+((D.sow||[]).filter(x=>has(x.amt)).length?row('SOW',e((D.sow||[]).filter(x=>has(x.amt)).map(x=>x.cat+' '+money(n(x.amt))).join(' · '))):'')+row('Investor returns',e(f['Investor returns']))+row('DSCR cash to close',e(f['DSCR cash to close']))+row('Hard money',e(f['Hard money'])))}
 ${sec('Contract & terms')}${tbl(row('Contract price',e(f['Contract price']))+row('Close date',e(f['Close date']))+row('Contract type',e(f['Contract type']))+row('Contract link',lnk(D.contractLink)||(FILES[D.id]?e(FILES[D.id].name)+' (attached)':''))+row('EMD',e(f.EMD))+row('HOA',e(f.HOA)))}
 ${sec('Location')}${o.email&&o.hasMap?`<img src="cid:map" alt="Satellite view" width="676" style="width:100%;max-width:676px;height:auto;border-radius:10px;display:block;border:0;margin:8px 0 10px">`:(!o.email&&o.mapImg?`<img src="${o.mapImg}" alt="Satellite view" style="width:100%;border-radius:10px;display:block;margin:8px 0 10px">`:'')}
 ${hasPin()?`<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 6px"><tr><td style="padding-right:8px"><a href="${e(gmapsUrl())}" style="${F}display:inline-block;background-color:#C08A4A;color:#0F0F0F;font-weight:700;font-size:14px;text-decoration:none;padding:10px 16px;border-radius:7px">🛰 Google Maps</a></td><td><a href="${e(streetUrl())}" style="${F}display:inline-block;background-color:#0F0F0F;color:#D9A86C;font-weight:700;font-size:14px;text-decoration:none;padding:10px 16px;border-radius:7px">🚶 Street View</a></td></tr></table>`:''}
