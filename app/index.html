@@ -363,7 +363,7 @@ iframe.map{filter:invert(.92) hue-rotate(180deg) sepia(.35) saturate(1.3) bright
 .bgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,420px);gap:24px}
 @media (max-width:980px){.bgrid{grid-template-columns:minmax(0,1fr)}}
 
-.tiles5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:22px}
+.tiles5{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:22px}
 .rt{background:var(--field);border:1px solid var(--line);border-radius:8px;padding:12px 14px}
 .rt small{display:block;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600}
 .rt b{display:block;font-size:24px;font-weight:700;margin-top:4px;color:var(--gold);letter-spacing:-.01em}
@@ -419,6 +419,7 @@ html:not(.pub) .pubonly{display:none!important}
 .tl .ti.off i{background:var(--red)}
 .tl .ti.off b{color:var(--red)}
 .drestore{padding:0 24px 18px;font-size:13.5px;color:var(--mute)}.drestore summary{cursor:pointer;color:var(--gold);padding:4px 0}
+.r.tot.neg b{color:var(--red)}
 /* responsive */
 @media (max-width:1180px){.grid{grid-template-columns:minmax(0,1fr) 440px}}
 @media (max-width:980px){
@@ -632,6 +633,36 @@ html:not(.pub) .pubonly{display:none!important}
         </div>
       </div>
     </div>
+    <div class="card int" id="hmCard">
+      <div class="card-h"><h2>Hard money</h2><span class="pill" id="hmPill"></span></div>
+      <div class="card-b">
+        <div style="font-size:14px;color:var(--mute);margin-bottom:16px">Same deal at the same buyer's price, bought with a hard money loan instead. Two exits: flip it, or refi into a DSCR loan (BRRRR).</div>
+        <div class="tiles5" id="hmTiles"></div>
+        <div class="rgrid">
+          <div>
+            <div class="rhead">Loan terms</div>
+            <div class="f2"><div class="f"><label>Purchase funded</label><div class="inp has-suf"><input data-k="hm_ltc" data-num inputmode="decimal"><span class="suf">%</span></div></div>
+            <div class="f"><label>Rehab funded</label><div class="inp has-suf"><input data-k="hm_rehab" data-num inputmode="decimal"><span class="suf">%</span></div></div></div>
+            <div class="f2"><div class="f"><label>Max loan (% of ARV)</label><div class="inp has-suf"><input data-k="hm_arvcap" data-num inputmode="decimal"><span class="suf">%</span></div></div>
+            <div class="f"><label>Rate (interest-only)</label><div class="inp has-suf"><input data-k="hm_rate" data-num inputmode="decimal"><span class="suf">%</span></div></div></div>
+            <div class="f2"><div class="f"><label>Points</label><div class="inp has-suf"><input data-k="hm_pts" data-num inputmode="decimal"><span class="suf">%</span></div></div>
+            <div class="f"><label>Lender fees</label><div class="inp has-pre"><span class="pre">$</span><input data-k="hm_fees" data-num data-money inputmode="numeric"></div></div></div>
+          </div>
+          <div>
+            <div class="rhead">Closing &amp; holding</div>
+            <div class="f2"><div class="f"><label>Closing costs</label><div class="inp has-suf"><input data-k="hm_close" data-num inputmode="decimal"><span class="suf">%</span></div></div>
+            <div class="f"><label>Months held</label><div class="inp has-suf"><input data-k="hm_months" data-num inputmode="numeric"><span class="suf">mo</span></div></div></div>
+            <div class="f"><label>Utilities while holding <span class="opt">Optional</span></label><div class="inp has-pre has-suf"><span class="pre">$</span><input data-k="hm_util" data-num data-money inputmode="numeric"><span class="suf">/mo</span></div></div>
+            <div class="rhead" style="margin-top:6px">Refi to DSCR</div>
+            <div class="f2"><div class="f"><label>Refi LTV (of ARV)</label><div class="inp has-suf"><input data-k="hm_refiLtv" data-num inputmode="decimal"><span class="suf">%</span></div></div>
+            <div class="f"><label>Refi closing</label><div class="inp has-suf"><input data-k="hm_refiClose" data-num inputmode="decimal"><span class="suf">%</span></div></div></div>
+          </div>
+        </div>
+        <div class="brk" id="hmBrk" style="margin-top:18px"></div>
+        <div class="legend">Uses the buyer's price, rehab, taxes, insurance, selling costs and DSCR rate from the Investor returns card above. Lender terms vary, so plug in your lender's real numbers.</div>
+      </div>
+    </div>
+
   </div>
 
   <aside class="side">
@@ -909,7 +940,7 @@ function blank(){return{id:'d'+Date.now().toString(36)+Math.random().toString(36
   comps:[{},{},{}],arv:'',market:S.market,customMult:'',rent:'',grade:S.grade,psfOverride:'',rehabOverride:'',perUnit:false,unitList:[],
   feeMode:'pct',feePct:S.feePct,feeFlat:'',floorZero:S.floorZero,
   asking:'',contract:'',dispoAsk:'',emd:'',contractDate:'',closeDate:'',contractType:'',contractLink:'',contractName:'',hoa:'',hoaFreq:'Annually',status:'Analyzing',strategy:'Assignment',pkg:'',
-  inv_price:'',inv_close:'3',inv_sell:'8',inv_finRehab:false,inv_rate:String(LS.get('jdf_rate',7.5)),inv_down:'25',inv_term:'30',inv_pts:'1',inv_io:false,inv_tax:'',inv_ins:'',inv_vac:'8',inv_mgmt:'10',inv_maint:'10',inv_other:'',
+  inv_price:'',inv_close:'3',inv_sell:'8',inv_finRehab:false,inv_rate:String(LS.get('jdf_rate',7.5)),inv_down:'25',inv_term:'30',inv_pts:'1',inv_io:false,inv_tax:'',inv_ins:'',inv_vac:'8',inv_mgmt:'10',inv_maint:'10',inv_other:'',hm_ltc:'90',hm_rehab:'100',hm_arvcap:'70',hm_rate:'12',hm_pts:'2',hm_fees:'1495',hm_close:'3',hm_months:'6',hm_util:'',hm_refiLtv:'75',hm_refiClose:'3',
   seller:'',phone:'',email:'',occ:'',access:'',accessNotes:'',desc:'',photo:'',hideAddr:false,c1:false,c2:false,c3:false,sellMode:'market',submittedAt:null,liveAt:null,code:'',photos:'',notes:'',updated:Date.now()}}
 
 /* ---------- utils ---------- */
@@ -1105,7 +1136,7 @@ function render(){
   $('#chkPill').textContent=done===checks.length?'All done':`${done} of ${checks.length}`;
   $('#chkPill').className='pill '+(done===checks.length?'green':'');
 
-  if(!PUBLIC){renderSens(r);renderReturns(r)}
+  if(!PUBLIC){renderSens(r);renderReturns(r);renderHM(r)}
   renderStep2(r);renderStep3(r);
 }
 function useArv(v){D.arv=v===''?'':String(v);fillInputs();autosave();render()}
@@ -1156,6 +1187,61 @@ function renderSens(r){
 }
 
 
+
+/* ---------- hard money (fix & flip / BRRRR bridge) ---------- */
+function hardMoney(d){
+  const R=returns(d),r=calc(d),P=x=>(n(x)||0)/100;
+  const price=R.price,rehab=R.rehab,arv=r.arv||0;
+  const loanPurch=price*P(d.hm_ltc),loanRehab=rehab*P(d.hm_rehab),loanRaw=loanPurch+loanRehab;
+  const cap=arv*P(d.hm_arvcap),loan=cap>0?Math.min(loanRaw,cap):loanRaw,capped=loanRaw>loan+1;
+  const purchFunded=Math.min(loanPurch,loan),rehabFunded=Math.max(0,loan-purchFunded);
+  const points=loan*P(d.hm_pts),fees=n(d.hm_fees)||0,closing=price*P(d.hm_close);
+  const down=price-purchFunded,cashToClose=down+closing+points+fees;
+  const rehabCash=Math.max(0,rehab-rehabFunded);
+  const months=Math.max(0,n(d.hm_months)||0),mInt=loan*P(d.hm_rate)/12,holdInt=mInt*months;
+  const holdTI=(R.tax+R.ins)/12*months,holdUtil=(n(d.hm_util)||0)*months;
+  const holding=holdInt+holdTI+holdUtil;
+  const totalCash=cashToClose+rehabCash+holding;
+  const sale=arv*(1-P(d.inv_sell)),allIn=price+rehab+closing+points+fees+holding;
+  const profit=sale-allIn;
+  // BRRRR: refi out into a DSCR loan
+  const newLoan=arv*P(d.hm_refiLtv),refiCost=newLoan*P(d.hm_refiClose),cashBack=newLoan-loan-refiCost,leftIn=totalCash-cashBack;
+  const mr=(n(d.inv_rate)||0)/100/12,np=Math.max(1,n(d.inv_term)||30)*12,newPI=newLoan<=0?0:(mr===0?newLoan/np:newLoan*mr/(1-Math.pow(1+mr,-np)));
+  const refiPitia=newPI+R.tax/12+R.ins/12+R.hoaMo,refiDscr=refiPitia>0?R.rent/refiPitia:NaN;
+  return{price,rehab,arv,loan,loanPurch,loanRehab,loanRaw,cap,capped,purchFunded,rehabFunded,points,fees,closing,down,cashToClose,rehabCash,months,mInt,holdInt,holdTI,holdUtil,holding,totalCash,sale,allIn,profit,
+    roi:totalCash>0?profit/totalCash:NaN,margin:arv>0?profit/arv:NaN,newLoan,refiCost,cashBack,leftIn,newPI,refiPitia,refiDscr,ltvArv:arv?loan/arv:NaN};
+}
+function renderHM(r){
+  const el=$('#hmTiles');if(!el)return;
+  if(isNaN(r.arv)){el.innerHTML='<div class="rt" style="grid-column:1/-1"><small>Waiting on numbers</small><span>Add the ARV and rehab to see the hard money numbers.</span></div>';$('#hmBrk').innerHTML='';return}
+  const H=hardMoney(D),g=(v,a,b)=>isNaN(v)?'':v>=a?'good':v>=b?'ok':'bad';
+  $('#hmPill').textContent=`${n(D.hm_ltc)||0}% purchase · ${n(D.hm_rehab)||0}% rehab · ${n(D.hm_rate)||0}% · ${n(D.hm_pts)||0} pts`;
+  el.innerHTML=[
+    ['Cash to close',money(H.cashToClose),'down + closing + points + fees',''],
+    ['Total cash needed',money(H.totalCash),'incl. '+k(H.rehabCash)+' rehab + '+k(H.holding)+' holding',''],
+    ['Loan amount',money(H.loan),(isNaN(H.ltvArv)?'':pct(H.ltvArv)+' of ARV')+(H.capped?' · capped':''),H.capped?'ok':''],
+    ['Flip profit',money(H.profit),'after '+(n(D.inv_sell)||0)+'% selling costs',g(H.profit,25000,10000)],
+    ['Flip ROI',pct(H.roi),'on cash in · '+pct(H.margin)+' of ARV',g(H.roi,.30,.15)],
+    ['BRRRR left in',money(Math.max(0,H.leftIn)),H.leftIn<=0?'all cash back + '+k(-H.leftIn):'after refi at '+(n(D.hm_refiLtv)||0)+'% ARV',H.leftIn<=0?'good':H.leftIn<H.totalCash*.25?'ok':'bad']
+  ].map(([l,v,s,c])=>`<div class="rt ${c}"><small>${l}</small><b>${v}</b><span>${s}</span></div>`).join('');
+  const rw=(a,b,c='')=>`<div class="r"><span>${a}</span><b class="${c}">${b}</b></div>`,tot=(a,b,c='')=>`<div class="r tot ${c}"><span>${a}</span><b>${b}</b></div>`;
+  $('#hmBrk').innerHTML=
+    rw(`Purchase loan (${n(D.hm_ltc)||0}%)`,money(H.loanPurch))+rw(`+ Rehab loan (${n(D.hm_rehab)||0}%, in draws)`,money(H.loanRehab))+
+    (H.capped?rw(`Capped at ${n(D.hm_arvcap)||0}% of ARV`,money(H.cap),'minus'):'')+tot('Loan amount',money(H.loan))+
+    rw("Buyer's price",money(H.price))+rw('− Lender funds at closing','−'+money(H.purchFunded),'minus')+rw('= Down payment',money(H.down))+
+    rw(`+ Points (${n(D.hm_pts)||0}%)`,money(H.points))+rw('+ Lender fees',money(H.fees))+rw(`+ Closing costs (${n(D.hm_close)||0}%)`,money(H.closing))+
+    tot('Cash to close',money(H.cashToClose),'bc')+
+    (H.rehabCash?rw('+ Rehab not covered by lender',money(H.rehabCash)):'')+
+    rw(`+ Interest ${money(H.mInt)}/mo × ${H.months} mo`,money(H.holdInt))+rw(`+ Taxes & insurance × ${H.months} mo`,money(H.holdTI))+(H.holdUtil?rw(`+ Utilities × ${H.months} mo`,money(H.holdUtil)):'')+
+    tot('Total cash needed',money(H.totalCash))+
+    `<div class="rhead" style="margin-top:16px">Exit 1 · Flip</div>`+
+    rw(`Sale at ARV − ${n(D.inv_sell)||0}% costs`,money(H.sale))+rw('− All-in cost','−'+money(H.allIn),'minus')+tot('Profit',money(H.profit),H.profit>=0?'':'neg')+
+    `<div class="rhead" style="margin-top:16px">Exit 2 · Refi to DSCR (BRRRR)</div>`+
+    rw(`New DSCR loan (${n(D.hm_refiLtv)||0}% of ARV)`,money(H.newLoan))+rw('− Pay off hard money','−'+money(H.loan),'minus')+rw(`− Refi closing (${n(D.hm_refiClose)||0}%)`,'−'+money(H.refiCost),'minus')+
+    tot(H.cashBack>=0?'Cash back at refi':'Cash needed at refi',money(Math.abs(H.cashBack)))+tot(H.leftIn>0?'Money left in the deal':'Cash out beyond your money',money(Math.abs(H.leftIn)),'bc')+
+    rw(`New payment (PITIA @ ${n(D.inv_rate)||0}%)`,money(H.refiPitia)+'/mo')+rw('DSCR after refi',isNaN(H.refiDscr)?'—':H.refiDscr.toFixed(2)+'x');
+}
+
 /* ---------- investor returns (COC, ROI, cap, DSCR) ---------- */
 function returns(d,o={}){
   const r=calc(d);const P=x=>(n(x)||0)/100;
@@ -1166,7 +1252,9 @@ function returns(d,o={}){
   const loanBase=price+(d.inv_finRehab?rehab:0);
   const loan=loanBase*(1-P(d.inv_down));
   const points=loan*P(d.inv_pts);
-  const cashIn=(loanBase-loan)+closing+points+(d.inv_finRehab?0:rehab);
+  const rehabCash=d.inv_finRehab?0:rehab;
+  const cashToClose=(loanBase-loan)+closing+points;
+  const cashIn=cashToClose+rehabCash;
   const allIn=price+rehab+closing;
   const mr=rate/100/12, nper=term*12;
   const pi=loan<=0?0:d.inv_io?loan*mr:(mr===0?loan/nper:loan*mr/(1-Math.pow(1+mr,-nper)));
@@ -1181,7 +1269,7 @@ function returns(d,o={}){
   let pay=0;if(!d.inv_io&&loan>0){let bal=loan;for(let i=0;i<12;i++){const int=bal*mr;const pr=pi-int;pay+=pr;bal-=pr}}
   const equity=(r.arv||0)-allIn;
   const flip=(r.arv||0)*(1-P(d.inv_sell))-allIn;
-  return{price,rehab,rent,rate,loan,points,closing,cashIn,allIn,pi,tax,ins,taxEst,insEst,hoaMo,pitia,gsi,egi,opex,noi,debt,cf,pay,equity,flip,
+  return{price,rehab,rent,rate,loan,points,closing,cashIn,cashToClose,rehabCash,down:loanBase-loan,allIn,pi,tax,ins,taxEst,insEst,hoaMo,pitia,gsi,egi,opex,noi,debt,cf,pay,equity,flip,
     coc:cashIn>0?cf/cashIn:NaN, roi:cashIn>0?(cf+pay+equity)/cashIn:NaN, cap:allIn>0?noi/allIn:NaN, capArv:r.arv?noi/r.arv:NaN,
     dscr:pitia>0?rent/pitia:NaN, dscrNoi:debt>0?noi/debt:NaN, flipRoi:allIn>0?flip/allIn:NaN};
 }
@@ -1200,6 +1288,7 @@ function renderReturns(r){
   }
   const g=(v,a,b)=>isNaN(v)?'':v>=a?'good':v>=b?'ok':'bad';
   $('#retTiles').innerHTML=[
+    ['Cash to close',money(R.cashToClose),R.rehabCash?'+ '+k(R.rehabCash)+' rehab = '+k(R.cashIn)+' total':'rehab financed',''],
     ['Cash flow',money(R.cf/12),'per month',g(R.cf,1200,0)],
     ['Cash-on-cash',pct(R.coc),money(R.cf)+'/yr ÷ '+k(R.cashIn)+' in',g(R.coc,.10,.06)],
     ['ROI (yr 1)',pct(R.roi),'cash flow + paydown + equity',g(R.roi,.25,.10)],
@@ -1209,7 +1298,7 @@ function renderReturns(r){
   const rw=(a,b,c='')=>`<div class="r"><span>${a}</span><b class="${c}">${b}</b></div>`;
   $('#retBrk').innerHTML=
     rw('Buyer\'s price',money(R.price))+rw('+ Rehab',money(R.rehab))+rw('+ Closing costs',money(R.closing))+`<div class="r tot"><span>All-in cost</span><b>${money(R.allIn)}</b></div>`+
-    rw('Loan ('+(100-(n(D.inv_down)||0))+'% LTV'+(D.inv_finRehab?' incl. rehab':'')+')',money(R.loan))+rw('Cash to close'+(D.inv_finRehab?'':' + rehab'),money(R.cashIn))+
+    rw('Loan ('+(100-(n(D.inv_down)||0))+'% LTV'+(D.inv_finRehab?' incl. rehab':'')+')',money(R.loan))+rw('Down payment',money(R.down))+rw('+ Closing costs',money(R.closing))+rw('+ Points',money(R.points))+`<div class="r tot bc"><span>Cash to close</span><b>${money(R.cashToClose)}</b></div>`+(R.rehabCash?rw('+ Rehab (paid in cash)',money(R.rehabCash)):'')+`<div class="r tot"><span>Total cash needed</span><b>${money(R.cashIn)}</b></div>`+
     rw('Gross rent',money(R.gsi)+'/yr')+rw('− Operating expenses'+(R.taxEst||R.insEst?'*':''),'−'+money(R.gsi-R.noi),'minus')+`<div class="r tot"><span>NOI</span><b>${money(R.noi)}</b></div>`+
     rw('− Debt service (P&I '+money(R.pi)+'/mo)','−'+money(R.debt),'minus')+`<div class="r tot bc"><span>Cash flow</span><b>${money(R.cf)}/yr</b></div>`+
     rw('PITIA',money(R.pitia)+'/mo')+rw('DSCR (NOI ÷ debt)',isNaN(R.dscrNoi)?'—':R.dscrNoi.toFixed(2)+'x')+
@@ -1525,7 +1614,7 @@ function dealFields(r){
     'Property':`${D.type} · ${D.beds||'?'} bd / ${D.baths||'?'} ba · ${D.sqft||'?'} sqft · lot ${D.lot||'?'} · built ${D.year||'?'}${n(D.units)>1?' · '+D.units+' units':''}`,
     'ARV':money(r.arv),'Comps':(D.comps||[]).filter(c=>has(c.price)).map(c=>`${c.addr||'comp'} ${money(n(c.price))}${c.sqft?' / '+c.sqft+'sf':''}${c.date?' '+c.date:''}`).join(' | '),
     'Multiplier':multOf(D)+'%','Rehab':money(r.rehab)+(D.perUnit?' (per unit)':` (${D.grade} · ${S.grades[D.grade]?.label||''})`),
-    'Investor price':money(r.dispo),'MOA':money(r.moa),'Assignment':money(r.fee),'AB price (offer shown)':money(r.moa),'BC price':money(r.bc),'Rent est':has(D.rent)?money(n(D.rent))+'/mo':'','Investor returns':(()=>{const q=returns(D);return q.rent&&!isNaN(r.arv)?`COC ${pct(q.coc)} · ROI ${pct(q.roi)} · Cap ${pct(q.cap,2)} · DSCR ${isNaN(q.dscr)?'—':q.dscr.toFixed(2)+'x'} @ ${n(D.inv_rate)||0}% · CF ${money(q.cf/12)}/mo`:''})(),
+    'Investor price':money(r.dispo),'MOA':money(r.moa),'Assignment':money(r.fee),'AB price (offer shown)':money(r.moa),'BC price':money(r.bc),'Rent est':has(D.rent)?money(n(D.rent))+'/mo':'','DSCR cash to close':(()=>{const q=returns(D);return isNaN(r.arv)?'':`${money(q.cashToClose)} to close${q.rehabCash?' + '+money(q.rehabCash)+' rehab = '+money(q.cashIn):''}`})(),'Hard money':(()=>{if(isNaN(r.arv))return'';const h=hardMoney(D);return `Loan ${money(h.loan)} · cash to close ${money(h.cashToClose)} · total cash ${money(h.totalCash)} · flip profit ${money(h.profit)} (${pct(h.roi)} ROI) · BRRRR left in ${money(Math.max(0,h.leftIn))}`})(),'Investor returns':(()=>{const q=returns(D);return q.rent&&!isNaN(r.arv)?`COC ${pct(q.coc)} · ROI ${pct(q.roi)} · Cap ${pct(q.cap,2)} · DSCR ${isNaN(q.dscr)?'—':q.dscr.toFixed(2)+'x'} @ ${n(D.inv_rate)||0}% · CF ${money(q.cf/12)}/mo`:''})(),
     'Contract price':money(n(D.contract)),'Close date':D.closeDate||'','Contract type':D.contractType||'','Contract link':D.contractLink||'',
     'Ask price':money(n(D.dispoAsk)),'EMD':money(n(D.emd)),'HOA':has(D.hoa)?money(n(D.hoa))+' '+D.hoaFreq:'None',
     'Occupancy':D.occ||'','Access':D.access||'','Access notes':D.accessNotes||'','Photos folder':D.photos||'','Map':gmapsUrl(),'Street View':streetUrl(),'Coordinates':hasPin()?`${D.lat}, ${D.lng}`:'','Description':descText()
@@ -1614,7 +1703,7 @@ function dealSheetHTML(r,o={}){
 <div class="jtx" style="${F}color:${T.tx2};font-size:14px">${e(f.Property)}</div>
 ${D.photo?`<img src="${PH}" alt="Exterior" width="676" style="width:100%;max-width:676px;height:auto;border-radius:10px;margin-top:16px;display:block;border:0">`:''}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="6" style="margin:12px 0 0;table-layout:fixed"><tr>${box('Ask price',money(n(D.dispoAsk)),1)}${box('ARV',money(r.arv))}${box('Rehab',money(r.rehab))}</tr><tr>${box('Contract',money(n(D.contract)))}${box('MOA',money(r.moa),1)}${box('BC price',money(r.bc),1)}</tr></table>
-${sec('Underwriting')}${tbl(row('ARV',e(f.ARV))+row('Comps',e(f.Comps))+row('Multiplier',e(f.Multiplier))+row('Rehab',e(f.Rehab))+row('Investor price',e(f['Investor price']))+row('MOA',`<b class="jhi" style="color:${T.hi}">${e(f.MOA)}</b>`)+row('Assignment',e(f.Assignment))+row('BC price',`<b class="jhi" style="color:${T.hi}">${e(f['BC price'])}</b>`)+row('Contract fit',fit)+row('Spread (ask − contract)',spread)+row('Rent estimate',e(f['Rent est']))+row('Investor returns',e(f['Investor returns'])))}
+${sec('Underwriting')}${tbl(row('ARV',e(f.ARV))+row('Comps',e(f.Comps))+row('Multiplier',e(f.Multiplier))+row('Rehab',e(f.Rehab))+row('Investor price',e(f['Investor price']))+row('MOA',`<b class="jhi" style="color:${T.hi}">${e(f.MOA)}</b>`)+row('Assignment',e(f.Assignment))+row('BC price',`<b class="jhi" style="color:${T.hi}">${e(f['BC price'])}</b>`)+row('Contract fit',fit)+row('Spread (ask − contract)',spread)+row('Rent estimate',e(f['Rent est']))+row('Investor returns',e(f['Investor returns']))+row('DSCR cash to close',e(f['DSCR cash to close']))+row('Hard money',e(f['Hard money'])))}
 ${sec('Contract & terms')}${tbl(row('Contract price',e(f['Contract price']))+row('Close date',e(f['Close date']))+row('Contract type',e(f['Contract type']))+row('Contract link',lnk(D.contractLink)||(FILES[D.id]?e(FILES[D.id].name)+' (attached)':''))+row('EMD',e(f.EMD))+row('HOA',e(f.HOA)))}
 ${sec('Location')}${o.email&&o.hasMap?`<img src="cid:map" alt="Satellite view" width="676" style="width:100%;max-width:676px;height:auto;border-radius:10px;display:block;border:0;margin:8px 0 10px">`:(!o.email&&o.mapImg?`<img src="${o.mapImg}" alt="Satellite view" style="width:100%;border-radius:10px;display:block;margin:8px 0 10px">`:'')}
 ${hasPin()?`<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 6px"><tr><td style="padding-right:8px"><a href="${e(gmapsUrl())}" style="${F}display:inline-block;background-color:#C08A4A;color:#0F0F0F;font-weight:700;font-size:14px;text-decoration:none;padding:10px 16px;border-radius:7px">🛰 Google Maps</a></td><td><a href="${e(streetUrl())}" style="${F}display:inline-block;background-color:#0F0F0F;color:#D9A86C;font-weight:700;font-size:14px;text-decoration:none;padding:10px 16px;border-radius:7px">🚶 Street View</a></td></tr></table>`:''}
