@@ -317,14 +317,14 @@ fld('needBy','Funds needed by','date');
 fld('desc','Describe the request','textarea','Write the "story": who, what, where, why, how they repay. Lenders buy the story + the numbers.');
 
 /* ================= NEEDS LIST =================
-   key | label | category | stage (U=upfront, P=processing/underwriting, C=closing) | tip */
+   key | label | category | stage (U=upfront, P=processing/underwriting, R=only when a lender asks, C=closing) | tip */
 const NEEDS_RAW=`
 app|Signed loan application (lender's app)|Borrower & ID|U|Every lender has its own app; you collect the data here, the client signs theirs.
 id|Government photo ID (driver's license / passport)|Borrower & ID|U|Front & back, not expired. Name must match the entity docs.
 credit|Credit authorization (soft or hard pull)|Borrower & ID|U|Get written OK before anyone pulls credit.
 reo|Track record / REO schedule (properties owned & sold)|Borrower & ID|U|Address, buy date/price, rehab, sale date/price. Drives experience tier.
 hud|Settlement statements (HUDs) proving past deals|Borrower & ID|P|Proves the track record.
-pfs|Personal financial statement|Borrower & ID|P|Assets, liabilities, net worth – common for commercial/SBA/construction.
+pfs|Personal financial statement|Borrower & ID|R|Assets, liabilities, net worth – common for commercial/SBA/construction.
 resume|Resume / bio (developer or business owner)|Borrower & ID|P
 greencard|Green card / visa / ITIN docs|Borrower & ID|P|Non-US-citizen borrowers.
 articles|Articles of Organization / Incorporation|Entity|U
@@ -334,22 +334,22 @@ goodstand|Certificate of Good Standing|Entity|P|Usually must be dated within 30-
 resolution|Corporate resolution / authority to borrow|Entity|C|Usually lender-drafted at closing.
 foreignreg|Foreign registration in property state|Entity|P|LLC formed out of state.
 trust|Trust agreement / certification of trust|Entity|P
-bank2|Bank statements – last 2 months (all pages)|Assets & Liquidity|U|Proves down payment + reserves. All pages, even blank ones.
+bank2|Bank statements – last 2 months (all pages)|Assets & Liquidity|R|Proves down payment + reserves. All pages, even blank ones.
 pof|Proof of funds / liquidity|Assets & Liquidity|U
-retire|Retirement / brokerage statements|Assets & Liquidity|P|Often counted at 60-70% for reserves.
-gift|Gift letter + donor bank statement|Assets & Liquidity|P|Many investor lenders don't allow gifts – confirm first.
-deposits|Letter explaining large deposits|Assets & Liquidity|P|Any deposit not from payroll/sales gets questioned.
-ptax|Personal tax returns (2 years)|Income (full-doc / SBA)|P|NOT needed for DSCR or hard money – don't ask for it there.
-btax|Business tax returns (2-3 years)|Income (full-doc / SBA)|P
-w2|W-2s / paystubs (30 days)|Income (full-doc / SBA)|P
-pl|YTD profit & loss|Income (full-doc / SBA)|P
-bs|YTD balance sheet|Income (full-doc / SBA)|P
-debtsched|Business debt schedule|Income (full-doc / SBA)|P|Every business loan: lender, balance, payment, maturity.
+retire|Retirement / brokerage statements|Assets & Liquidity|R|Often counted at 60-70% for reserves.
+gift|Gift letter + donor bank statement|Assets & Liquidity|R|Many investor lenders don't allow gifts – confirm first.
+deposits|Letter explaining large deposits|Assets & Liquidity|R|Any deposit not from payroll/sales gets questioned.
+ptax|Personal tax returns (2 years)|Income (full-doc / SBA)|R|NOT needed for DSCR or hard money – don't ask for it there.
+btax|Business tax returns (2-3 years)|Income (full-doc / SBA)|R
+w2|W-2s / paystubs (30 days)|Income (full-doc / SBA)|R
+pl|YTD profit & loss|Income (full-doc / SBA)|R
+bs|YTD balance sheet|Income (full-doc / SBA)|R
+debtsched|Business debt schedule|Income (full-doc / SBA)|R|Every business loan: lender, balance, payment, maturity.
 bizbank4|Business bank statements – last 4 months|Income (full-doc / SBA)|U|Alt business lenders underwrite off these (deposits, NSFs, negative days).
-bizbank12|Business bank statements – 12-24 months|Income (full-doc / SBA)|P|Bank-statement programs.
-ar|A/R & A/P aging reports|Income (full-doc / SBA)|P
-payroll941|Payroll reports / 941s|Income (full-doc / SBA)|P
-projections|Business plan & 2-yr projections|Income (full-doc / SBA)|P|SBA startups & expansions.
+bizbank12|Business bank statements – 12-24 months|Income (full-doc / SBA)|R|Bank-statement programs.
+ar|A/R & A/P aging reports|Income (full-doc / SBA)|R
+payroll941|Payroll reports / 941s|Income (full-doc / SBA)|R
+projections|Business plan & 2-yr projections|Income (full-doc / SBA)|R|SBA startups & expansions.
 sba1919|SBA Form 1919 / 413 (lender provides)|Income (full-doc / SBA)|P
 contract|Fully executed purchase contract (+ all addenda)|Property|U
 assign|Assignment contract (if wholesaled)|Property|U|Shows assignment fee. Lenders may cap it or lend off A-B.
@@ -575,6 +575,26 @@ trans:{name:'Transactional Funding (double close)',cat:'re',rate:0,io:true,termM
 other:{name:'Other / Custom',cat:'re',rate:0,io:false,termM:12,amortM:0,blurb:'Anything else – describe it.',how:[],terms:[],looks:[],flags:[],tips:[],lim:{},
   groups:[['Request',['desc','addr','ptype','price','asis','loanReq','exit']]],needs:['app','id','credit'],ts:{}},
 };
+/* items auto-requested from the client when a file starts (stage U by default; overrides where the program truly needs more) */
+const UP_EXTRA={sba:['ptax','btax','pl','bs','debtsched','projections'],payroll:['payroll941','ar'],biz:['debtsched']};
+function upfrontKeys(k){const pr=P[k];if(!pr)return [];return [...new Set(pr.needs.filter(x=>(NEED_BY_K[x]||{}).stage==='U').concat(UP_EXTRA[k]||[]))]}
+/* needs the client does NOT provide (lender / title / appraiser / us) – never in client reminders */
+const NEED_3P=['appraisal','rent1007','bpo','title','cpl','resolution','sba1919','drawsched','wire'];
+/* file-name → need matching (first match wins, order matters) */
+const NEED_KW=[
+ ['gclic','contractor.{0,20}(licen|insur)|\\bcoi\\b|certificate of insurance'],['assign','assignment'],['contract','purchase.{0,5}(agreement|contract)|\\bpsa\\b|sales? contract|\\bcontract'],
+ ['id','driver|\\blicen[cs]e\\b|passport|\\bid\\b|state id|\\bdl\\b'],['credit','credit.{0,5}(auth|authorization)'],['app','application|\\b1003\\b'],
+ ['reo','track.?record|\\breo\\b|schedule of real estate'],['hud','\\bhud\\b|settlement|closing.?statement'],['pfs','\\bpfs\\b|personal financial'],['resume','resume|\\bbio\\b'],
+ ['opagree','operating.?agreement|\\boa\\b|bylaws'],['articles','articles|certificate of (formation|organization|incorporation)'],['einltr','\\bein\\b|cp.?575|147c'],['goodstand','good.?standing'],['trust','trust'],
+ ['bizbank4','business.{0,10}bank|bank.{0,10}business'],['bank2','bank.?st(mt|atement)|\\bstatement|\\bbank\\b|checking|savings'],['pof','proof.?of.?funds|\\bpof\\b'],['retire','401k|\\bira\\b|brokerage|retirement'],['gift','gift'],['deposits','deposit'],
+ ['ptax','1040|personal.{0,10}tax'],['btax','1120|1065|business.{0,10}tax'],['w2','\\bw-?2\\b|paystub|pay stub'],['pl','p\\s*&\\s*l|profit.{0,5}loss|\\bpnl\\b'],['bs','balance.?sheet'],['debtsched','debt.?schedule'],['ar','aging|\\ba/?r\\b'],['payroll941','\\b941|payroll'],['projections','projection|business.?plan'],
+ ['sow','scope|\\bsow\\b|budget|rehab.{0,10}(estimate|bid)'],['comps','comps|\\bcma\\b|comparable'],['photos','photo|\\bpics?\\b'],['leases','lease'],['rentroll','rent.?roll'],['t12','\\bt-?12\\b|operating.?statement'],['taxbill','tax.?bill|property.?tax'],
+ ['insquote','insurance|binder|\\bhoi\\b|policy'],['hoa','\\bhoa\\b'],['payoffltr','payoff'],['mortstmt','mortgage.?statement'],['appraisal','appraisal'],['title','title.{0,10}(commitment|report|prelim)'],['survey','survey'],['pm','management.?agreement'],['strhist','airdna|\\bstr\\b|airbnb'],['phase1','phase.?(1|i)\\b|environmental'],['zoningltr','zoning'],['inspect','inspection'],
+ ['plans','plans|blueprint|drawings'],['permits','permit'],['gcbid','contractor.{0,10}(bid|contract)|\\bgc\\b'],['drawsched','draw.?sched'],['timeline','timeline|schedule'],['soils','soil|geotech|engineering'],['utilltr','utilit'],
+ ['nod','notice.?of.?default|\\bnod\\b|foreclosure'],['reinstltr','reinstatement'],['hardship','hardship|explanation'],['liens','lien|judgment'],['litig','lawsuit|litigation|bankruptcy'],
+ ['eqquote','invoice|equipment.?quote|quote'],['eqspec','spec.?sheet|\\bvin\\b|serial'],['voidchk','void'],['cpl','closing.?protection']];
+function matchNeed(name,program){const n=String(name||'').toLowerCase().replace(/[_\-.]+/g,' ');const biz=(P[program]||{}).cat==='biz';
+  for(const [k,re] of NEED_KW){if(new RegExp(re,'i').test(n)){if(k==='bank2'&&biz)return 'bizbank4';return k}}return ''}
 const STATUSES=['Lead','Intake','Docs requested','Submitted to lender','Term sheet issued','Conditional approval','Clear to close','Funded','On hold','Dead'];
 const COND_STAGES=['Prior to approval','Prior to docs','Prior to funding','At closing','Post-closing'];
 const COND_STATUS=['Open','Requested from client','Received','Submitted to lender','Cleared','Waived'];
@@ -724,7 +744,7 @@ const STEPS=()=>['Loan type','About you',BIZ(S.program)?'Your business':'The dea
 /* ============ saving ============ */
 let saveT,saving=false,again=false,lastOK=0;
 function labelsFor(){const m={};Object.keys(S.q).forEach(k=>{if(F[k])m[k]=LABEL[k]||F[k].label});return m}
-function payload(submit){const pr=P[S.program];let flags='';try{flags=screenText(screenDeal({program:S.program,q:S.q}))}catch(e){}return {action:'apply',id:S.id,token:S.token,program:S.program,programName:pr?pr.name:'',needs:pr?pr.needs:[],q:S.q,labels:labelsFor(),flags,docList:S.program?upNeeds().map(n=>n.label):[],step:Math.max(1,S.step),steps:6,submit:!!submit,hp:($('#hp')||{}).value||''}}
+function payload(submit){const pr=P[S.program];let flags='';try{flags=screenText(screenDeal({program:S.program,q:S.q}))}catch(e){}return {action:'apply',id:S.id,token:S.token,program:S.program,programName:pr?pr.name:'',needs:pr?upfrontKeys(S.program):[],q:S.q,labels:labelsFor(),flags,docList:S.program?upNeeds().map(n=>n.label):[],step:Math.max(1,S.step),steps:6,submit:!!submit,hp:($('#hp')||{}).value||''}}
 const hasContact=()=>!!(S.q.first||S.q.last)&&!!(S.q.email||S.q.phone);
 function setSaved(state,txt){const el=$('#saved');el.className='saved '+state;$('#savedTxt').textContent=txt;$('#mSaved').textContent=state==='ok'?'Saved':state==='busy'?'Saving…':''}
 async function save(submit){
@@ -758,7 +778,18 @@ function field(id,req){const f=F[id];if(!f)return '';const v=S.q[id]==null?'':S.
 /* ============ views ============ */
 function railSteps(){const st=STEPS();$('#steps').innerHTML=st.map((t,i)=>{const n=i+1,cls=S.step===n?'on':(n<S.step||n<=S.max)&&S.step>0?'done':'';return `<li class="${cls}" ${cls==='done'?`data-goto="${n}"`:''}><i>${cls==='done'?'✓':n}</i>${esc(t)}</li>`}).join('');
   $('#mBar').style.width=(S.step?Math.round(S.step/st.length*100):0)+'%';$('#mStep').textContent=S.step?`Step ${S.step} of ${st.length} · ${st[S.step-1]}`:'Funding application'}
-function render(){const p=$('#panel');p.classList.remove('swap');void p.offsetWidth;p.classList.add('swap');p.innerHTML=[welcome,stepProg,stepYou,stepDeal,stepExp,stepDocs,stepReview,doneView][S.done?7:S.step]();railSteps();
+let CL=null;
+async function loadChecklist(){const j=await (await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'checklist',id:S.id,token:S.token})})).json();if(!j.ok)throw new Error(j.error||'not found');CL=j;return j}
+function checklistView(){const j=CL,items=j.items||[],oth=j.other||[],all=items.length+oth.length,got=items.filter(x=>x.got).length+oth.filter(x=>x.got).length,pct=all?Math.round(got/all*100):100;
+  const up=k=>(j.uploads||[]).filter(u=>u.need===k).map(u=>u.name);
+  return `<h2>Your document checklist</h2><p class="sub">${esc(j.programName||'Your loan')}${j.addr?' · '+esc(j.addr):''}. Upload what's missing – everything here saves straight to your file.</p>
+  <div style="display:flex;align-items:center;gap:14px;margin:0 0 6px"><div style="flex:1;height:8px;border-radius:99px;background:rgba(239,230,216,.1);overflow:hidden"><i style="display:block;height:100%;width:${pct}%;background:linear-gradient(90deg,var(--bronze),var(--gold))"></i></div><b style="color:var(--gold);white-space:nowrap">${got} of ${all} received</b></div>
+  ${got===all&&all?'<div class="note" style="margin-top:16px">✅ That\'s everything – thank you! We\'ll be in touch with the next step.</div>':''}
+  ${items.map(n=>`<div class="doc"><div class="nm"><b>${n.got?'✓ ':''}${esc(n.label)}</b>${up(n.k).length?`<small>${up(n.k).map(esc).join(', ')}</small>`:(n.got?'<small>Received</small>':'')}</div><span class="st" id="st_${n.k}">${n.got?'Received':''}</span>${n.got?'':`<label class="btn up">Upload<input type="file" data-up="${n.k}" data-sub="${SUBIDX[n.cat]||0}" data-label="${esc(n.label)}" multiple accept=".pdf,image/*,.doc,.docx,.xls,.xlsx"></label>`}</div>`).join('')}
+  ${oth.map((o,i)=>`<div class="doc"><div class="nm"><b>${o.got?'✓ ':''}${esc(o.t)}</b></div>${o.got?'<span class="st">Received</span>':`<span class="st"></span><label class="btn up">Upload<input type="file" data-up="" data-sub="2" data-label="${esc(o.t)}" multiple accept=".pdf,image/*,.doc,.docx,.xls,.xlsx"></label>`}</div>`).join('')}
+  <div class="doc"><div class="nm"><b>Something else</b><small>Anything else your loan officer asked for.</small></div><span class="st" id="st_other"></span><label class="btn up">Upload<input type="file" data-up="" data-sub="2" data-label="Other" multiple accept=".pdf,image/*,.doc,.docx,.xls,.xlsx"></label></div>
+  <p class="fine">Please black out full Social Security and bank account numbers before uploading. Questions? Reply to any of our emails or write to <a href="mailto:info@acquirejdf.app">info@acquirejdf.app</a>.</p>`}
+function render(){const p=$('#panel');if(CL){p.innerHTML=checklistView();$('#steps').innerHTML='<li class="on"><i>✓</i>Document checklist</li>';$('#mStep').textContent='Document checklist';$('#mBar').style.width='100%';return}p.classList.remove('swap');void p.offsetWidth;p.classList.add('swap');p.innerHTML=[welcome,stepProg,stepYou,stepDeal,stepExp,stepDocs,stepReview,doneView][S.done?7:S.step]();railSteps();
   const f=p.querySelector('input:not([type=checkbox]):not([type=file]),select,textarea');if(f&&S.step>1&&window.innerWidth>980)setTimeout(()=>f.focus({preventScroll:true}),60);window.scrollTo({top:0,behavior:'smooth'})}
 const nav=(back,next,label='Continue')=>`<div class="nav">${back?`<button type="button" class="btn" data-act="back">Back</button>`:''}<span class="sp"></span>${next?`<button type="button" class="btn gold" data-act="${next}">${label}</button>`:''}</div>`;
 function welcome(){const resume=S.program&&S.max>0;return `<div class="hero"><svg class="seal" viewBox="0 0 84 84" aria-hidden="true"><g fill="none" stroke="#D9A86C" stroke-width=".7" opacity=".9">${Array.from({length:18},(_,i)=>`<ellipse cx="42" cy="42" rx="38" ry="15" transform="rotate(${i*10} 42 42)"/>`).join('')}</g><circle cx="42" cy="42" r="9" fill="#14100C" stroke="#C08A4A"/></svg>
@@ -773,7 +804,7 @@ function stepDeal(){const pr=P[S.program];if(!pr)return stepProg();const owner=S
   return `<h2>${BIZ(S.program)?'Your business':'The deal'}</h2><p class="sub">${esc(CLIENT[S.program][0])}. Estimates are fine – answer what you know and skip what you don't.</p>${owner?'<div class="note warn">We arrange business-purpose loans only. If you or your family will live in the property, continue anyway and we\'ll reach out to talk through options.</div>':''}
   ${pr.groups.map(([t,ids])=>`<div class="group">${esc(t)}</div><div class="grid">${ids.filter(id=>!['first','last','phone','email'].includes(id)).map(id=>field(id)).join('')}</div>`).join('')}${nav(true,'next')}`}
 function stepExp(){const g=(BIZ(S.program)?BORROWER_BIZ:BORROWER_RE)[0];return `<h2>${BIZ(S.program)?'Ownership & credit':'Your experience'}</h2><p class="sub">${BIZ(S.program)?'Lenders look at the owners as well as the business.':'Experience and reserves shape your rate and leverage. Be honest – surprises later cost more than answers now.'}</p><div class="grid">${g[1].map(id=>field(id)).join('')}</div>${nav(true,'next')}`}
-function upNeeds(){const pr=P[S.program]||{needs:[]};return pr.needs.map(k=>NEED_BY_K[k]).filter(n=>n&&n.stage==='U'&&!['app','credit','titleco','insagent','voidchk'].includes(n.k))}
+function upNeeds(){return upfrontKeys(S.program).map(k=>NEED_BY_K[k]).filter(n=>n&&!['app','credit','titleco','insagent','voidchk'].includes(n.k)&&!NEED_3P.includes(n.k))}
 const SUBIDX={'Borrower & ID':0,'Entity':0,'Assets & Liquidity':1,'Income (full-doc / SBA)':1,'Property':2,'Construction':2,'Foreclosure / Distress':2,'Equipment':2,'Closing':4};
 function stepDocs(){const ns=upNeeds();const got=k=>S.uploads.filter(u=>u.need===k);
   return `<h2>Documents</h2><p class="sub">Have these handy? Upload them now and skip the back-and-forth. Optional – you can also send them later.</p>
@@ -825,7 +856,7 @@ document.addEventListener('change',async e=>{const t=e.target;
   if(t.dataset.q&&t.tagName==='SELECT'){S.q[t.dataset.q]=t.value;persist();soon();if(t.dataset.q==='occ')render()}
   if(t.dataset.l&&t.tagName==='SELECT'){const [k,i,f]=t.dataset.l.split('.');S.q[k]=Array.isArray(S.q[k])?S.q[k]:[];S.q[k][+i]=S.q[k][+i]||{};S.q[k][+i][f]=t.value;persist();soon()}
   if(t.dataset.m){S.q[t.dataset.m]=$$(`[data-m="${t.dataset.m}"]:checked`).map(x=>x.value);persist();soon()}
-  if(t.dataset.up!=null&&t.files.length){const k=t.dataset.up,st=$('#st_'+(k||'other'));const files=[...t.files];t.value='';
+  if(t.dataset.up!=null&&t.files.length){const k=t.dataset.up,st=$('#st_'+(k||'other'))||$('#st_other');const files=[...t.files];t.value='';
     for(const file of files){if(file.size>15*1024*1024){st.style.color='var(--err)';st.textContent=file.name+' is over 15 MB';continue}
       st.style.color='var(--gold)';st.textContent='Uploading '+file.name+'…';
       try{if(!S.saved){const ok=await save();if(!ok)throw new Error('offline')}
@@ -833,6 +864,7 @@ document.addEventListener('change',async e=>{const t=e.target;
         const res=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'upload',id:S.id,token:S.token,need:k,label:t.dataset.label,sub:+t.dataset.sub,name:file.name,type:file.type||'application/octet-stream',data})});const j=await res.json();if(!j.ok)throw new Error(j.error);
         S.uploads.push({need:k,name:file.name});persist();st.style.color='';st.textContent='Uploaded'}
       catch(x){st.style.color='var(--err)';st.textContent='Upload failed – try again'}}
+    if(CL){try{await loadChecklist()}catch(x){}}
     const keep=window.scrollY;render();window.scrollTo(0,keep)}
 });
 
@@ -864,11 +896,14 @@ const unb64=s=>{try{s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+=
   const pf=(location.hash||'').match(/p=([A-Za-z0-9_-]+)/);
   if(pf){history.replaceState(null,'',location.pathname+location.search);const d=unb64(pf[1]);
     if(d&&P[d.program]&&d.q){if(!(S.program===d.program&&S.q.addr===d.q.addr&&S.max>1)){S=fresh();S.program=d.program;Object.keys(d.q).forEach(k=>{if(F[k]&&d.q[k]!=='')S.q[k]=d.q[k]});S.prefilled=true;S.step=2;S.max=3;persist()}}}
+  const cm=(location.hash||'').match(/c=([a-z0-9]{8,20})\.([A-Za-z0-9]{20,64})/);
+  if(cm&&SCRIPT_URL){history.replaceState(null,'',location.pathname+location.search);$('#panel').innerHTML='<h2>Loading your checklist…</h2>';
+    S={id:cm[1],token:cm[2],program:'',q:{},step:0,max:0,uploads:[],done:false,saved:true};try{await loadChecklist();render();return}catch(e){$('#panel').innerHTML='<h2>This link has expired</h2><p class="sub">Reply to our email and we\'ll send you a fresh one.</p>';return}}
   const m=(location.hash||'').match(/r=([a-z0-9]{8,20})\.([A-Za-z0-9]{20,64})/);
   if(m&&SCRIPT_URL){history.replaceState(null,'',location.pathname+location.search);
     $('#panel').innerHTML='<h2>Loading your application…</h2><p class="sub">One moment.</p>';
     try{const j=await (await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'resume',id:m[1],token:m[2]})})).json();
-      if(j.ok){S={id:m[1],token:m[2],program:j.program||'',q:j.q||{},step:j.submitted?0:Math.min(6,Math.max(1,j.step||2)),max:j.step||2,uploads:j.uploads||[],done:!!j.submitted,saved:true};persist()}}catch(e){}}
+      if(j.ok){S={id:m[1],token:m[2],program:j.program||'',q:j.q||{},step:j.submitted?0:Math.min(6,Math.max(1,j.step||2)),max:j.step||2,uploads:j.uploads||[],done:!!j.submitted,saved:true};persist();if(j.submitted){try{await loadChecklist()}catch(x){}}}}catch(e){}}
   render()})();
 </script>
 </body>
