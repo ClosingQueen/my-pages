@@ -619,7 +619,7 @@ function screenDeal(r){
   const add=(lvl,t,fix)=>f.push({lvl,t,fix});
   const isBiz=pr.cat==='biz',dl=Array.isArray(q.delinq)?q.delinq:[];
   // ---- universal ----
-  if(/Owner occupied/.test(q.occ||''))add('KILL','Owner-occupied – this is a consumer mortgage, not business-purpose.','Refer to a licensed residential lender or co-broker it. Do not broker as investment.');
+  if(/Owner occupied/.test(q.occ||''))add('KILL','Owner-occupied – this is a consumer mortgage, not business-purpose.','Refer to a licensed residential mortgage lender. Do not submit as investment.');
   if(/Foreign National|Non-Permanent/.test(q.cit||''))add('HIGH','Foreign national / non-permanent resident – lower leverage (~5–10% less), higher rate.','Foreign-national-friendly DSCR/bridge lenders; needs US bank account, passport/visa, often ITIN.');
   const cs=creditLow(q.credit),floor=CREDIT_FLOOR[k]||620;
   if(q.credit==='Unknown'||!q.credit){if(k&&k!=='trans')add('WATCH','No credit score yet.','Ask for their estimated mid-score before shopping.')}
