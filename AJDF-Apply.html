@@ -608,6 +608,75 @@ const GLOSSARY=[
 ['Factor rate','MCA pricing: $100K at 1.30 = $130K payback. Not an interest rate.'],
 ];
 
+/* ================= DEAL SCREEN =================
+   KILL = can't do it as business-purpose · HIGH = doable with the right lender/structure · WATCH = ask/verify.
+   Each flag carries a "fix" = which kind of lender or structure solves it. */
+const CREDIT_FLOOR={dscr:660,cashout:660,rt:660,portfolio:660,comm:660,heloc:680,ff:620,bridge:620,constr:640,guc:660,land:620,bailout:600,trans:0,sba:650,biz:500,equip:550,payroll:500,other:620};
+function creditLow(v){const m=String(v||'').match(/(\d{3})/);if(/Under 550/.test(v))return 500;return m?+m[1]:null}
+function screenDeal(r){
+  const q=r.q||{},k=r.program,pr=P[k]||{},L=pr.lim||{},f=[];
+  const n=x=>{const v=parseFloat(String(q[x]==null?'':q[x]).replace(/[^0-9.\-]/g,''));return isFinite(v)?v:0};
+  const add=(lvl,t,fix)=>f.push({lvl,t,fix});
+  const isBiz=pr.cat==='biz',dl=Array.isArray(q.delinq)?q.delinq:[];
+  // ---- universal ----
+  if(/Owner occupied/.test(q.occ||''))add('KILL','Owner-occupied – this is a consumer mortgage, not business-purpose.','Refer to a licensed residential lender or co-broker it. Do not broker as investment.');
+  if(/Foreign National|Non-Permanent/.test(q.cit||''))add('HIGH','Foreign national / non-permanent resident – lower leverage (~5–10% less), higher rate.','Foreign-national-friendly DSCR/bridge lenders; needs US bank account, passport/visa, often ITIN.');
+  const cs=creditLow(q.credit),floor=CREDIT_FLOOR[k]||620;
+  if(q.credit==='Unknown'||!q.credit){if(k&&k!=='trans')add('WATCH','No credit score yet.','Ask for their estimated mid-score before shopping.')}
+  else if(cs!=null&&floor&&cs<floor)add('HIGH',`Credit ~${cs} is under the typical ${floor} floor for this program.`,isBiz?'Revenue-based / MCA-style funders that weigh deposits over credit.':'Asset-based / private money lenders with no (or soft) credit requirement; or add a co-borrower/guarantor with stronger credit.');
+  else if(cs!=null&&floor&&cs<floor+20)add('WATCH',`Credit ~${cs} is close to the ${floor} floor – pricing will be weaker.`,'Shop lenders whose pricing tiers start lower.');
+  if(dl.includes('Bankruptcy')||dl.includes('Foreclosure'))add('HIGH','Bankruptcy / foreclosure in history.','Get dates – most lenders want 2–4 yrs seasoning; private/asset-based lenders often ignore it.');
+  if(dl.includes('Felony'))add('HIGH','Felony on record – some lenders decline on background check.','Disclose up front; use lenders with no criminal-background overlay.');
+  if(dl.some(x=>/Judgment|Tax lien|Lawsuit/.test(x)))add('WATCH','Open judgment / tax lien / lawsuit.','Must be paid or on a payment plan (with proof) before closing.');
+  if(q.lates==='Yes'||dl.includes('Late mortgage payments (12 mo)'))add(['dscr','cashout','rt','portfolio','heloc'].includes(k)?'HIGH':'WATCH','Recent late mortgage payment(s).','Many DSCR/refi programs need 0x30 in 12 months – use non-QM/private lenders or wait.');
+  // ---- real estate numbers ----
+  if(!isBiz&&k){
+    const price=n('price')||n('lotPrice'),asis=n('asis')||n('lotValue'),arv=n('arv'),rehab=n('rehab'),loan=n('loanReq')||n('lineReq');
+    const purchase=/Purchase/.test(q.txn||'')||(!q.txn&&price>0&&!n('payoff'));
+    const value=purchase&&price?(asis?Math.min(price,asis):price):(asis||price);
+    const rehabIn=['ff','constr'].includes(k)?Math.min(rehab,loan):0;
+    if(loan&&value&&L.ltv){const v=(loan-rehabIn)/value;if(v>L.ltv/100+0.001)add(v>L.ltv/100+0.1?'HIGH':'WATCH',`${rehabIn?'Purchase advance':'LTV'} ${(v*100).toFixed(0)}% is over the ~${L.ltv}% typical max.`,'Bigger down payment, seller-carry 2nd, cross-collateral another property, or a higher-leverage lender.')}
+    const cost=(k==='guc'?(n('lotPrice')||n('lotValue')):(price||asis))+rehab;
+    if(loan&&rehab&&cost&&L.ltc){const v=loan/cost;if(v>L.ltc/100+0.001)add(v>L.ltc/100+0.08?'HIGH':'WATCH',`Loan-to-cost ${(v*100).toFixed(0)}% is over the ~${L.ltc}% typical max (≈$${Math.round(cost*L.ltc/100).toLocaleString()}).`,'Client brings the gap, partner/gap funding, or a lender that goes to 100% of rehab with higher purchase LTV.')}
+    if(loan&&arv&&L.ltarv){const v=loan/arv;if(v>L.ltarv/100+0.001)add(v>L.ltarv/100+0.08?'HIGH':'WATCH',`Loan-to-ARV ${(v*100).toFixed(0)}% is over the ~${L.ltarv}% typical max.`,'Get stronger comps to support ARV, or reduce the loan.')}
+    if(L.cltv&&asis&&loan){const v=(n('payoff')+loan)/asis;if(v>L.cltv/100+0.001)add('HIGH',`Combined LTV ${(v*100).toFixed(0)}% is over the ~${L.cltv}% max.`,'Smaller line, or a cash-out refi instead of a HELOC.')}
+    // DSCR (rentals only)
+    if(['dscr','cashout','rt','portfolio'].includes(k)&&loan){const rate=(parseFloat(r.calcRate)||pr.rate||7.25)/1200,am=360;const pi=q.ioWant==='Yes'?loan*rate:loan*rate/(1-Math.pow(1+rate,-am));const rent=n('rentNow')&&n('rentFmr')?Math.min(n('rentNow'),n('rentFmr')):(n('rentNow')||n('rentFmr'));const pitia=pi+(n('taxes')+n('ins')+n('hoa'))/12;
+      if(rent&&pitia){const d=rent/pitia;if(d<(L.dscr||1)-0.001)add(d<0.9?'HIGH':'WATCH',`DSCR ~${d.toFixed(2)} at the requested loan (needs ${(L.dscr||1).toFixed(2)}+).`,'No-ratio DSCR lender (lower LTV), interest-only, smaller loan, or prove higher rent (lease / STR history).')}
+      else if(!rent)add('WATCH','No rent entered – DSCR can\'t be checked.','Get the lease or a market rent estimate.')}
+    // liquidity
+    const liq=n('liquidity');
+    if(purchase&&price&&loan){const need=Math.max(0,price+rehab-loan)+price*0.03+(['dscr','portfolio'].includes(k)?loan*0.0075*6:loan*0.11/12*3);
+      if(liq&&liq<need)add('HIGH',`Liquidity ~$${Math.round(liq).toLocaleString()} vs ~$${Math.round(need).toLocaleString()} needed (down + costs + reserves).`,'No-bank-statement / no-reserve lenders, higher-leverage lenders, gap/partner capital, or seller credit at closing.');
+      else if(liq&&liq<need*1.25)add('WATCH','Liquidity is tight vs. cash needed to close + reserves.','Confirm reserves rules before submitting.');
+      else if(!liq)add('WATCH','Liquidity unknown.','Ask how much cash they have for down payment, costs and reserves.')}
+    // experience
+    const heavy=['constr','guc'].includes(k)||/Gut|Structural|Adding|Expanding|New Construction/.test(q.cdesc||'');
+    if(heavy&&(q.firstProj==='Yes'||(q.rehabs3!==undefined&&q.rehabs3!==''&&n('rehabs3')===0)))add('HIGH','First-time investor on a heavy rehab / construction project.','Experienced GC or partner on the deal; first-time-friendly lenders at ~80–85% LTC.');
+    else if(['ff','bridge'].includes(k)&&q.firstProj==='Yes')add('WATCH','First project – expect lower leverage and more reserves.','First-time-flipper friendly lenders.');
+    if(k==='guc'&&q.plans&&!/Approved/.test(q.plans))add('WATCH','Plans not approved yet.','Construction loans close after plans + permits – land loan or bridge until then.');
+    if(k==='bailout'){if(loan&&loan<3000000)add('WATCH','Under $3M – below this desk\'s bailout minimum.','Smaller private-money bailout lenders.');
+      if(q.saleDate){const days=Math.round((new Date(q.saleDate+'T12:00:00')-new Date())/864e5);if(days<=14)add('HIGH',`Foreclosure sale in ${days} day(s) – URGENT.`,'Same-week private money; borrower\'s attorney on standby (reinstatement or BK stay).')}
+      if(q.litig==='Yes')add('HIGH','Litigation / receiver / bankruptcy open.','Attorney-led deal; fewer lenders, slower.')}
+    if(k==='trans'&&q.ebPof==='No')add('WATCH','No end-buyer proof of funds yet.','Get the end buyer\'s POF before ordering transactional funds.');
+  }
+  // ---- business ----
+  if(isBiz){
+    if(q.bizStart){const mo=(Date.now()-new Date(q.bizStart+'T12:00:00'))/2.63e9;if(mo<6)add('HIGH',`Business is ~${Math.max(0,Math.round(mo))} months old (most need 6+).`,k==='sba'?'SBA startup path: business plan, projections, bigger injection.':'Startup-friendly funders, equipment financing, or personal-credit-based options.')}
+    if(n('monthlyRev')&&n('monthlyRev')<25000&&k!=='sba')add('HIGH',`Revenue ~$${Math.round(n('monthlyRev')).toLocaleString()}/mo – most funders want $25K+/mo.`,'Smaller-ticket funders or equipment financing.');
+    if(q.bkEver==='Yes')add('HIGH','Bankruptcy on the business/owner.','Need discharge papers; many funders require it closed.');
+    if(q.judg==='Yes')add('WATCH','Open judgments or liens.','Tax liens must be on a payment plan first.');
+    if(q.payTax==='Yes')add('HIGH','Behind on payroll taxes (941s).','IRS payment plan first – most funders will not touch open payroll tax debt.');
+    const pos=Array.isArray(q.positions)?q.positions.filter(x=>x&&x.name).length:0;
+    if(q.mca==='Yes'||pos){if(pos>=3)add('HIGH',`${pos} existing funding positions – stacking risk.`,'Consolidation loan, or funders that take 3rd+ position.');else if(pos||q.mca==='Yes')add('WATCH','Existing cash advance / positions.','List every position – funders see them on statements anyway.')}
+    if(q.bankChk==='No')add('HIGH','No business checking account.','Required by almost every business lender – open one first.');
+    if(k==='sba'&&q.ownerOcc==='No'&&/Real Estate/.test(q.useBiz||''))add('KILL','SBA real estate must be 51%+ owner-occupied by the business.','Commercial DSCR / bridge loan instead.');
+  }
+  const order={KILL:0,HIGH:1,WATCH:2};f.sort((a,b)=>order[a.lvl]-order[b.lvl]);
+  return {level:f.length?f[0].lvl:(k?'CLEAR':''),flags:f};
+}
+const screenText=s=>s.flags.map(x=>`${x.lvl}: ${x.t} → ${x.fix}`).join('\n');
+
 /* ============ client-facing wording ============ */
 const CLIENT={
   dscr:['Rental property loan','Buy or refinance a rental. Qualifies on the rent – no tax returns.','house'],
@@ -655,7 +724,7 @@ const STEPS=()=>['Loan type','About you',BIZ(S.program)?'Your business':'The dea
 /* ============ saving ============ */
 let saveT,saving=false,again=false,lastOK=0;
 function labelsFor(){const m={};Object.keys(S.q).forEach(k=>{if(F[k])m[k]=LABEL[k]||F[k].label});return m}
-function payload(submit){const pr=P[S.program];return {action:'apply',id:S.id,token:S.token,program:S.program,programName:pr?pr.name:'',needs:pr?pr.needs:[],q:S.q,labels:labelsFor(),step:Math.max(1,S.step),steps:6,submit:!!submit,hp:($('#hp')||{}).value||''}}
+function payload(submit){const pr=P[S.program];let flags='';try{flags=screenText(screenDeal({program:S.program,q:S.q}))}catch(e){}return {action:'apply',id:S.id,token:S.token,program:S.program,programName:pr?pr.name:'',needs:pr?pr.needs:[],q:S.q,labels:labelsFor(),flags,docList:S.program?upNeeds().map(n=>n.label):[],step:Math.max(1,S.step),steps:6,submit:!!submit,hp:($('#hp')||{}).value||''}}
 const hasContact=()=>!!(S.q.first||S.q.last)&&!!(S.q.email||S.q.phone);
 function setSaved(state,txt){const el=$('#saved');el.className='saved '+state;$('#savedTxt').textContent=txt;$('#mSaved').textContent=state==='ok'?'Saved':state==='busy'?'Saving…':''}
 async function save(submit){
@@ -790,7 +859,13 @@ document.addEventListener('change',async e=>{const t=e.target;
 })();
 
 $('#rLogo').src=$('#mLogo').src=$('#fav').href=LOGO;
-render();
+(async function boot(){
+  const m=(location.hash||'').match(/r=([a-z0-9]{8,20})\.([A-Za-z0-9]{20,64})/);
+  if(m&&SCRIPT_URL){history.replaceState(null,'',location.pathname+location.search);
+    $('#panel').innerHTML='<h2>Loading your application…</h2><p class="sub">One moment.</p>';
+    try{const j=await (await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'resume',id:m[1],token:m[2]})})).json();
+      if(j.ok){S={id:m[1],token:m[2],program:j.program||'',q:j.q||{},step:j.submitted?0:Math.min(6,Math.max(1,j.step||2)),max:j.step||2,uploads:j.uploads||[],done:!!j.submitted,saved:true};persist()}}catch(e){}}
+  render()})();
 </script>
 </body>
 </html>
