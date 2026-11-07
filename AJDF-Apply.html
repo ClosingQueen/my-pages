@@ -768,7 +768,7 @@ function welcome(){const resume=S.program&&S.max>0;return `<div class="hero"><sv
   <p class="fine">Acquire JDF Corp arranges business-purpose loans for investment properties and businesses. Owner-occupied home loans are not available through this application.</p></div>`}
 function stepProg(){const card=k=>{const c=CLIENT[k];return `<button type="button" class="pg ${S.program===k?'on':''}" data-prog="${k}" aria-pressed="${S.program===k}"><svg viewBox="0 0 32 32" aria-hidden="true">${ICON[c[2]]}</svg><b>${esc(c[0])}</b><span>${esc(c[1])}</span></button>`};
   return `<h2>What are you looking to fund?</h2><p class="sub">Pick the closest fit – you can change it later.</p><div class="progs"><div class="pcat">Real estate</div>${ORDER_RE.map(card).join('')}<div class="pcat">Business</div>${ORDER_BIZ.map(card).join('')}</div><div id="progErr" class="e" style="display:none;color:var(--err);margin-top:12px">Choose a loan type to continue.</div>${nav(true,'next')}`}
-function stepYou(){return `<h2>About you</h2><p class="sub">So we know who to send your options to.</p><div class="grid">${field('first',1)}${field('last',1)}${field('email',1)}${field('phone',1)}${field('entityName')}${field('entityType')}${field('entityState')}${field('cit')}${field('credit')}${field('referral')}</div><input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">${nav(true,'next')}`}
+function stepYou(){return `<h2>About you</h2>${S.prefilled?`<div class="note">Your deal is already filled in${S.q.addr?' for <b>'+esc(S.q.addr)+'</b>':''}. Just tell us about you – you can review the property numbers on the next step.</div>`:''}<p class="sub">So we know who to send your options to.</p><div class="grid">${field('first',1)}${field('last',1)}${field('email',1)}${field('phone',1)}${field('entityName')}${field('entityType')}${field('entityState')}${field('cit')}${field('credit')}${field('referral')}</div><input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">${nav(true,'next')}`}
 function stepDeal(){const pr=P[S.program];if(!pr)return stepProg();const owner=S.q.occ&&/Owner occupied/.test(S.q.occ);
   return `<h2>${BIZ(S.program)?'Your business':'The deal'}</h2><p class="sub">${esc(CLIENT[S.program][0])}. Estimates are fine – answer what you know and skip what you don't.</p>${owner?'<div class="note warn">We arrange business-purpose loans only. If you or your family will live in the property, continue anyway and we\'ll reach out to talk through options.</div>':''}
   ${pr.groups.map(([t,ids])=>`<div class="group">${esc(t)}</div><div class="grid">${ids.filter(id=>!['first','last','phone','email'].includes(id)).map(id=>field(id)).join('')}</div>`).join('')}${nav(true,'next')}`}
@@ -859,7 +859,11 @@ document.addEventListener('change',async e=>{const t=e.target;
 })();
 
 $('#rLogo').src=$('#mLogo').src=$('#fav').href=LOGO;
+const unb64=s=>{try{s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return JSON.parse(decodeURIComponent(escape(atob(s))))}catch(e){return null}};
 (async function boot(){
+  const pf=(location.hash||'').match(/p=([A-Za-z0-9_-]+)/);
+  if(pf){history.replaceState(null,'',location.pathname+location.search);const d=unb64(pf[1]);
+    if(d&&P[d.program]&&d.q){if(!(S.program===d.program&&S.q.addr===d.q.addr&&S.max>1)){S=fresh();S.program=d.program;Object.keys(d.q).forEach(k=>{if(F[k]&&d.q[k]!=='')S.q[k]=d.q[k]});S.prefilled=true;S.step=2;S.max=3;persist()}}}
   const m=(location.hash||'').match(/r=([a-z0-9]{8,20})\.([A-Za-z0-9]{20,64})/);
   if(m&&SCRIPT_URL){history.replaceState(null,'',location.pathname+location.search);
     $('#panel').innerHTML='<h2>Loading your application…</h2><p class="sub">One moment.</p>';
