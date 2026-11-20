@@ -1991,7 +1991,7 @@ function timeline(){
     ['Closed','Title closes and fees are paid at closing.']];
   if(stage===-1){
     return items.slice(0,2).map(([t,d])=>`<div class="ti done"><i></i><b>${t}</b><p>${d}</p></div>`).join('')+
-      `<div class="ti off"><i></i><b>Not a fit</b><p>${D.message?esc(D.message):"You'll get feedback on price or terms, and the deal stays yours to market."}</p></div>`;
+      `<div class="ti off"><i></i><b>${esc(ST_INFO[st]&&st!=='Submitted'?st:'Not a fit')}</b><p>${D.message?esc(D.message):"You'll get feedback on price or terms, and the deal stays yours to market."}</p></div>`;
   }
   return items.map(([t,d],i)=>`<div class="ti ${i<stage||(stage===5&&i===5)?'done':i===stage?'on':''}"><i></i><b>${t}</b><p>${d}</p></div>`).join('');
 }
@@ -2203,5 +2203,22 @@ BOOTED=true;
 window.addEventListener('beforeunload',()=>saveDeal());
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSettings()});
 </script>
+<!-- ACQUIRE JDF · PUBLIC SUBMIT PAGE PATCH v1.4.0
+     Paste this whole block right before </body> in your PUBLIC deal-submission page (the copy with const PUBLIC=true).
+     Adds the new statuses submitters can see: Underwriting complete · Already in our pipeline · Passed.
+     Also reads the "[Status] message" fallback the desk uses if your Google Sheet script rejects a new status name. -->
+<script>
+(function(){
+if(typeof ST_INFO==='undefined'||typeof STATUS_LIST==='undefined')return;
+const NEW=[['Underwriting complete',{stage:1,cls:'',sub:()=>'Numbers reviewed',banner:['green','Underwriting complete.',b=>b+' finished underwriting your deal. See our message for next steps.']}],
+ ['Already in our pipeline',{stage:-1,cls:'red',sub:()=>'We already have this property',banner:['red','We already have this one.',b=>b+' is already working this property through another source. See our message.']}],
+ ['Passed',{stage:-1,cls:'red',sub:()=>'See our message',banner:['red','Passing for now.',b=>b+' is passing on this one. See our message. The deal stays yours to market.']}]];
+NEW.forEach(([k,v])=>{if(!STATUS_LIST.includes(k))STATUS_LIST.splice(Math.max(0,STATUS_LIST.indexOf('Not a fit')),0,k);ST_INFO[k]=v});
+const fix=list=>(list||[]).forEach(o=>{const m=String(o.message||'').match(/^\[(Underwriting complete|Already in our pipeline|Passed)\]\s*/);if(m){o.status=m[1];o.message=o.message.slice(m[0].length)}});
+if(typeof syncFromRemote==='function'){const _s=syncFromRemote;syncFromRemote=function(){try{fix(REMOTE)}catch(_){}return _s.apply(this,arguments)}}
+if(typeof renderDesk==='function'){const _r=renderDesk;renderDesk=function(){try{fix(REMOTE)}catch(_){}return _r.apply(this,arguments)}}
+})();
+</script>
+
 </body>
 </html>
