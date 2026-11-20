@@ -1,5 +1,5 @@
 /* REIOFFER app service worker: fast loads, works on weak signal, always fetches the newest version when online */
-const V = 'reioffer-v1';
+const V = 'reioffer-v1.4.0';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 const CDN = /cdnjs\.cloudflare\.com|fonts\.(googleapis|gstatic)\.com/;
 const LIVE = /script\.google(usercontent)?\.com|nominatim|photon\.komoot|arcgisonline|openstreetmap|formsubmit/;
